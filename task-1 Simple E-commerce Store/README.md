@@ -4,7 +4,7 @@ Full-stack e-commerce application with a Django REST API backend and a responsiv
 
 ## 🔗 Live Demo
 
-- **Frontend:** `https://codealpha-ecommerce.netlify.app` *(deploy `frontend/` to Netlify)*
+- **Frontend (GitHub Pages):** [https://suyog-shirsat2004.github.io/CodeAlpha/](https://suyog-shirsat2004.github.io/CodeAlpha/)
 - **Backend API:** `https://codealpha-ecommerce-backend.onrender.com` *(deploy `backend/` to Render)*
 - **GitHub:** [https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/task-1%20Simple%20E-commerce%20Store](https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/task-1%20Simple%20E-commerce%20Store)
 
