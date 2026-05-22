@@ -400,7 +400,10 @@
     .cart-overlay {
       position: fixed; inset: 0; z-index: 200;
       background: rgba(0,0,0,.55);
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s ease;
     }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
     .cart-drawer {
       position: fixed; top: 0; right: 0; bottom: 0; z-index: 201;
       width: min(420px, 100vw);
