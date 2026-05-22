@@ -1,2 +1,11 @@
 # CodeAlpha
-Full Stack Development internship projects completed during my internship at CodeAlpha. This repository contains modern web applications built using HTML, CSS, JavaScript, ReactJS, Node.js, Express.js, and database integration with responsive UI and backend functionality. 🚀
+
+Full Stack Development internship projects at CodeAlpha.
+
+## Task 1 — E-Commerce Store
+
+Live demo: [suyog-shirsat2004.github.io/CodeAlpha/](https://suyog-shirsat2004.github.io/CodeAlpha/)
+
+Full-stack e-commerce app — Django REST API backend + responsive HTML/CSS/JS frontend deployed on GitHub Pages. Features product catalog, cart, wishlist, auth, checkout, and order history.
+
+[→ View details](task-1%20Simple%20E-commerce%20Store/README.md)
