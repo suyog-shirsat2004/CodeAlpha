@@ -603,6 +603,22 @@
       transition: background var(--trans);
     }
     .modal-confirm:hover { background: #f0af35; }
+    .form-toggle { text-align: center; margin-top: 16px; font-size: .85rem; color: var(--text2); }
+    .form-toggle a { color: var(--accent); cursor: pointer; }
+    .form-toggle a:hover { text-decoration: underline; }
+    .auth-error { color: var(--red); font-size: .82rem; margin-top: 8px; text-align: center; display: none; }
+    .user-name { color: var(--accent); font-size: .82rem; font-weight: 500; }
+    .orders-list { max-height: 400px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+    .order-card { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--card-r); padding: 16px; }
+    .order-card h4 { font-size: .9rem; margin-bottom: 4px; }
+    .order-card .order-meta { font-size: .78rem; color: var(--text2); display: flex; gap: 16px; flex-wrap: wrap; }
+    .order-card .order-items { margin-top: 8px; font-size: .82rem; color: var(--text2); }
+    .order-status { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: .72rem; font-weight: 500; }
+    .order-status.Processing { background: rgba(232,160,32,.15); color: var(--accent); }
+    .order-status.Delivered { background: rgba(34,197,94,.15); color: #22c55e; }
+    .order-status.Cancelled { background: rgba(224,90,58,.15); color: var(--red); }
+    .orders-empty { text-align: center; padding: 40px 0; color: var(--text2); }
+    #orders-modal .modal { max-width: 560px; }
 
     /* ══════════════════════════════════════════════
        RESPONSIVE
@@ -678,11 +694,17 @@
     </div>
 
     <div class="nav-right">
+      <button class="nav-btn" id="orders-nav">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12l2 2 4-4"/>
+        </svg>
+        <span>Orders</span>
+      </button>
       <button class="nav-btn" id="login-nav">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
         </svg>
-        <span>Account</span>
+        <span id="account-label">Account</span>
       </button>
       <button class="nav-btn cart-btn" id="open-cart">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -851,6 +873,49 @@
   </div>
 </div>
 
+<!-- ══ AUTH MODAL ══════════════════════════════════ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <h2 id="auth-title">Login</h2>
+    <p id="auth-sub">Sign in to access your cart and orders.</p>
+    <div class="form-grid">
+      <div class="form-field full" id="name-field">
+        <label>Full name</label>
+        <input type="text" id="auth-name" placeholder="Your name"/>
+      </div>
+      <div class="form-field full">
+        <label>Email</label>
+        <input type="email" id="auth-email" placeholder="you@example.com"/>
+      </div>
+      <div class="form-field full">
+        <label>Password</label>
+        <input type="password" id="auth-pass" placeholder="At least 6 characters"/>
+      </div>
+    </div>
+    <div class="auth-error" id="auth-error"></div>
+    <div class="modal-actions">
+      <button class="modal-cancel" id="auth-cancel">Cancel</button>
+      <button class="modal-confirm" id="auth-confirm">Login</button>
+    </div>
+    <div class="form-toggle">
+      <span id="auth-toggle-text">Don't have an account?</span>
+      <a id="auth-toggle-link">Register</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ORDERS MODAL ═════════════════════════════════ -->
+<div class="modal-overlay" id="orders-modal">
+  <div class="modal">
+    <h2>My Orders</h2>
+    <p>Your order history.</p>
+    <div class="orders-list" id="orders-list"></div>
+    <div class="modal-actions">
+      <button class="modal-cancel" id="orders-close" style="flex:1">Close</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ TOAST CONTAINER ══════════════════════════════ -->
 <div id="toast-container"></div>
 
@@ -877,8 +942,10 @@ const PRODUCTS = [
 /* ═══════════════════════════════════════════════════
    STATE
 ═══════════════════════════════════════════════════ */
-let cart      = JSON.parse(localStorage.getItem('bazaar-cart') || '[]');
-let wishlist  = new Set(JSON.parse(localStorage.getItem('bazaar-wish') || '[]'));
+let currentUser = JSON.parse(localStorage.getItem('bazaar-user') || 'null');
+let orders     = JSON.parse(localStorage.getItem('bazaar-orders') || '[]');
+let cart       = JSON.parse(localStorage.getItem('bazaar-cart') || '[]');
+let wishlist   = new Set(JSON.parse(localStorage.getItem('bazaar-wish') || '[]'));
 let activeCategory = '';
 let maxPrice  = 5000;
 let sortBy    = 'newest';
@@ -894,6 +961,104 @@ function saveCart() {
 }
 function saveWish() {
   localStorage.setItem('bazaar-wish', JSON.stringify([...wishlist]));
+}
+function saveUser() {
+  localStorage.setItem('bazaar-user', JSON.stringify(currentUser));
+}
+function saveOrders() {
+  localStorage.setItem('bazaar-orders', JSON.stringify(orders));
+}
+
+function updateAccountUI() {
+  const label = document.getElementById('account-label');
+  if (currentUser) {
+    label.textContent = currentUser.name.split(' ')[0];
+    label.classList.add('user-name');
+  } else {
+    label.textContent = 'Account';
+    label.classList.remove('user-name');
+  }
+}
+
+// ─── Auth ─────────────────────────────────────────
+function openAuth(tab) {
+  document.getElementById('auth-error').style.display = 'none';
+  document.getElementById('auth-modal').classList.add('open');
+  const isLogin = tab !== 'register';
+  document.getElementById('auth-title').textContent = isLogin ? 'Login' : 'Create Account';
+  document.getElementById('auth-sub').textContent = isLogin ? 'Sign in to access your cart and orders.' : 'Register for a new account.';
+  document.getElementById('name-field').style.display = isLogin ? 'none' : 'block';
+  document.getElementById('auth-confirm').textContent = isLogin ? 'Login' : 'Register';
+  document.getElementById('auth-toggle-text').textContent = isLogin ? "Don't have an account?" : 'Already have an account?';
+  document.getElementById('auth-toggle-link').textContent = isLogin ? 'Register' : 'Login';
+  document.getElementById('auth-toggle-link').dataset.tab = isLogin ? 'register' : 'login';
+  document.getElementById('auth-name').value = '';
+  document.getElementById('auth-email').value = '';
+  document.getElementById('auth-pass').value = '';
+}
+function closeAuth() {
+  document.getElementById('auth-modal').classList.remove('open');
+}
+function handleAuth() {
+  const isLogin = document.getElementById('auth-confirm').textContent === 'Login';
+  const email = document.getElementById('auth-email').value.trim();
+  const pass = document.getElementById('auth-pass').value.trim();
+  const errEl = document.getElementById('auth-error');
+  if (!email || !pass) { errEl.textContent = 'Please fill all fields'; errEl.style.display = 'block'; return; }
+
+  if (isLogin) {
+    const users = JSON.parse(localStorage.getItem('bazaar-users') || '[]');
+    const user = users.find(u => u.email === email && u.password === pass);
+    if (!user) { errEl.textContent = 'Invalid email or password'; errEl.style.display = 'block'; return; }
+    currentUser = { name: user.name, email: user.email };
+    saveUser();
+    toast('Welcome back, ' + user.name + '!');
+  } else {
+    const name = document.getElementById('auth-name').value.trim();
+    if (!name) { errEl.textContent = 'Please enter your name'; errEl.style.display = 'block'; return; }
+    if (pass.length < 6) { errEl.textContent = 'Password must be at least 6 characters'; errEl.style.display = 'block'; return; }
+    const users = JSON.parse(localStorage.getItem('bazaar-users') || '[]');
+    if (users.find(u => u.email === email)) { errEl.textContent = 'Email already registered'; errEl.style.display = 'block'; return; }
+    users.push({ name, email, password: pass });
+    localStorage.setItem('bazaar-users', JSON.stringify(users));
+    currentUser = { name, email };
+    saveUser();
+    toast('Account created! Welcome, ' + name + '!');
+  }
+  updateAccountUI();
+  closeAuth();
+}
+function logoutUser() {
+  currentUser = null;
+  localStorage.removeItem('bazaar-user');
+  updateAccountUI();
+  toast('Logged out');
+}
+
+// ─── Orders ────────────────────────────────────────
+function openOrders() {
+  if (!currentUser) { openAuth('login'); return; }
+  const list = document.getElementById('orders-list');
+  const userOrders = orders.filter(o => o.email === currentUser.email);
+  if (userOrders.length === 0) {
+    list.innerHTML = '<div class="orders-empty">No orders yet. Start shopping!</div>';
+  } else {
+    list.innerHTML = userOrders.map(o => `
+      <div class="order-card">
+        <h4>Order #${o.id}</h4>
+        <div class="order-meta">
+          <span>${o.date}</span>
+          <span>₹${o.total}</span>
+          <span class="order-status ${o.status}">${o.status}</span>
+        </div>
+        <div class="order-items">${o.items.map(i => `${i.name} × ${i.qty}`).join(', ')}</div>
+      </div>
+    `).join('');
+  }
+  document.getElementById('orders-modal').classList.add('open');
+}
+function closeOrders() {
+  document.getElementById('orders-modal').classList.remove('open');
 }
 
 function toast(msg, type='success') {
@@ -1183,14 +1348,34 @@ function placeOrder() {
     return;
   }
 
-  // In production: POST /api/orders with cart data + shipping
+  if (cart.length === 0) {
+    toast('Your cart is empty', 'error');
+    return;
+  }
+
+  const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
+  const shipping = subtotal >= 500 ? 0 : 49;
+
+  const order = {
+    id: Date.now().toString(36).toUpperCase(),
+    email: currentUser?.email || 'guest@guest.com',
+    date: new Date().toLocaleDateString('en-IN'),
+    items: cart.map(i => ({ name: i.name, qty: i.qty, price: i.price })),
+    total: subtotal + shipping,
+    status: 'Processing',
+    address: `${name}, ${street}, ${city} - ${pin}`,
+  };
+
+  orders.push(order);
+  saveOrders();
+
   closeCheckout();
   cart = [];
   saveCart();
   updateCartBadge();
   renderCart();
   renderProducts();
-  toast('🎉 Order placed successfully! Thank you for shopping at Bazaar.');
+  toast('🎉 Order placed! Order ID: ' + order.id);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1213,9 +1398,29 @@ document.getElementById('open-cart').addEventListener('click', openCart);
 document.getElementById('close-cart').addEventListener('click', closeCart);
 document.getElementById('close-cart-2').addEventListener('click', closeCart);
 document.getElementById('cart-overlay').addEventListener('click', closeCart);
-document.getElementById('checkout-btn').addEventListener('click', openCheckout);
+document.getElementById('checkout-btn').addEventListener('click', () => {
+  if (!currentUser) { openAuth('login'); return; }
+  openCheckout();
+});
 document.getElementById('modal-cancel').addEventListener('click', closeCheckout);
 document.getElementById('modal-confirm').addEventListener('click', placeOrder);
+
+document.getElementById('login-nav').addEventListener('click', () => {
+  if (currentUser) { logoutUser(); return; }
+  openAuth('login');
+});
+document.getElementById('auth-cancel').addEventListener('click', closeAuth);
+document.getElementById('auth-confirm').addEventListener('click', handleAuth);
+document.getElementById('auth-toggle-link').addEventListener('click', e => {
+  const tab = e.target.dataset.tab || 'register';
+  openAuth(tab);
+});
+document.getElementById('auth-modal').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleAuth();
+  if (e.key === 'Escape') closeAuth();
+});
+document.getElementById('orders-nav').addEventListener('click', openOrders);
+document.getElementById('orders-close').addEventListener('click', closeOrders);
 
 document.getElementById('price-range').addEventListener('input', e => updateSlider(e.target.value));
 
