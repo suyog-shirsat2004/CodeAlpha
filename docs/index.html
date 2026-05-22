@@ -1035,10 +1035,11 @@ const PRODUCTS = [
 /* ═══════════════════════════════════════════════════
    STATE
 ═══════════════════════════════════════════════════ */
-let currentUser = JSON.parse(localStorage.getItem('bazaar-user') || 'null');
-let orders     = JSON.parse(localStorage.getItem('bazaar-orders') || '[]');
-let cart       = JSON.parse(localStorage.getItem('bazaar-cart') || '[]');
-let wishlist   = new Set(JSON.parse(localStorage.getItem('bazaar-wish') || '[]'));
+let currentUser, orders, cart, wishlist;
+try { currentUser = JSON.parse(localStorage.getItem('bazaar-user') || 'null'); } catch { currentUser = null; }
+try { orders     = JSON.parse(localStorage.getItem('bazaar-orders') || '[]'); } catch { orders     = []; }
+try { cart       = JSON.parse(localStorage.getItem('bazaar-cart') || '[]'); } catch { cart       = []; }
+try { wishlist   = new Set(JSON.parse(localStorage.getItem('bazaar-wish') || '[]')); } catch { wishlist   = new Set(); }
 let activeCategory = '';
 let maxPrice  = 5000;
 let sortBy    = 'newest';
