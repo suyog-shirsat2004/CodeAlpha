@@ -680,9 +680,116 @@
     .page-btn:hover { border-color: var(--accent2); color: var(--text); }
     .page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 500; }
     .page-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+    /* ══════════════════════════════════════════════
+       ORDERS VIEW
+    ══════════════════════════════════════════════ */
+    .orders-container {
+      max-width: 800px; margin: 0 auto;
+      padding: 32px 24px;
+    }
+    .orders-container .page-title {
+      font-family: var(--serif);
+      font-size: 1.8rem; margin-bottom: 4px;
+    }
+    .orders-container .page-sub {
+      color: var(--text2);
+      font-size: .92rem; margin-bottom: 28px;
+    }
+    .user-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--card-r);
+      padding: 20px 24px; margin-bottom: 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .user-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--accent-lt); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .user-info { margin-left: 16px; }
+    .user-info h3 { font-size: 1rem; }
+    .user-info p { font-size: .85rem; color: var(--text2); }
+    .orders-container .logout-btn {
+      padding: 8px 18px; border-radius: 99px;
+      border: 1px solid var(--border);
+      font-size: .82rem; color: var(--text2);
+      transition: all var(--trans); background: none;
+    }
+    .orders-container .logout-btn:hover { border-color: var(--red); color: var(--red); }
+    .order-count {
+      font-size: .85rem; color: var(--text2); margin-bottom: 16px;
+    }
+    .order-count strong { color: var(--text); }
+    .order-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--card-r);
+      padding: 24px; margin-bottom: 16px;
+    }
+    .order-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; margin-bottom: 16px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    }
+    .order-id { font-weight: 600; font-size: 1rem; }
+    .order-date { font-size: .82rem; color: var(--text2); margin-top: 2px; }
+    .order-status {
+      display: inline-block; padding: 4px 12px;
+      border-radius: 99px; font-size: .78rem; font-weight: 600;
+    }
+    .order-status.Processing { background: rgba(43,108,176,.1); color: var(--accent); }
+    .order-status.Delivered { background: rgba(34,197,94,.1); color: #16a34a; }
+    .order-status.Cancelled { background: rgba(209,69,59,.1); color: var(--red); }
+    .order-items { margin-bottom: 16px; }
+    .order-item {
+      display: flex; justify-content: space-between;
+      padding: 8px 0; font-size: .88rem;
+    }
+    .order-item + .order-item { border-top: 1px solid var(--border); }
+    .item-name { flex: 1; }
+    .item-qty { color: var(--text3); margin: 0 12px; white-space: nowrap; }
+    .item-price { font-weight: 500; white-space: nowrap; }
+    .order-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      display: flex; justify-content: space-between; font-size: .88rem;
+    }
+    .order-address { color: var(--text2); }
+    .order-address strong { color: var(--text); }
+    .order-totals { text-align: right; }
+    .order-totals .grand-total {
+      font-size: 1.05rem; font-weight: 700; color: var(--accent);
+    }
+    .orders-empty {
+      text-align: center; padding: 80px 20px;
+    }
+    .orders-empty svg { opacity: .3; margin-bottom: 16px; }
+    .orders-empty h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .orders-empty p { color: var(--text2); font-size: .9rem; margin-bottom: 24px; }
+    .orders-empty a {
+      display: inline-block; padding: 10px 28px;
+      background: var(--accent); color: #fff;
+      border-radius: 99px; font-size: .88rem; font-weight: 500;
+      transition: background var(--trans); cursor: pointer;
+    }
+    .orders-empty a:hover { background: var(--accent2); }
+    [data-view="shop"] .view-orders,
+    [data-view="orders"] .view-shop { display: none; }
+    [data-view="orders"] .nav-search { display: none; }
+    @media (max-width: 600px) {
+      .orders-container { padding: 20px 16px; }
+      .orders-container .page-title { font-size: 1.4rem; }
+      .user-card { flex-wrap: wrap; gap: 12px; }
+      .order-header { flex-direction: column; gap: 8px; }
+      .order-footer { flex-direction: column; gap: 12px; }
+      .order-totals { text-align: left; }
+    }
   </style>
 </head>
-<body>
+<body data-view="shop">
 
 <!-- ══ NAVBAR ══════════════════════════════════════ -->
 <nav>
@@ -697,12 +804,18 @@
     </div>
 
     <div class="nav-right">
-      <a href="orders.html" class="nav-btn" id="orders-nav">
+      <button class="nav-btn view-shop" id="orders-nav" onclick="setView('orders')">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12l2 2 4-4"/>
         </svg>
         <span>Orders</span>
-      </a>
+      </button>
+      <button class="nav-btn view-orders" onclick="setView('shop')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>
+        </svg>
+        <span>Shop</span>
+      </button>
       <button class="nav-btn" id="login-nav">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
@@ -720,6 +833,8 @@
     </div>
   </div>
 </nav>
+
+<div class="view-shop">
 
 <!-- ══ HERO ════════════════════════════════════════ -->
 <section class="hero">
@@ -880,6 +995,8 @@
   </div>
 </div>
 
+</div><!-- /view-shop -->
+
 <!-- ══ AUTH MODAL ══════════════════════════════════ -->
 <div class="modal-overlay" id="auth-modal">
   <div class="modal">
@@ -910,6 +1027,9 @@
     </div>
   </div>
 </div>
+
+<!-- ══ ORDERS VIEW (hidden by default) ═════════════ -->
+<div class="orders-container view-orders" id="orders-view"></div>
 
 <!-- ══ TOAST CONTAINER ══════════════════════════════ -->
 <div id="toast-container"></div>
@@ -1022,11 +1142,13 @@ function handleAuth() {
   }
   updateAccountUI();
   closeAuth();
+  if (document.body.dataset.view === 'orders') renderOrders();
 }
 function logoutUser() {
   currentUser = null;
   localStorage.removeItem('bazaar-user');
   updateAccountUI();
+  setView('shop');
   toast('Logged out');
 }
 
@@ -1393,7 +1515,7 @@ document.getElementById('auth-modal').addEventListener('keydown', e => {
   if (e.key === 'Enter') handleAuth();
   if (e.key === 'Escape') closeAuth();
 });
-document.getElementById('logo-link').addEventListener('click', () => location.reload());
+document.getElementById('logo-link').addEventListener('click', () => setView('shop'));
 
 document.getElementById('price-range').addEventListener('input', e => updateSlider(e.target.value));
 
@@ -1430,6 +1552,96 @@ document.getElementById('view-list').addEventListener('click', () => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeCart(); closeCheckout(); }
 });
+
+/* ═══════════════════════════════════════════════════
+   VIEW SWITCHING — shop / orders
+═══════════════════════════════════════════════════ */
+function setView(view) {
+  document.body.dataset.view = view;
+  if (view === 'orders') renderOrders();
+}
+function renderOrders() {
+  const el = document.getElementById('orders-view');
+  try { currentUser = JSON.parse(localStorage.getItem('bazaar-user') || 'null'); } catch { currentUser = null; }
+  let allOrders;
+  try { allOrders = JSON.parse(localStorage.getItem('bazaar-orders') || '[]'); } catch { allOrders = []; }
+  if (!currentUser) {
+    el.innerHTML = '<div style="text-align:center;padding:60px 20px"><h3>Please log in to see your orders</h3><p style="color:var(--text2);margin-top:8px"><a onclick="openAuth(\'login\')" style="color:var(--accent);cursor:pointer;text-decoration:underline">Login here</a></p></div>';
+    return;
+  }
+  const userOrders = allOrders.filter(o => o && o.email === currentUser.email);
+  const initial = (currentUser.name || '?').charAt(0).toUpperCase();
+  let html = '';
+  html += `
+    <div class="user-card">
+      <div style="display:flex;align-items:center">
+        <div class="user-avatar">${initial}</div>
+        <div class="user-info">
+          <h3>${currentUser.name}</h3>
+          <p>${currentUser.email}</p>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+    <h1 class="page-title">My Orders</h1>
+    <p class="page-sub">View all your orders and their status.</p>
+    <p class="order-count">You have <strong>${userOrders.length}</strong> order${userOrders.length !== 1 ? 's' : ''}.</p>
+  `;
+  if (userOrders.length === 0) {
+    html += `
+      <div class="orders-empty">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        <h3>No orders yet</h3>
+        <p>Start shopping to see your orders here.</p>
+        <a onclick="setView('shop')">Browse Products</a>
+      </div>`;
+  } else {
+    userOrders.reverse().forEach(o => {
+      const items = Array.isArray(o.items) ? o.items : [];
+      const subtotal = items.reduce((s, i) => s + ((i.price || 0) * (i.qty || 0)), 0);
+      const shipping = items.length > 0 ? (subtotal >= 500 ? 0 : 49) : 0;
+      html += `
+        <div class="order-card">
+          <div class="order-header">
+            <div>
+              <div class="order-id">Order #${o.id}</div>
+              <div class="order-date">Placed on ${o.date || '—'}</div>
+            </div>
+            <span class="order-status ${o.status || 'Processing'}">${o.status || 'Processing'}</span>
+          </div>
+          <div class="order-items">
+            ${items.map(i => `
+              <div class="order-item">
+                <span class="item-name">${i.name || 'Item'}</span>
+                <span class="item-qty">× ${i.qty || 0}</span>
+                <span class="item-price">₹${((i.price || 0) * (i.qty || 0)).toLocaleString('en-IN')}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div class="order-footer">
+            <div class="order-address">
+              <strong>Deliver to:</strong><br>
+              ${o.address || '—'}<br>
+              ${o.phone ? '📞 ' + o.phone : ''}
+            </div>
+            <div class="order-totals">
+              <div>Subtotal: ₹${subtotal.toLocaleString('en-IN')}</div>
+              <div>Shipping: ${shipping === 0 ? 'Free' : '₹' + shipping}</div>
+              <div class="grand-total">Total: ₹${((o.total || subtotal + shipping)).toLocaleString('en-IN')}</div>
+            </div>
+          </div>
+        </div>`;
+    });
+  }
+  el.innerHTML = html;
+}
+function logout() {
+  localStorage.removeItem('bazaar-user');
+  currentUser = null;
+  updateAccountUI();
+  setView('shop');
+  toast('Logged out successfully');
+}
 
 /* ═══════════════════════════════════════════════════
    INIT — simulate loading delay then render

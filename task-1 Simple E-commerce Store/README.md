@@ -10,8 +10,7 @@ Full-stack e-commerce application with a Django REST API backend and a responsiv
 
 | Page | URL |
 |------|-----|
-| Shop | [https://suyog-shirsat2004.github.io/CodeAlpha/](https://suyog-shirsat2004.github.io/CodeAlpha/) |
-| Orders | [https://suyog-shirsat2004.github.io/CodeAlpha/orders.html](https://suyog-shirsat2004.github.io/CodeAlpha/orders.html) |
+| Live App | [https://suyog-shirsat2004.github.io/CodeAlpha/](https://suyog-shirsat2004.github.io/CodeAlpha/) |
 | Backend API | `https://codealpha-ecommerce-backend.onrender.com` *(deploy `backend/` to Render)* |
 | GitHub Repo | [View on GitHub](https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/task-1%20Simple%20E-commerce%20Store) |
 
@@ -28,10 +27,10 @@ Full-stack e-commerce application with a Django REST API backend and a responsiv
 - **Wishlist** — heart icon toggle on product cards, persisted to localStorage
 - **Auth system** — register/login modal with name/email/password fields, session stored in localStorage
 - **Checkout flow** — modal with shipping form (name, street, city, state, pincode, phone), validates all fields, creates order with unique ID
-- **Order history page** (`orders.html`) — user card with avatar/name/email, full order list showing items, quantities, prices, subtotal, shipping, grand total, delivery address, phone, and order status
+- **Order history** (tab in single-page app) — click "Orders" in nav to toggle between shop and order views; shows user card with avatar/name/email, full order list with items, quantities, prices, subtotal, shipping, grand total, delivery address, phone, and order status
 - **Toast notifications** — success/error feedback overlays
 - **Responsive design** — mobile-first layout adapts to all screen sizes
-- **Zero dependencies** — pure HTML, CSS, and vanilla JavaScript
+- **Zero dependencies** — pure HTML, CSS, and vanilla JavaScript; single-file architecture (everything in `index.html`)
 
 ### Backend (Django REST API — run locally)
 
@@ -98,8 +97,7 @@ task-1 Simple E-commerce Store/
 │   ├── manage.py
 │   └── requirements.txt
 └── frontend/                 # Static HTML/CSS/JS (deployed to GitHub Pages)
-    ├── index.html            # Main shop page (product grid, cart, wishlist, auth, checkout)
-    ├── orders.html           # Order history page
+    ├── index.html            # Single-page app: shop + orders tabs (product grid, cart, wishlist, auth, checkout, order history)
     └── api.js                # Backend API client functions (unused while backend is local)
 ```
 
