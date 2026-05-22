@@ -399,13 +399,8 @@
     ══════════════════════════════════════════════ */
     .cart-overlay {
       position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,.4);
-      backdrop-filter: blur(4px);
-      opacity: 0; pointer-events: none;
-      transition: opacity .3s ease;
+      background: rgba(0,0,0,.55);
     }
-    .cart-overlay.open { opacity: 1; pointer-events: all; }
-
     .cart-drawer {
       position: fixed; top: 0; right: 0; bottom: 0; z-index: 201;
       width: min(420px, 100vw);
@@ -540,8 +535,10 @@
       padding: 12px 18px; border-radius: var(--card-r);
       background: var(--bg2); border: 1px solid var(--border);
       box-shadow: 0 8px 24px rgba(0,0,0,.12);
-      ...
-      background: rgba(0,0,0,.4);
+    }
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,.55);
       backdrop-filter: blur(6px);
       display: flex; align-items: center; justify-content: center;
       padding: 24px;
@@ -1489,7 +1486,10 @@ document.getElementById('modal-cancel').addEventListener('click', closeCheckout)
 document.getElementById('modal-confirm').addEventListener('click', placeOrder);
 
 document.getElementById('login-nav').addEventListener('click', () => {
-  if (currentUser) { logoutUser(); return; }
+  if (currentUser) {
+    if (confirm(`Logout ${currentUser.name}?`)) logoutUser();
+    return;
+  }
   openAuth('login');
 });
 document.getElementById('auth-cancel').addEventListener('click', closeAuth);
@@ -1545,6 +1545,9 @@ document.getElementById('view-list').addEventListener('click', () => {
 ═══════════════════════════════════════════════════ */
 function setView(view) {
   document.body.dataset.view = view;
+  closeCart();
+  closeCheckout();
+  closeAuth();
   if (view === 'orders') renderOrders();
 }
 function renderOrders() {
