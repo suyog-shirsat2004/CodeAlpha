@@ -9,18 +9,18 @@
   <style>
     /* ── Variables ────────────────────────────────── */
     :root {
-      --bg:        #111009;
-      --bg2:       #1c1a14;
-      --bg3:       #252219;
-      --surface:   #2e2b1f;
-      --accent:    #e8a020;
-      --accent2:   #c97b1a;
-      --accent-lt: rgba(232,160,32,.12);
-      --text:      #f0ead8;
-      --text2:     #a09880;
-      --text3:     #5c5644;
-      --border:    rgba(255,255,255,.07);
-      --red:       #e05a3a;
+      --bg:        #f5f3ef;
+      --bg2:       #ffffff;
+      --bg3:       #f0ede8;
+      --surface:   #e8e4de;
+      --accent:    #2b6cb0;
+      --accent2:   #1a4f8b;
+      --accent-lt: rgba(43,108,176,.1);
+      --text:      #1a1a1a;
+      --text2:     #5c5c5c;
+      --text3:     #999999;
+      --border:    rgba(0,0,0,.08);
+      --red:       #d1453b;
       --serif:     'Playfair Display', Georgia, serif;
       --sans:      'DM Sans', sans-serif;
       --radius:    4px;
@@ -47,7 +47,7 @@
     body::before {
       content: '';
       position: fixed; inset: 0; pointer-events: none; z-index: 9999;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
       background-size: 180px;
       opacity: .55;
     }
@@ -62,8 +62,8 @@
     ══════════════════════════════════════════════ */
     nav {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(17,16,9,.88);
-      backdrop-filter: blur(18px) saturate(1.4);
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--border);
     }
     .nav-inner {
@@ -113,7 +113,7 @@
     .nav-btn:hover { background: var(--bg3); color: var(--text); }
     .cart-btn {
       background: var(--accent);
-      color: #0e0c06 !important;
+      color: #fff !important;
       font-weight: 500;
       position: relative;
     }
@@ -300,7 +300,7 @@
     .product-card:hover {
       border-color: rgba(232,160,32,.25);
       transform: translateY(-3px);
-      box-shadow: 0 16px 40px rgba(0,0,0,.4);
+      box-shadow: 0 16px 40px rgba(0,0,0,.08);
     }
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
@@ -319,7 +319,7 @@
     .product-card:hover .card-image img { transform: scale(1.06); }
     .card-badge {
       position: absolute; top: 10px; left: 10px;
-      background: var(--accent); color: #0e0c06;
+      background: var(--accent); color: #fff;
       font-size: .68rem; font-weight: 700; letter-spacing: .06em;
       text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
     }
@@ -327,7 +327,7 @@
     .card-wishlist {
       position: absolute; top: 10px; right: 10px;
       width: 32px; height: 32px; border-radius: 50%;
-      background: rgba(17,16,9,.75); backdrop-filter: blur(6px);
+      background: rgba(255,255,255,.9); backdrop-filter: blur(6px);
       display: flex; align-items: center; justify-content: center;
       color: var(--text3); font-size: 1rem;
       transition: all var(--trans); cursor: pointer;
@@ -360,7 +360,7 @@
     .add-btn {
       display: flex; align-items: center; gap: 6px;
       padding: 8px 14px; border-radius: 99px;
-      background: var(--accent); color: #0e0c06;
+      background: var(--accent); color: #fff;
       font-size: .8rem; font-weight: 500;
       transition: background var(--trans), transform var(--trans);
     }
@@ -509,7 +509,7 @@
     .summary-row.total span:last-child { color: var(--accent); }
     .checkout-btn {
       width: 100%;
-      background: var(--accent); color: #0e0c06;
+      background: var(--accent); color: #fff;
       padding: 14px; border-radius: 99px;
       font-size: .92rem; font-weight: 500;
       letter-spacing: .03em;
@@ -600,7 +600,7 @@
     .modal-cancel:hover { background: var(--surface); color: var(--text); }
     .modal-confirm {
       flex: 2; padding: 12px;
-      background: var(--accent); color: #0e0c06;
+      background: var(--accent); color: #fff;
       border-radius: 99px; font-size: .88rem; font-weight: 500;
       transition: background var(--trans);
     }
@@ -677,7 +677,7 @@
       transition: all var(--trans);
     }
     .page-btn:hover { border-color: var(--accent2); color: var(--text); }
-    .page-btn.active { background: var(--accent); color: #0e0c06; border-color: var(--accent); font-weight: 500; }
+    .page-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 500; }
     .page-btn:disabled { opacity: .35; cursor: not-allowed; }
   </style>
 </head>
@@ -1304,7 +1304,7 @@ function renderCategories() {
         <div class="filter-item${activeCategory === cat ? ' active' : ''}" 
              onclick="setCategory('${cat}')">
           <div class="filter-check">
-            ${activeCategory === cat ? '<svg width="10" height="10" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#0e0c06" stroke-width="2" stroke-linecap="round"/></svg>' : ''}
+            ${activeCategory === cat ? '<svg width="10" height="10" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>' : ''}
           </div>
           <span>${label}</span>
           <span class="filter-count">${count}</span>
