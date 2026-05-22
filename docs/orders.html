@@ -210,8 +210,9 @@
   <div class="container" id="app"></div>
 
   <script>
-    const currentUser = JSON.parse(localStorage.getItem('bazaar-user') || 'null');
-    const allOrders   = JSON.parse(localStorage.getItem('bazaar-orders') || '[]');
+    let currentUser, allOrders;
+    try { currentUser = JSON.parse(localStorage.getItem('bazaar-user') || 'null'); } catch { currentUser = null; }
+    try { allOrders   = JSON.parse(localStorage.getItem('bazaar-orders') || '[]'); } catch { allOrders   = []; }
 
     if (!currentUser) {
       window.location.href = 'index.html';
@@ -254,8 +255,9 @@
           </div>`;
       } else {
         userOrders.reverse().forEach(o => {
-          const subtotal = o.items.reduce((s, i) => s + (i.price * i.qty), 0);
-          const shipping = o.items.length > 0 ? (subtotal >= 500 ? 0 : 49) : 0;
+          const items = Array.isArray(o.items) ? o.items : [];
+          const subtotal = items.reduce((s, i) => s + ((i.price || 0) * (i.qty || 0)), 0);
+          const shipping = items.length > 0 ? (subtotal >= 500 ? 0 : 49) : 0;
           html += `
             <div class="order-card">
               <div class="order-header">
@@ -266,11 +268,11 @@
                 <span class="order-status ${o.status}">${o.status}</span>
               </div>
               <div class="order-items">
-                ${o.items.map(i => `
+                ${items.map(i => `
                   <div class="order-item">
-                    <span class="item-name">${i.name}</span>
-                    <span class="item-qty">× ${i.qty}</span>
-                    <span class="item-price">₹${(i.price * i.qty).toLocaleString('en-IN')}</span>
+                    <span class="item-name">${i.name || 'Item'}</span>
+                    <span class="item-qty">× ${i.qty || 0}</span>
+                    <span class="item-price">₹${((i.price || 0) * (i.qty || 0)).toLocaleString('en-IN')}</span>
                   </div>
                 `).join('')}
               </div>
@@ -283,7 +285,7 @@
                 <div class="order-totals">
                   <div>Subtotal: ₹${subtotal.toLocaleString('en-IN')}</div>
                   <div>Shipping: ${shipping === 0 ? 'Free' : '₹' + shipping}</div>
-                  <div class="grand-total">Total: ₹${o.total.toLocaleString('en-IN')}</div>
+                  <div class="grand-total">Total: ₹${((o.total || subtotal + shipping)).toLocaleString('en-IN')}</div>
                 </div>
               </div>
             </div>`;
