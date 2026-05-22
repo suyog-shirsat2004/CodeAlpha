@@ -103,6 +103,14 @@ task-1 Simple E-commerce Store/
 
 ---
 
+## Design
+
+- **Unified light palette** — soft blue accent (`#5b9bd5`) on white backgrounds, minimal color variety
+- **Single accent color** — all interactive elements (buttons, links, badges, statuses) use the same blue, removing the previous gold/yellow multi-color scheme
+- **Subtle surfaces** — backgrounds and cards use the lightest grays (`#f8f8fa`, `#f0f0f2`) for a clean, airy feel
+- **Soft borders & shadows** — reduced opacity on all borders and overlays for a gentler visual hierarchy
+- **Consistent type** — Playfair Display headings + DM Sans body text throughout
+
 ## Tech Stack
 
 | Layer | Technology |

@@ -11,21 +11,22 @@
     :root {
       --bg:        #ffffff;
       --bg2:       #ffffff;
-      --bg3:       #f7f6f4;
-      --surface:   #eeebe6;
-      --accent:    #2b6cb0;
-      --accent2:   #1a4f8b;
-      --accent-lt: rgba(43,108,176,.1);
-      --text:      #1a1a1a;
-      --text2:     #4a4a4a;
-      --text3:     #777777;
-      --border:    rgba(0,0,0,.1);
-      --red:       #d1453b;
+      --bg3:       #f8f8fa;
+      --surface:   #f0f0f2;
+      --accent:    #5b9bd5;
+      --accent2:   #4a8bc2;
+      --accent-lt: rgba(91,155,213,.08);
+      --text:      #2d2d2d;
+      --text2:     #6b6b6b;
+      --text3:     #9a9a9a;
+      --border:    rgba(0,0,0,.07);
+      --red:       #e57373;
+      --green:     #81c784;
       --serif:     'Playfair Display', Georgia, serif;
       --sans:      'DM Sans', sans-serif;
-      --radius:    4px;
-      --card-r:    6px;
-      --trans:     .22s ease;
+      --radius:    6px;
+      --card-r:    10px;
+      --trans:     .25s ease;
     }
 
     /* ── Reset ────────────────────────────────────── */
@@ -118,7 +119,7 @@
       font-weight: 500;
       position: relative;
     }
-    .cart-btn:hover { background: #f0af35; }
+    .cart-btn:hover { background: var(--accent2); }
     .cart-badge {
       display: none;
       position: absolute; top: -4px; right: -4px;
@@ -140,7 +141,7 @@
     .hero::after {
       content: '';
       position: absolute; right: 0; top: 0; bottom: 0; width: 40%;
-      background: radial-gradient(ellipse at 80% 50%, rgba(232,160,32,.07) 0%, transparent 70%);
+      background: radial-gradient(ellipse at 80% 50%, var(--accent-lt) 0%, transparent 70%);
       pointer-events: none;
     }
     .hero-inner {
@@ -299,7 +300,7 @@
       animation: fadeUp .4s ease both;
     }
     .product-card:hover {
-      border-color: rgba(232,160,32,.25);
+      border-color: var(--accent-lt);
       transform: translateY(-3px);
       box-shadow: 0 16px 40px rgba(0,0,0,.08);
     }
@@ -365,7 +366,7 @@
       font-size: .8rem; font-weight: 500;
       transition: background var(--trans), transform var(--trans);
     }
-    .add-btn:hover { background: #f0af35; transform: scale(1.03); }
+    .add-btn:hover { background: var(--accent2); transform: scale(1.03); }
     .add-btn:active { transform: scale(.97); }
     .add-btn.added { background: var(--surface); color: var(--accent); border: 1px solid var(--accent); }
     .add-btn:disabled {
@@ -398,7 +399,7 @@
     ══════════════════════════════════════════════ */
     .cart-overlay {
       position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,.6);
+      background: rgba(0,0,0,.4);
       backdrop-filter: blur(4px);
       opacity: 0; pointer-events: none;
       transition: opacity .3s ease;
@@ -516,7 +517,7 @@
       letter-spacing: .03em;
       transition: background var(--trans), transform var(--trans);
     }
-    .checkout-btn:hover { background: #f0af35; transform: translateY(-1px); }
+    .checkout-btn:hover { background: var(--accent2); transform: translateY(-1px); }
     .checkout-btn:active { transform: translateY(0); }
     .continue-btn {
       width: 100%; margin-top: 10px;
@@ -538,29 +539,9 @@
       display: flex; align-items: center; gap: 10px;
       padding: 12px 18px; border-radius: var(--card-r);
       background: var(--bg2); border: 1px solid var(--border);
-      box-shadow: 0 8px 32px rgba(0,0,0,.5);
-      font-size: .85rem; color: var(--text);
-      animation: slideIn .25s ease both;
-      min-width: 220px; max-width: 300px;
-    }
-    .toast .t-icon { font-size: 1rem; flex-shrink: 0; }
-    .toast.success .t-icon { color: #4caf50; }
-    .toast.error .t-icon { color: var(--red); }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(20px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes slideOut {
-      to { opacity: 0; transform: translateX(20px); }
-    }
-    .toast.hiding { animation: slideOut .25s ease forwards; }
-
-    /* ══════════════════════════════════════════════
-       CHECKOUT MODAL
-    ══════════════════════════════════════════════ */
-    .modal-overlay {
-      position: fixed; inset: 0; z-index: 300;
-      background: rgba(0,0,0,.7);
+      box-shadow: 0 8px 24px rgba(0,0,0,.12);
+      ...
+      background: rgba(0,0,0,.4);
       backdrop-filter: blur(6px);
       display: flex; align-items: center; justify-content: center;
       padding: 24px;
@@ -605,7 +586,7 @@
       border-radius: 99px; font-size: .88rem; font-weight: 500;
       transition: background var(--trans);
     }
-    .modal-confirm:hover { background: #f0af35; }
+    .modal-confirm:hover { background: var(--accent2); }
     .form-toggle { text-align: center; margin-top: 16px; font-size: .85rem; color: var(--text2); }
     .form-toggle a { color: var(--accent); cursor: pointer; }
     .form-toggle a:hover { text-decoration: underline; }
@@ -617,9 +598,9 @@
     .order-card .order-meta { font-size: .78rem; color: var(--text2); display: flex; gap: 16px; flex-wrap: wrap; }
     .order-card .order-items { margin-top: 8px; font-size: .82rem; color: var(--text2); }
     .order-status { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: .72rem; font-weight: 500; }
-    .order-status.Processing { background: rgba(232,160,32,.15); color: var(--accent); }
-    .order-status.Delivered { background: rgba(34,197,94,.15); color: #22c55e; }
-    .order-status.Cancelled { background: rgba(224,90,58,.15); color: var(--red); }
+    .order-status.Processing { background: var(--accent-lt); color: var(--accent); }
+    .order-status.Delivered { background: rgba(129,199,132,.12); color: var(--green); }
+    .order-status.Cancelled { background: rgba(229,115,115,.12); color: var(--red); }
     .orders-empty { text-align: center; padding: 40px 0; color: var(--text2); }
     #orders-modal .modal { max-width: 560px; }
 
@@ -740,9 +721,9 @@
       display: inline-block; padding: 4px 12px;
       border-radius: 99px; font-size: .78rem; font-weight: 600;
     }
-    .order-status.Processing { background: rgba(43,108,176,.1); color: var(--accent); }
-    .order-status.Delivered { background: rgba(34,197,94,.1); color: #16a34a; }
-    .order-status.Cancelled { background: rgba(209,69,59,.1); color: var(--red); }
+    .order-status.Processing { background: var(--accent-lt); color: var(--accent); }
+    .order-status.Delivered { background: rgba(129,199,132,.12); color: var(--green); }
+    .order-status.Cancelled { background: rgba(229,115,115,.12); color: var(--red); }
     .order-items { margin-bottom: 16px; }
     .order-item {
       display: flex; justify-content: space-between;
