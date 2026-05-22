@@ -106,7 +106,7 @@ task-1 Simple E-commerce Store/
 ## Design
 
 - **Subtle blue-gray background** (`#f5f7fa`) — cards (`#ffffff`) stand out with visible contrast
-- **Single accent color** — all interactive elements use `#4a90d9` blue; no multi-color scheme
+- **Single accent color** — all interactive elements use `#15E549` green; no multi-color scheme
 - **Clear visual hierarchy** — darker text (`#1e1e2a`), visible borders (`rgba(0,0,0,.08)`), saturated red/green for status
 - **Consistent type** — Playfair Display headings + DM Sans body text throughout
 
