@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bazaar — My Orders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #f5f3ef;
+      --bg2:       #ffffff;
+      --bg3:       #f0ede8;
+      --surface:   #e8e4de;
+      --accent:    #2b6cb0;
+      --accent2:   #1a4f8b;
+      --accent-lt: rgba(43,108,176,.1);
+      --text:      #1a1a1a;
+      --text2:     #5c5c5c;
+      --text3:     #999999;
+      --border:    rgba(0,0,0,.08);
+      --red:       #d1453b;
+      --serif:     'Playfair Display', Georgia, serif;
+      --sans:      'DM Sans', sans-serif;
+      --radius:    4px;
+      --card-r:    6px;
+      --trans:     .22s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    a { text-decoration: none; color: inherit; }
+    button { font-family: var(--sans); cursor: pointer; border: none; background: none; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 960px; margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: var(--serif); font-size: 1.5rem;
+      color: var(--accent); cursor: pointer;
+    }
+    .logo span { font-style: italic; color: var(--text); }
+    .back-btn {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .88rem; color: var(--text2);
+      padding: 8px 16px; border-radius: 99px;
+      border: 1px solid var(--border);
+      transition: all var(--trans);
+    }
+    .back-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    .container {
+      max-width: 800px; margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    .page-title {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+    }
+    .page-sub {
+      color: var(--text2);
+      font-size: .92rem;
+      margin-bottom: 28px;
+    }
+
+    .user-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--card-r);
+      padding: 20px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .user-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--accent-lt);
+      color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1.1rem;
+    }
+    .user-info { flex: 1; margin-left: 16px; }
+    .user-info h3 { font-size: 1rem; }
+    .user-info p { font-size: .85rem; color: var(--text2); }
+    .logout-btn {
+      padding: 8px 18px; border-radius: 99px;
+      border: 1px solid var(--border);
+      font-size: .82rem; color: var(--text2);
+      transition: all var(--trans);
+    }
+    .logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+    .order-count {
+      font-size: .85rem; color: var(--text2);
+      margin-bottom: 16px;
+    }
+    .order-count strong { color: var(--text); }
+
+    .order-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--card-r);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .order-id { font-weight: 600; font-size: 1rem; }
+    .order-date { font-size: .82rem; color: var(--text2); margin-top: 2px; }
+    .order-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: .78rem;
+      font-weight: 600;
+    }
+    .order-status.Processing { background: rgba(43,108,176,.1); color: var(--accent); }
+    .order-status.Delivered { background: rgba(34,197,94,.1); color: #16a34a; }
+    .order-status.Cancelled { background: rgba(209,69,59,.1); color: var(--red); }
+
+    .order-items { margin-bottom: 16px; }
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: .88rem;
+    }
+    .order-item + .order-item { border-top: 1px solid var(--border); }
+    .item-name { flex: 1; }
+    .item-qty { color: var(--text3); margin: 0 12px; white-space: nowrap; }
+    .item-price { font-weight: 500; white-space: nowrap; }
+
+    .order-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      font-size: .88rem;
+    }
+    .order-address { color: var(--text2); }
+    .order-address strong { color: var(--text); }
+    .order-totals { text-align: right; }
+    .order-totals .grand-total {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .empty-state svg { opacity: .3; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .empty-state p { color: var(--text2); font-size: .9rem; margin-bottom: 24px; }
+    .empty-state a {
+      display: inline-block;
+      padding: 10px 28px;
+      background: var(--accent); color: #fff;
+      border-radius: 99px; font-size: .88rem; font-weight: 500;
+      transition: background var(--trans);
+    }
+    .empty-state a:hover { background: var(--accent2); }
+
+    @media (max-width: 600px) {
+      .container { padding: 20px 16px; }
+      .page-title { font-size: 1.4rem; }
+      .user-card { flex-wrap: wrap; gap: 12px; }
+      .order-header { flex-direction: column; gap: 8px; }
+      .order-footer { flex-direction: column; gap: 12px; }
+      .order-totals { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <div class="logo" onclick="location.href='index.html'">Baz<span>aar</span></div>
+      <a href="index.html" class="back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        Back to Shop
+      </a>
+    </div>
+  </nav>
+
+  <div class="container" id="app"></div>
+
+  <script>
+    const currentUser = JSON.parse(localStorage.getItem('bazaar-user') || 'null');
+    const allOrders   = JSON.parse(localStorage.getItem('bazaar-orders') || '[]');
+
+    if (!currentUser) {
+      window.location.href = 'index.html';
+    }
+
+    function logout() {
+      localStorage.removeItem('bazaar-user');
+      window.location.href = 'index.html';
+    }
+
+    function render() {
+      if (!currentUser) return;
+      const userOrders = allOrders.filter(o => o.email === currentUser.email);
+      const initial = (currentUser.name || '?').charAt(0).toUpperCase();
+      let html = '';
+
+      html += `
+        <div class="user-card">
+          <div style="display:flex;align-items:center">
+            <div class="user-avatar">${initial}</div>
+            <div class="user-info">
+              <h3>${currentUser.name}</h3>
+              <p>${currentUser.email}</p>
+            </div>
+          </div>
+          <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+        <h1 class="page-title">My Orders</h1>
+        <p class="page-sub">View all your orders and their status.</p>
+        <p class="order-count">You have <strong>${userOrders.length}</strong> order${userOrders.length !== 1 ? 's' : ''}.</p>
+      `;
+
+      if (userOrders.length === 0) {
+        html += `
+          <div class="empty-state">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+            <h3>No orders yet</h3>
+            <p>Start shopping to see your orders here.</p>
+            <a href="index.html">Browse Products</a>
+          </div>`;
+      } else {
+        userOrders.reverse().forEach(o => {
+          const subtotal = o.items.reduce((s, i) => s + (i.price * i.qty), 0);
+          const shipping = o.items.length > 0 ? (subtotal >= 500 ? 0 : 49) : 0;
+          html += `
+            <div class="order-card">
+              <div class="order-header">
+                <div>
+                  <div class="order-id">Order #${o.id}</div>
+                  <div class="order-date">Placed on ${o.date}</div>
+                </div>
+                <span class="order-status ${o.status}">${o.status}</span>
+              </div>
+              <div class="order-items">
+                ${o.items.map(i => `
+                  <div class="order-item">
+                    <span class="item-name">${i.name}</span>
+                    <span class="item-qty">× ${i.qty}</span>
+                    <span class="item-price">₹${(i.price * i.qty).toLocaleString('en-IN')}</span>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="order-footer">
+                <div class="order-address">
+                  <strong>Deliver to:</strong><br>
+                  ${o.address || '—'}<br>
+                  ${o.phone ? '📞 ' + o.phone : ''}
+                </div>
+                <div class="order-totals">
+                  <div>Subtotal: ₹${subtotal.toLocaleString('en-IN')}</div>
+                  <div>Shipping: ${shipping === 0 ? 'Free' : '₹' + shipping}</div>
+                  <div class="grand-total">Total: ₹${o.total.toLocaleString('en-IN')}</div>
+                </div>
+              </div>
+            </div>`;
+        });
+      }
+
+      document.getElementById('app').innerHTML = html;
+    }
+
+    render();
+  </script>
+</body>
+</html>
