@@ -833,6 +833,10 @@
   <div class="modal">
     <h2>Shipping details</h2>
     <p>Fill in your delivery information to complete the order.</p>
+    <div id="checkout-user" style="background:var(--bg3);padding:10px 14px;border-radius:var(--radius);margin-bottom:16px;border:1px solid var(--border);font-size:.85rem">
+      <span style="color:var(--text2)">Logged in as </span><strong id="checkout-user-name" style="color:var(--accent)"></strong>
+      <span style="color:var(--text3)"> · </span><span id="checkout-user-email" style="color:var(--text2)"></span>
+    </div>
     <div class="form-grid">
       <div class="form-field full">
         <label>Full name</label>
@@ -1040,10 +1044,15 @@ function openOrders() {
   if (!currentUser) { openAuth('login'); return; }
   const list = document.getElementById('orders-list');
   const userOrders = orders.filter(o => o.email === currentUser.email);
+  let html = `<div style="background:var(--bg3);padding:12px 16px;border-radius:var(--card-r);margin-bottom:16px;border:1px solid var(--border)">
+    <div style="font-size:.85rem;color:var(--text2)">Account</div>
+    <div style="font-weight:500">${currentUser.name}</div>
+    <div style="font-size:.82rem;color:var(--text2)">${currentUser.email}</div>
+  </div>`;
   if (userOrders.length === 0) {
-    list.innerHTML = '<div class="orders-empty">No orders yet. Start shopping!</div>';
+    html += '<div class="orders-empty">No orders yet. Start shopping!</div>';
   } else {
-    list.innerHTML = userOrders.map(o => `
+    html += userOrders.map(o => `
       <div class="order-card">
         <h4>Order #${o.id}</h4>
         <div class="order-meta">
@@ -1052,9 +1061,11 @@ function openOrders() {
           <span class="order-status ${o.status}">${o.status}</span>
         </div>
         <div class="order-items">${o.items.map(i => `${i.name} × ${i.qty}`).join(', ')}</div>
+        <div style="font-size:.75rem;color:var(--text3);margin-top:4px">${o.address}</div>
       </div>
     `).join('');
   }
+  list.innerHTML = html;
   document.getElementById('orders-modal').classList.add('open');
 }
 function closeOrders() {
@@ -1327,8 +1338,12 @@ function closeCart() {
    CHECKOUT MODAL
 ═══════════════════════════════════════════════════ */
 function openCheckout() {
+  if (!currentUser) { openAuth('login'); return; }
   closeCart();
   setTimeout(() => {
+    document.getElementById('f-name').value = currentUser.name || '';
+    document.getElementById('checkout-user-name').textContent = currentUser.name;
+    document.getElementById('checkout-user-email').textContent = currentUser.email;
     document.getElementById('checkout-modal').classList.add('open');
   }, 350);
 }
@@ -1340,30 +1355,31 @@ function placeOrder() {
   const name  = document.getElementById('f-name').value.trim();
   const street = document.getElementById('f-street').value.trim();
   const city  = document.getElementById('f-city').value.trim();
+  const state = document.getElementById('f-state').value.trim();
   const pin   = document.getElementById('f-pin').value.trim();
   const phone = document.getElementById('f-phone').value.trim();
 
-  if (!name || !street || !city || !pin || !phone) {
+  if (!name || !street || !city || !state || !pin || !phone) {
     toast('Please fill all required fields', 'error');
     return;
   }
 
-  if (cart.length === 0) {
-    toast('Your cart is empty', 'error');
-    return;
-  }
+  if (!currentUser) { openAuth('login'); return; }
+  if (cart.length === 0) { toast('Your cart is empty', 'error'); return; }
 
   const subtotal = cart.reduce((s, i) => s + (i.price * i.qty), 0);
   const shipping = subtotal >= 500 ? 0 : 49;
 
   const order = {
     id: Date.now().toString(36).toUpperCase(),
-    email: currentUser?.email || 'guest@guest.com',
+    email: currentUser.email,
+    user: currentUser.name,
     date: new Date().toLocaleDateString('en-IN'),
     items: cart.map(i => ({ name: i.name, qty: i.qty, price: i.price })),
     total: subtotal + shipping,
     status: 'Processing',
-    address: `${name}, ${street}, ${city} - ${pin}`,
+    address: `${name}, ${street}, ${city}, ${state} - ${pin}`,
+    phone: phone,
   };
 
   orders.push(order);
@@ -1375,7 +1391,7 @@ function placeOrder() {
   updateCartBadge();
   renderCart();
   renderProducts();
-  toast('🎉 Order placed! Order ID: ' + order.id);
+  toast(`🎉 Order #${order.id} confirmed for ${currentUser.name}! Check your orders tab.`);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1398,10 +1414,7 @@ document.getElementById('open-cart').addEventListener('click', openCart);
 document.getElementById('close-cart').addEventListener('click', closeCart);
 document.getElementById('close-cart-2').addEventListener('click', closeCart);
 document.getElementById('cart-overlay').addEventListener('click', closeCart);
-document.getElementById('checkout-btn').addEventListener('click', () => {
-  if (!currentUser) { openAuth('login'); return; }
-  openCheckout();
-});
+document.getElementById('checkout-btn').addEventListener('click', openCheckout);
 document.getElementById('modal-cancel').addEventListener('click', closeCheckout);
 document.getElementById('modal-confirm').addEventListener('click', placeOrder);
 
