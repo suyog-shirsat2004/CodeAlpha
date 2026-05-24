@@ -69,6 +69,7 @@
       localStorage.setItem(SK, JSON.stringify(f));
       return JSON.parse(localStorage.getItem(SK));
     }
+    if (!d.users || d.users.length === 0) { d.users = SEED_USERS.slice(); sv(d); }
     return d;
   }
 
@@ -177,6 +178,7 @@
       }
 
       if (path === '/api/users' && method === 'GET') {
+        console.log('[mock] /api/users d.users.length:', d.users.length, 'd._s:', d._s);
         var us = d.users.map(function (u) {
           return {
             id: u.id, username: u.username, displayName: u.displayName, bio: u.bio, avatar: u.avatar,
@@ -185,6 +187,7 @@
           };
         });
         if (d._s) us = us.filter(function (u) { return u.id !== d._s; });
+        console.log('[mock] /api/users returning', us.length, 'users');
         return jr(200, { users: us });
       }
 

@@ -278,7 +278,7 @@ if (window.location.pathname === '/') {
     try {
       const data = await api('/api/users');
       const container = document.getElementById('suggested-users');
-      if (data.users.length === 0) {
+      if (!data.users || data.users.length === 0) {
         container.innerHTML = '<p class="text-muted small mb-0">No other users yet.</p>';
         return;
       }
@@ -292,7 +292,7 @@ if (window.location.pathname === '/') {
           <button class="btn btn-sm rounded-pill ${u.isFollowing ? 'btn-outline-danger' : 'btn-primary'}" onclick="suggestedFollow('${u.id}', this)">${u.isFollowing ? 'Unfollow' : 'Follow'}</button>
         </div>
       `).join('');
-    } catch { }
+    } catch (e) { console.error('loadSuggested error:', e); }
   }
 
   document.getElementById('media-upload')?.addEventListener('change', async (e) => {
