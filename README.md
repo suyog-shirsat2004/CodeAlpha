@@ -4,7 +4,7 @@ Full Stack Development internship projects at CodeAlpha.
 
 ## Task 1 — E-Commerce Store
 
-Live demo: [suyog-shirsat2004.github.io/CodeAlpha/](https://suyog-shirsat2004.github.io/CodeAlpha/)
+Live demo: [suyog-shirsat2004.github.io/CodeAlpha/Task-1/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-1/)
 
 Full-stack e-commerce app — Django REST API backend + responsive HTML/CSS/JS frontend deployed on GitHub Pages. Features product catalog, cart, wishlist, auth, checkout, and order history.
 
