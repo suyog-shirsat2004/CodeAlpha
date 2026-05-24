@@ -1,7 +1,7 @@
 let __currentUserId = null;
 
 async function api(url, opts = {}) {
-  const res = await fetch(url, { credentials: 'same-origin', headers: { 'Content-Type': 'application/json', ...opts.headers }, ...opts });
+  const res = await fetch(url, { ...opts, credentials: 'same-origin', headers: { 'Content-Type': 'application/json', ...opts.headers } });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Request failed');
   return data;
@@ -159,7 +159,6 @@ if (window.location.pathname.endsWith('/login.html')) {
     switchText.innerHTML = isRegister
       ? 'Already have an account? <a href="#" id="auth-toggle" class="fw-semibold">Sign In</a>'
       : 'New here? <a href="#" id="auth-toggle" class="fw-semibold">Create Account</a>';
-    document.getElementById('auth-toggle').addEventListener('click', arguments.callee);
   });
 
   document.getElementById('auth-form').addEventListener('submit', async (e) => {
