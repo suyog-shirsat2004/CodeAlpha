@@ -2,7 +2,8 @@
   var SK = 'sharesphere_data';
 
   function db() {
-    if (!localStorage.getItem(SK)) {
+    var raw = localStorage.getItem(SK);
+    if (!raw) {
       var seedUsers = [
         { id: 'seed1', username: 'rahuljadhav', password: 'pass123', displayName: 'Rahul Jadhav', bio: 'Web developer & photographer', avatar: '' },
         { id: 'seed2', username: 'pranavpatil2423', password: 'pass123', displayName: 'Pranav Patil', bio: 'Full-stack dev | Music lover', avatar: '' },
@@ -46,9 +47,11 @@
         { id: 'sf4', followerId: 'seed3', followingId: 'seed1' },
         { id: 'sf5', followerId: 'seed4', followingId: 'seed1' }
       ];
-      localStorage.setItem(SK, JSON.stringify({ users: seedUsers, posts: seedPosts, comments: seedComments, likes: seedLikes, follows: seedFollows, _n: 100, _s: null }));
+      localStorage.setItem(SK, JSON.stringify({ users: seedUsers, posts: seedPosts, comments: seedComments, likes: seedLikes, follows: seedFollows, _n: 100, _s: null, _v: 1 }));
     }
-    return JSON.parse(localStorage.getItem(SK));
+    var d = JSON.parse(localStorage.getItem(SK));
+    if (!d._v) { d._v = 1; localStorage.setItem(SK, JSON.stringify(d)); }
+    return d;
   }
 
   function sv(d) { localStorage.setItem(SK, JSON.stringify(d)); return d; }
