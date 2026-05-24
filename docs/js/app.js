@@ -144,7 +144,7 @@ document.getElementById('logout-btn')?.addEventListener('click', async (e) => {
 /* ============================================
    LOGIN PAGE
    ============================================ */
-if (window.location.pathname === '/login.html') {
+if (window.location.pathname === '/login.html' || window.location.pathname.endsWith('/login.html')) {
   let isRegister = false;
   const errorDiv = document.getElementById('auth-error');
   const title = document.getElementById('auth-title');
@@ -186,7 +186,7 @@ if (window.location.pathname === '/login.html') {
 /* ============================================
    FEED PAGE
    ============================================ */
-if (window.location.pathname === '/') {
+if (window.location.pathname === '/' || window.location.pathname.endsWith('/CodeAlpha/') || window.location.pathname.endsWith('/CodeAlpha')) {
   let currentUser = null;
   let pendingMediaUrl = '';
   let pendingMediaType = '';
@@ -526,7 +526,7 @@ async function deleteComment(commentId) {
 /* ============================================
    PROFILE PAGE
    ============================================ */
-if (window.location.pathname === '/profile.html') {
+if (window.location.pathname === '/profile.html' || window.location.pathname.endsWith('/profile.html')) {
   let currentUser = null, viewedUserId = null;
 
   async function initProfile() {
