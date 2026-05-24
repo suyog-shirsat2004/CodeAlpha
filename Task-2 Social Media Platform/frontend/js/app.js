@@ -1,5 +1,19 @@
 let __currentUserId = null;
 
+function setNavAvatar(user) {
+  var el = document.getElementById('nav-avatar');
+  var icon = document.getElementById('nav-person-icon');
+  if (!el || !icon) return;
+  if (user) {
+    el.style.display = 'inline-flex';
+    el.textContent = getInitials(user.displayName || user.username);
+    icon.style.display = 'none';
+  } else {
+    el.style.display = 'none';
+    icon.style.display = 'inline-block';
+  }
+}
+
 async function api(url, opts = {}) {
   const res = await fetch(url, { ...opts, credentials: 'same-origin', headers: { 'Content-Type': 'application/json', ...opts.headers } });
   const data = await res.json();
@@ -198,7 +212,7 @@ if (window.location.pathname === '/') {
       document.getElementById('landing-section').style.display = 'none';
       document.getElementById('login-btn').style.display = 'none';
       document.getElementById('logout-btn').style.display = 'inline-block';
-      document.getElementById('nav-profile-link').textContent = currentUser.displayName || currentUser.username;
+      setNavAvatar(currentUser);
       document.getElementById('poster-avatar').textContent = getInitials(currentUser.displayName);
       loadFeed();
       loadSuggested();
@@ -533,7 +547,7 @@ if (window.location.pathname === '/profile.html') {
     if (currentUser) {
       __currentUserId = currentUser.id;
       document.getElementById('logout-btn').style.display = 'inline-block';
-      document.getElementById('nav-profile-link').textContent = currentUser.displayName || currentUser.username;
+      setNavAvatar(currentUser);
     }
     const queryId = getQueryParam('id');
     if (!currentUser && !queryId) { window.location.href = '/login.html'; return; }
@@ -741,7 +755,7 @@ if (window.location.pathname === '/profile.html') {
       });
       document.getElementById('profile-display').textContent = document.getElementById('edit-display').value;
       document.getElementById('profile-bio').textContent = document.getElementById('edit-bio').value || 'No bio yet.';
-      document.getElementById('nav-profile-link').textContent = document.getElementById('edit-display').value;
+      setNavAvatar({ displayName: document.getElementById('edit-display').value, username: '' });
       document.getElementById('edit-section').style.display = 'none';
     } catch (err) { alert(err.message); }
   });
