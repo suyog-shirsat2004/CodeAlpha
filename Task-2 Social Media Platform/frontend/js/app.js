@@ -554,8 +554,10 @@ if (window.location.pathname === '/profile.html') {
 
       const avatarEl = document.getElementById('profile-avatar');
       if (u.avatar) {
-        avatarEl.innerHTML = `<img src="${u.avatar}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`;
+        avatarEl.style.background = `url("${u.avatar}") center/cover no-repeat`;
+        avatarEl.textContent = '';
       } else {
+        avatarEl.style.background = '';
         avatarEl.textContent = getInitials(u.displayName);
       }
 
@@ -676,7 +678,8 @@ if (window.location.pathname === '/profile.html') {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       const avatarEl = document.getElementById('profile-avatar');
-      avatarEl.innerHTML = `<img src="${data.avatar}?t=${Date.now()}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`;
+      avatarEl.style.background = `url("${data.avatar}?t=${Date.now()}") center/cover no-repeat`;
+      avatarEl.textContent = '';
     } catch (err) { alert(err.message); }
   });
 
