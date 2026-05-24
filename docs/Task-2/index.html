@@ -1,78 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ShareSphere — Social Media Platform</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
-      color: #e0e0e0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
-    }
-    .card {
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: 16px;
-      padding: 48px 40px;
-      max-width: 560px;
-      width: 100%;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #a855f7, #3b82f6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 8px;
-    }
-    .subtitle {
-      color: #8e8ea0;
-      font-size: .95rem;
-      margin-bottom: 28px;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 32px;
-      border-radius: 99px;
-      border: none;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      background: #ff6b35;
-      color: #fff;
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,107,53,.35); }
-    .links { margin-top: 24px; }
-    .links a { color: #8e8ea0; font-size: .85rem; text-decoration: none; margin: 0 10px; }
-    .links a:hover { color: #ff6b35; text-decoration: underline; }
-    p.note { color: #6e6e80; font-size: .8rem; margin-top: 20px; }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShareSphere</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <div class="card">
-    <h1>ShareSphere</h1>
-    <p class="subtitle">Social Media Platform — Express.js + vanilla frontend</p>
-    <p style="color:#8e8ea0;margin-bottom:24px;line-height:1.6">Requires the Express.js backend server to run.<br />Start it locally to use the full app.</p>
-    <a href="../" class="btn">← Back to Projects</a>
-    <div class="links">
-      <a href="https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-2%20Social%20Media%20Platform">GitHub Repo</a>
-      <a href="https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-2%20Social%20Media%20Platform/README.md">README</a>
+  <nav id="main-nav" class="navbar navbar-expand-sm sticky-top">
+    <div class="container">
+      <a href="/" class="navbar-brand d-flex align-items-center gap-2 text-white">
+        <svg viewBox="0 0 32 32" width="28" height="28" fill="none">
+          <circle cx="16" cy="16" r="12" stroke="#a855f7" stroke-width="1.8" fill="none"/>
+          <circle cx="16" cy="16" r="2.5" fill="#a855f7"/>
+          <circle cx="16" cy="4" r="1.5" fill="#a855f7"/>
+          <circle cx="28" cy="16" r="1.5" fill="#a855f7"/>
+          <circle cx="4" cy="16" r="1.5" fill="#a855f7"/>
+          <circle cx="16" cy="28" r="1.5" fill="#a855f7"/>
+        </svg>
+        <span class="fw-bold brand-name">ShareSphere</span>
+      </a>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-sm-center gap-2">
+          <li class="nav-item"><a href="/" class="nav-link nav-icon-link active"><i class="bi bi-house-door me-1"></i>Home</a></li>
+          <li class="nav-item"><a href="/profile.html" id="nav-profile-link" class="nav-link nav-icon-link"><i class="bi bi-person me-1"></i>Profile</a></li>
+          <li class="nav-item"><a href="/login.html" id="login-btn" class="btn btn-outline-light btn-sm rounded-pill px-3">Sign In</a></li>
+          <li class="nav-item"><a href="#" id="logout-btn" class="btn btn-outline-light btn-sm rounded-pill px-3" style="display:none"><i class="bi bi-box-arrow-right me-1"></i>Logout</a></li>
+        </ul>
+      </div>
     </div>
-    <p class="note">Run <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px">cd backend && node server.js</code> then visit <strong>http://localhost:3000</strong></p>
+  </nav>
+
+  <div class="container py-4">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div id="auth-section" style="display:none">
+          <div class="card shadow-sm border-0 rounded-4 p-3 mb-4">
+            <div class="d-flex gap-3 align-items-start">
+              <div class="poster-avatar" id="poster-avatar">U</div>
+              <div class="flex-grow-1">
+                <textarea id="post-input" class="form-control border-0 bg-light" placeholder="What's on your mind?" rows="2" style="resize:none"></textarea>
+                <div id="media-preview" class="media-preview-box mt-2" style="display:none">
+                  <img id="preview-img" class="preview-media" style="display:none">
+                  <video id="preview-video" class="preview-media" style="display:none" controls></video>
+                  <button id="clear-media" class="btn btn-sm btn-outline-danger mt-1 ms-1">&times; Remove</button>
+                </div>
+                <div class="d-flex align-items-center gap-2 mt-2 flex-wrap">
+                  <button id="emoji-btn" class="btn btn-sm btn-outline-secondary rounded-pill emoji-trigger" title="Add emoji">😊</button>
+                  <label for="media-upload" class="btn btn-sm btn-outline-secondary rounded-pill mb-0" title="Upload image/video">
+                    <i class="bi bi-image me-1"></i>Media
+                  </label>
+                  <input type="file" id="media-upload" accept="image/*,video/*" style="display:none">
+                  <button id="url-embed-btn" class="btn btn-sm btn-outline-secondary rounded-pill" title="Embed from URL">
+                    <i class="bi bi-link-45deg me-1"></i>URL
+                  </button>
+                </div>
+                <div id="url-input" class="mt-2 input-group input-group-sm" style="display:none">
+                  <input type="text" id="embed-url" class="form-control" placeholder="Image or video URL (mp4, webm)...">
+                  <button id="embed-url-btn" class="btn btn-primary btn-sm">Add</button>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+              <button id="post-btn" class="btn btn-primary rounded-pill px-4">
+                <i class="bi bi-send me-1"></i> Post
+              </button>
+            </div>
+            <div id="emoji-picker" class="emoji-picker" style="display:none"></div>
+          </div>
+          <div id="drop-zone-overlay" class="drop-zone">
+            <div class="drop-zone-content">
+              <i class="bi bi-cloud-arrow-up" style="font-size:3rem"></i>
+              <p class="mb-0 fw-semibold mt-2">Drop your media here</p>
+            </div>
+          </div>
+          <div id="feed-container"></div>
+          <div id="empty-feed" class="card shadow-sm border-0 rounded-4 p-4 text-center" style="display:none">
+            <p class="text-muted mb-0">No posts yet. Follow some users or create a post!</p>
+          </div>
+        </div>
+        <div id="landing-section" style="display:none">
+          <div class="landing-hero">
+            <div class="landing-particles" id="landing-particles"></div>
+            <div class="landing-content">
+              <h1 class="landing-title">Welcome to <span class="text-gradient">ShareSphere</span></h1>
+              <p class="landing-subtitle">Connect, share, and engage with your community</p>
+              <div class="landing-features">
+                <div class="landing-feature"><span class="lf-icon">📝</span><span>Share posts with text, images &amp; videos</span></div>
+                <div class="landing-feature"><span class="lf-icon">💬</span><span>Comment &amp; engage with others</span></div>
+                <div class="landing-feature"><span class="lf-icon">❤️</span><span>Like posts &amp; follow friends</span></div>
+                <div class="landing-feature"><span class="lf-icon">🎨</span><span>Custom profiles with your style</span></div>
+              </div>
+              <a href="/login.html" class="btn btn-primary btn-lg rounded-pill px-5 py-3">Get Started</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card shadow-sm border-0 rounded-4 p-3">
+          <h5 class="fw-bold mb-3"><i class="bi bi-person-plus me-2"></i>Suggested Users</h5>
+          <div id="suggested-users"></div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div id="confetti-container" class="confetti-container"></div>
+
+  <div id="comment-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-content-custom">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold">Comments</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="comments-list" class="comments-list"></div>
+          <div class="d-flex gap-2 mt-3 align-items-center">
+            <div class="flex-grow-1 position-relative">
+              <input type="text" id="comment-input" class="form-control" placeholder="Write a comment...">
+              <button id="comment-emoji-btn" class="btn btn-sm position-absolute end-0 top-50 translate-middle-y border-0 emoji-trigger" style="background:none;font-size:1.1rem">😊</button>
+              <div id="comment-emoji-picker" class="emoji-picker"></div>
+            </div>
+            <button id="comment-btn" class="btn btn-primary"><i class="bi bi-send"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="edit-post-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-content-custom">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold"><i class="bi bi-pencil me-1"></i> Edit Post</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <textarea id="edit-post-content" class="form-control mb-3" rows="3" placeholder="Edit your post..."></textarea>
+          <div id="edit-post-media-preview" class="media-preview-box mb-3" style="display:none">
+            <img id="edit-preview-img" class="preview-media" style="display:none">
+            <video id="edit-preview-video" class="preview-media" style="display:none" controls></video>
+          </div>
+          <div class="d-flex gap-2">
+            <input type="text" id="edit-post-url" class="form-control" placeholder="Image URL (optional)">
+            <button id="edit-post-save" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i> Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/app.js"></script>
 </body>
 </html>
