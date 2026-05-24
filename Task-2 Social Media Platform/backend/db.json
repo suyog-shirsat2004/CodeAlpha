@@ -1,0 +1,84 @@
+{
+  "users": [
+    {
+      "id": "mpj6zvlzxloh",
+      "username": "suyog2004",
+      "password": "suyog2004",
+      "displayName": "suyog2004",
+      "bio": "rocksun\n",
+      "avatar": "/uploads/1779593307597-cy1rco.jpg"
+    },
+    {
+      "id": "usr01rahul",
+      "username": "rahuljadhav",
+      "password": "pass123",
+      "displayName": "Rahul Jadhav",
+      "bio": "",
+      "avatar": ""
+    },
+    {
+      "id": "usr02pranav",
+      "username": "pranavpatil2423",
+      "password": "pass123",
+      "displayName": "Pranav Patil",
+      "bio": "",
+      "avatar": ""
+    },
+    {
+      "id": "usr03kiran",
+      "username": "kiranshinde0806",
+      "password": "pass123",
+      "displayName": "Kiran Shinde",
+      "bio": "",
+      "avatar": ""
+    },
+    {
+      "id": "usr04kartiki",
+      "username": "kartiki2321",
+      "password": "pass123",
+      "displayName": "Kartiki",
+      "bio": "",
+      "avatar": ""
+    }
+  ],
+  "posts": [
+    {
+      "id": "mpj7xgkr0yyo",
+      "userId": "mpj6zvlzxloh",
+      "content": "\"From finishing matches with his iconic helicopter shot to leading India to historic victories, MS Dhoni has redefined what it means to be a true game‑changer. A legend forever! 🏆 #MSDhoni #CricketLegend\"",
+      "imageUrl": "http://localhost:3000/uploads/1779593320794-qqfoos.jpg",
+      "videoUrl": "",
+      "createdAt": "2026-05-24T03:29:04.299Z",
+      "likeCount": 1,
+      "commentCount": 1
+    }
+  ],
+  "comments": [
+    {
+      "id": "mpj7xwh8o6o4",
+      "postId": "mpj7xgkr0yyo",
+      "userId": "mpj6zvlzxloh",
+      "content": "wow",
+      "createdAt": "2026-05-24T03:29:24.908Z"
+    }
+  ],
+  "follows": [
+    {
+      "id": "mpj9q9j59s3p",
+      "followerId": "mpj6zvlzxloh",
+      "followingId": "usr01rahul"
+    },
+    {
+      "id": "mpj9qak50i9m",
+      "followerId": "mpj6zvlzxloh",
+      "followingId": "usr02pranav"
+    }
+  ],
+  "likes": [
+    {
+      "id": "mpj7xlh0zloz",
+      "postId": "mpj7xgkr0yyo",
+      "userId": "mpj6zvlzxloh"
+    }
+  ]
+}
