@@ -2,12 +2,15 @@
 
 Full-stack social media application with an Express.js backend and a responsive HTML/CSS/JS frontend.
 
+**Live site:** *(requires local server — see Quick Start below)*
+
 ---
 
 ## Live Demo
 
 | Page | URL |
 |------|-----|
+| GitHub Repo | [View on GitHub](https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-2%20Social%20Media%20Platform) |
 | Home / Feed | `http://localhost:3000/` |
 | Profile | `http://localhost:3000/profile.html` |
 | Login / Register | `http://localhost:3000/login.html` |
