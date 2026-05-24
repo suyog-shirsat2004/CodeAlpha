@@ -2,6 +2,8 @@
 
 A full-stack **Kanban-style Project Management Tool** built with the **MERN stack** (MongoDB, Express, React, Node.js).
 
+**Live demo:** [suyog-shirsat2004.github.io/CodeAlpha/Task-3/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-3/) *(frontend UI — run backend locally for full features)*
+
 > **Task 3** — Collaborative tool similar to Trello/Asana with drag-and-drop boards, team collaboration, task assignments, and commenting.
 
 ---

@@ -9,6 +9,8 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ProjectBoard from './pages/ProjectBoard';
 
+const basename = window.location.hostname === 'localhost' ? '' : '/CodeAlpha/Task-3';
+
 const AppContent = () => {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -47,7 +49,7 @@ const AppContent = () => {
 
 function App() {
   return (
-    <Router>
+    <Router basename={basename}>
       <AuthProvider>
         <Toaster
           position="top-right"
