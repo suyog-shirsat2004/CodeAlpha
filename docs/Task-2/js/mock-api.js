@@ -1,56 +1,74 @@
 (function () {
   var SK = 'sharesphere_data';
 
+  var SEED_USERS = [
+    { id: 'seed1', username: 'rahuljadhav', password: 'pass123', displayName: 'Rahul Jadhav', bio: 'Web developer & photographer', avatar: '' },
+    { id: 'seed2', username: 'pranavpatil2423', password: 'pass123', displayName: 'Pranav Patil', bio: 'Full-stack dev | Music lover', avatar: '' },
+    { id: 'seed3', username: 'kiranshinde0806', password: 'pass123', displayName: 'Kiran Shinde', bio: 'UI/UX designer', avatar: '' },
+    { id: 'seed4', username: 'kartiki2321', password: 'pass123', displayName: 'Kartiki', bio: 'Digital artist', avatar: '' }
+  ];
+  var SEED_POSTS = [
+    { id: 'sp1', userId: 'seed1', content: 'Just finished building a new React component! 🚀', imageUrl: '', videoUrl: '', createdAt: new Date(Date.now() - 3600000).toISOString(), likeCount: 3, commentCount: 1 },
+    { id: 'sp2', userId: 'seed2', content: 'Beautiful sunset from the terrace today 🌅', imageUrl: '', videoUrl: '', createdAt: new Date(Date.now() - 7200000).toISOString(), likeCount: 5, commentCount: 2 },
+    { id: 'sp3', userId: 'seed3', content: 'New design system palette — what do you think?', imageUrl: '', videoUrl: '', createdAt: new Date(Date.now() - 10800000).toISOString(), likeCount: 2, commentCount: 0 },
+    { id: 'sp4', userId: 'seed4', content: 'Working on a digital portrait commission 🎨', imageUrl: '', videoUrl: '', createdAt: new Date(Date.now() - 14400000).toISOString(), likeCount: 7, commentCount: 3 },
+    { id: 'sp5', userId: 'seed1', content: 'Anyone else excited for the new framework release?', imageUrl: '', videoUrl: '', createdAt: new Date(Date.now() - 18000000).toISOString(), likeCount: 1, commentCount: 0 }
+  ];
+  var SEED_COMMENTS = [
+    { id: 'sc1', postId: 'sp1', userId: 'seed2', content: 'Looks great! 🔥', createdAt: new Date(Date.now() - 3000000).toISOString() },
+    { id: 'sc2', postId: 'sp2', userId: 'seed1', content: 'Stunning view!', createdAt: new Date(Date.now() - 6000000).toISOString() },
+    { id: 'sc3', postId: 'sp2', userId: 'seed4', content: 'Where is this?', createdAt: new Date(Date.now() - 5000000).toISOString() },
+    { id: 'sc4', postId: 'sp4', userId: 'seed3', content: 'Love the colors!', createdAt: new Date(Date.now() - 8000000).toISOString() },
+    { id: 'sc5', postId: 'sp4', userId: 'seed1', content: 'Amazing work 🔥', createdAt: new Date(Date.now() - 7000000).toISOString() },
+    { id: 'sc6', postId: 'sp4', userId: 'seed2', content: 'Incredible detail!', createdAt: new Date(Date.now() - 4000000).toISOString() }
+  ];
+  var SEED_LIKES = [
+    { id: 'sl1', postId: 'sp1', userId: 'seed2' },
+    { id: 'sl2', postId: 'sp1', userId: 'seed3' },
+    { id: 'sl3', postId: 'sp1', userId: 'seed4' },
+    { id: 'sl4', postId: 'sp2', userId: 'seed1' },
+    { id: 'sl5', postId: 'sp2', userId: 'seed3' },
+    { id: 'sl6', postId: 'sp2', userId: 'seed4' },
+    { id: 'sl7', postId: 'sp2', userId: 'seed2' },
+    { id: 'sl8', postId: 'sp3', userId: 'seed1' },
+    { id: 'sl9', postId: 'sp3', userId: 'seed4' },
+    { id: 'sl10', postId: 'sp4', userId: 'seed1' },
+    { id: 'sl11', postId: 'sp4', userId: 'seed2' },
+    { id: 'sl12', postId: 'sp4', userId: 'seed3' },
+    { id: 'sl13', postId: 'sp5', userId: 'seed2' }
+  ];
+  var SEED_FOLLOWS = [
+    { id: 'sf1', followerId: 'seed1', followingId: 'seed2' },
+    { id: 'sf2', followerId: 'seed1', followingId: 'seed3' },
+    { id: 'sf3', followerId: 'seed2', followingId: 'seed1' },
+    { id: 'sf4', followerId: 'seed3', followingId: 'seed1' },
+    { id: 'sf5', followerId: 'seed4', followingId: 'seed1' }
+  ];
+
+  function freshDB() {
+    return { users: SEED_USERS.slice(), posts: SEED_POSTS.slice(), comments: SEED_COMMENTS.slice(), likes: SEED_LIKES.slice(), follows: SEED_FOLLOWS.slice(), _n: 100, _s: null, _v: 1 };
+  }
+
   function db() {
     var raw = localStorage.getItem(SK);
     if (!raw) {
-      var seedUsers = [
-        { id: 'seed1', username: 'rahuljadhav', password: 'pass123', displayName: 'Rahul Jadhav', bio: 'Web developer & photographer', avatar: '' },
-        { id: 'seed2', username: 'pranavpatil2423', password: 'pass123', displayName: 'Pranav Patil', bio: 'Full-stack dev | Music lover', avatar: '' },
-        { id: 'seed3', username: 'kiranshinde0806', password: 'pass123', displayName: 'Kiran Shinde', bio: 'UI/UX designer', avatar: '' },
-        { id: 'seed4', username: 'kartiki2321', password: 'pass123', displayName: 'Kartiki', bio: 'Digital artist', avatar: '' }
-      ];
-      var seedPosts = [
-        { id: 'sp1', userId: 'seed1', content: 'Just finished building a new React component! 🚀', imageUrl: '', videoUrl: '', createdAt: new Date(Date.now() - 3600000).toISOString(), likeCount: 3, commentCount: 1 },
-        { id: 'sp2', userId: 'seed2', content: 'Beautiful sunset from the terrace today 🌅', imageUrl: '', videoUrl: '', createdAt: new Date(Date.now() - 7200000).toISOString(), likeCount: 5, commentCount: 2 },
-        { id: 'sp3', userId: 'seed3', content: 'New design system palette — what do you think?', imageUrl: '', videoUrl: '', createdAt: new Date(Date.now() - 10800000).toISOString(), likeCount: 2, commentCount: 0 },
-        { id: 'sp4', userId: 'seed4', content: 'Working on a digital portrait commission 🎨', imageUrl: '', videoUrl: '', createdAt: new Date(Date.now() - 14400000).toISOString(), likeCount: 7, commentCount: 3 },
-        { id: 'sp5', userId: 'seed1', content: 'Anyone else excited for the new framework release?', imageUrl: '', videoUrl: '', createdAt: new Date(Date.now() - 18000000).toISOString(), likeCount: 1, commentCount: 0 }
-      ];
-      var seedComments = [
-        { id: 'sc1', postId: 'sp1', userId: 'seed2', content: 'Looks great! 🔥', createdAt: new Date(Date.now() - 3000000).toISOString() },
-        { id: 'sc2', postId: 'sp2', userId: 'seed1', content: 'Stunning view!', createdAt: new Date(Date.now() - 6000000).toISOString() },
-        { id: 'sc3', postId: 'sp2', userId: 'seed4', content: 'Where is this?', createdAt: new Date(Date.now() - 5000000).toISOString() },
-        { id: 'sc4', postId: 'sp4', userId: 'seed3', content: 'Love the colors!', createdAt: new Date(Date.now() - 8000000).toISOString() },
-        { id: 'sc5', postId: 'sp4', userId: 'seed1', content: 'Amazing work 🔥', createdAt: new Date(Date.now() - 7000000).toISOString() },
-        { id: 'sc6', postId: 'sp4', userId: 'seed2', content: 'Incredible detail!', createdAt: new Date(Date.now() - 4000000).toISOString() }
-      ];
-      var seedLikes = [
-        { id: 'sl1', postId: 'sp1', userId: 'seed2' },
-        { id: 'sl2', postId: 'sp1', userId: 'seed3' },
-        { id: 'sl3', postId: 'sp1', userId: 'seed4' },
-        { id: 'sl4', postId: 'sp2', userId: 'seed1' },
-        { id: 'sl5', postId: 'sp2', userId: 'seed3' },
-        { id: 'sl6', postId: 'sp2', userId: 'seed4' },
-        { id: 'sl7', postId: 'sp2', userId: 'seed2' },
-        { id: 'sl8', postId: 'sp3', userId: 'seed1' },
-        { id: 'sl9', postId: 'sp3', userId: 'seed4' },
-        { id: 'sl10', postId: 'sp4', userId: 'seed1' },
-        { id: 'sl11', postId: 'sp4', userId: 'seed2' },
-        { id: 'sl12', postId: 'sp4', userId: 'seed3' },
-        { id: 'sl13', postId: 'sp5', userId: 'seed2' }
-      ];
-      var seedFollows = [
-        { id: 'sf1', followerId: 'seed1', followingId: 'seed2' },
-        { id: 'sf2', followerId: 'seed1', followingId: 'seed3' },
-        { id: 'sf3', followerId: 'seed2', followingId: 'seed1' },
-        { id: 'sf4', followerId: 'seed3', followingId: 'seed1' },
-        { id: 'sf5', followerId: 'seed4', followingId: 'seed1' }
-      ];
-      localStorage.setItem(SK, JSON.stringify({ users: seedUsers, posts: seedPosts, comments: seedComments, likes: seedLikes, follows: seedFollows, _n: 100, _s: null, _v: 1 }));
+      localStorage.setItem(SK, JSON.stringify(freshDB()));
+      return JSON.parse(localStorage.getItem(SK));
     }
-    var d = JSON.parse(localStorage.getItem(SK));
-    if (!d._v) { d._v = 1; localStorage.setItem(SK, JSON.stringify(d)); }
+    var d = JSON.parse(raw);
+    if (!d._v) {
+      var oldSession = d._s;
+      var oldUsers = d.users || [];
+      var f = freshDB();
+      var existingUsernames = {};
+      f.users.forEach(function (u) { existingUsernames[u.username] = true; });
+      oldUsers.forEach(function (u) {
+        if (!existingUsernames[u.username]) { f.users.unshift(u); }
+      });
+      f._s = d._s;
+      localStorage.setItem(SK, JSON.stringify(f));
+      return JSON.parse(localStorage.getItem(SK));
+    }
     return d;
   }
 
