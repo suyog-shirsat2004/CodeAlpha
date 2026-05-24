@@ -12,7 +12,7 @@ Full-stack e-commerce app — Django REST API backend + responsive HTML/CSS/JS f
 
 ## Task 2 — Social Media Platform (ShareSphere)
 
-Live demo: [http://localhost:3000/](http://localhost:3000/)
+Live demo: [suyog-shirsat2004.github.io/CodeAlpha/](https://suyog-shirsat2004.github.io/CodeAlpha/) *(frontend only — run server locally for full features)*
 
 Full-stack social media app — Express.js backend + responsive HTML/CSS/JS frontend. Features user profiles, posts, comments, likes, follows, media uploads, and session-based auth.
 
