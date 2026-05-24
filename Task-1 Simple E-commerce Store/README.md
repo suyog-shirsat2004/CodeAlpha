@@ -12,7 +12,7 @@ Full-stack e-commerce application with a Django REST API backend and a responsiv
 |------|-----|
 | Live App | [https://suyog-shirsat2004.github.io/CodeAlpha/](https://suyog-shirsat2004.github.io/CodeAlpha/) |
 | Backend API | `https://codealpha-ecommerce-backend.onrender.com` *(deploy `backend/` to Render)* |
-| GitHub Repo | [View on GitHub](https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/task-1%20Simple%20E-commerce%20Store) |
+| GitHub Repo | [View on GitHub](https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-1%20Simple%20E-commerce%20Store) |
 
 ---
 
@@ -76,7 +76,7 @@ API at `http://localhost:5000/api/`
 ## Project Structure
 
 ```
-task-1 Simple E-commerce Store/
+Task-1 Simple E-commerce Store/
 ├── backend/                  # Django REST API
 │   ├── api/
 │   │   ├── management/commands/

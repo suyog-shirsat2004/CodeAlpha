@@ -8,4 +8,4 @@ Live demo: [suyog-shirsat2004.github.io/CodeAlpha/](https://suyog-shirsat2004.gi
 
 Full-stack e-commerce app — Django REST API backend + responsive HTML/CSS/JS frontend deployed on GitHub Pages. Features product catalog, cart, wishlist, auth, checkout, and order history.
 
-[→ View details](task-1%20Simple%20E-commerce%20Store/README.md)
+[→ View details](Task-1%20Simple%20E-commerce%20Store/README.md)

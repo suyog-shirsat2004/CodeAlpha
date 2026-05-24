@@ -41,7 +41,7 @@ Server runs on `http://localhost:5000` — API at `http://localhost:5000/api/`
 ## Run Frontend (separate terminal)
 
 ```bash
-cd 'task-1 Simple E-commerce Store\frontend'
+cd 'Task-1 Simple E-commerce Store\frontend'
 npx serve .
 ```
 
