@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShareSphere — Social Media Platform</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 16px;
+      padding: 48px 40px;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a855f7, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #8e8ea0;
+      font-size: .95rem;
+      margin-bottom: 28px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 99px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      background: #ff6b35;
+      color: #fff;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,107,53,.35); }
+    .links { margin-top: 24px; }
+    .links a { color: #8e8ea0; font-size: .85rem; text-decoration: none; margin: 0 10px; }
+    .links a:hover { color: #ff6b35; text-decoration: underline; }
+    p.note { color: #6e6e80; font-size: .8rem; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>ShareSphere</h1>
+    <p class="subtitle">Social Media Platform — Express.js + vanilla frontend</p>
+    <p style="color:#8e8ea0;margin-bottom:24px;line-height:1.6">Requires the Express.js backend server to run.<br />Start it locally to use the full app.</p>
+    <a href="../" class="btn">← Back to Projects</a>
+    <div class="links">
+      <a href="https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-2%20Social%20Media%20Platform">GitHub Repo</a>
+      <a href="https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-2%20Social%20Media%20Platform/README.md">README</a>
+    </div>
+    <p class="note">Run <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px">cd backend && node server.js</code> then visit <strong>http://localhost:3000</strong></p>
+  </div>
+</body>
+</html>
