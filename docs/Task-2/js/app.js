@@ -561,6 +561,17 @@ if (window.location.pathname.endsWith('/profile.html')) {
         avatarEl.textContent = getInitials(u.displayName);
       }
 
+      const editAvatarEl = document.getElementById('edit-profile-avatar');
+      if (editAvatarEl) {
+        if (u.avatar) {
+          editAvatarEl.style.background = `url("${u.avatar}") center/cover no-repeat`;
+          editAvatarEl.textContent = '';
+        } else {
+          editAvatarEl.style.background = '';
+          editAvatarEl.textContent = getInitials(u.displayName);
+        }
+      }
+
       const uploadLabel = document.getElementById('avatar-upload-label');
       if (uploadLabel) {
         uploadLabel.style.display = (currentUser && userId === currentUser.id) ? 'flex' : 'none';
@@ -593,6 +604,16 @@ if (window.location.pathname.endsWith('/profile.html')) {
           editDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
           document.getElementById('edit-display').value = u.displayName;
           document.getElementById('edit-bio').value = u.bio || '';
+          const editAvatarEl = document.getElementById('edit-profile-avatar');
+          if (editAvatarEl) {
+            if (u.avatar) {
+              editAvatarEl.style.background = `url("${u.avatar}") center/cover no-repeat`;
+              editAvatarEl.textContent = '';
+            } else {
+              editAvatarEl.style.background = '';
+              editAvatarEl.textContent = getInitials(u.displayName);
+            }
+          }
         };
         actionsDiv.appendChild(editBtn);
       } else if (currentUser) {
@@ -683,8 +704,34 @@ if (window.location.pathname.endsWith('/profile.html')) {
     } catch (err) { alert(err.message); }
   });
 
+  let pendingEditAvatar = null;
+
+  document.getElementById('edit-avatar-upload')?.addEventListener('change', async () => {
+    const file = document.getElementById('edit-avatar-upload').files[0];
+    if (!file) return;
+    pendingEditAvatar = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const el = document.getElementById('edit-profile-avatar');
+      el.style.background = `url("${e.target.result}") center/cover no-repeat`;
+      el.textContent = '';
+    };
+    reader.readAsDataURL(file);
+  });
+
   document.getElementById('save-profile-btn')?.addEventListener('click', async () => {
     try {
+      if (pendingEditAvatar) {
+        const form = new FormData();
+        form.append('avatar', pendingEditAvatar);
+        const res = await fetch('/api/upload-avatar', { method: 'POST', credentials: 'same-origin', body: form });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error);
+        const heroAvatar = document.getElementById('profile-avatar');
+        heroAvatar.style.background = `url("${data.avatar}?t=${Date.now()}") center/cover no-repeat`;
+        heroAvatar.textContent = '';
+        pendingEditAvatar = null;
+      }
       await api('/api/profile', {
         method: 'PUT',
         body: JSON.stringify({
@@ -692,7 +739,9 @@ if (window.location.pathname.endsWith('/profile.html')) {
           bio: document.getElementById('edit-bio').value
         })
       });
-      loadProfile(viewedUserId);
+      document.getElementById('profile-display').textContent = document.getElementById('edit-display').value;
+      document.getElementById('profile-bio').textContent = document.getElementById('edit-bio').value || 'No bio yet.';
+      document.getElementById('nav-profile-link').textContent = document.getElementById('edit-display').value;
       document.getElementById('edit-section').style.display = 'none';
     } catch (err) { alert(err.message); }
   });
