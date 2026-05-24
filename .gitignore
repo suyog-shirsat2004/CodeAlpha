@@ -23,3 +23,8 @@ Thumbs.db
 # Media
 media/
 backend/uploads/
+
+# Personal files
+Screenshot *.png
+*.pdf
+img.png
