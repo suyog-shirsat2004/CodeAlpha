@@ -78,48 +78,6 @@ node server.js
 
 Open `http://localhost:3000`. The Express server serves both the REST API and the static frontend files.
 
----
-
-## Test Accounts
-|----------|----------|-------------|
-| `suyog2004` | `suyog2004` | suyog2004 |
-| `rahuljadhav` | `pass123` | Rahul Jadhav |
-| `pranavpatil2423` | `pass123` | Pranav Patil |
-| `kiranshinde0806` | `pass123` | Kiran Shinde |
-| `kartiki2321` | `pass123` | Kartiki |
-
----
-
-## API Endpoints
-
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | `/api/register` | No | Register new user |
-| POST | `/api/login` | No | Login |
-| POST | `/api/logout` | No | Logout |
-| GET | `/api/me` | Yes | Get current user |
-| GET | `/api/users` | No | List all users |
-| GET | `/api/users/:id` | No | Get user profile |
-| GET | `/api/users/:id/following` | No | Get users followed by :id |
-| GET | `/api/users/:id/followers` | No | Get followers of :id |
-| PUT | `/api/profile` | Yes | Update profile (displayName, bio) |
-| POST | `/api/upload-avatar` | Yes | Upload profile image |
-| POST | `/api/follow/:id` | Yes | Follow user |
-| POST | `/api/unfollow/:id` | Yes | Unfollow user |
-| POST | `/api/posts` | Yes | Create post |
-| PUT | `/api/posts/:id` | Yes | Edit own post |
-| GET | `/api/posts/feed` | Yes | Get feed (followed + own posts) |
-| GET | `/api/posts/user/:userId` | No | Get posts by user |
-| GET | `/api/posts/liked/:userId` | No | Get liked posts by user |
-| DELETE | `/api/posts/:id` | Yes | Delete own post |
-| POST | `/api/upload` | Yes | Upload media file |
-| POST | `/api/like/:postId` | Yes | Like post |
-| POST | `/api/unlike/:postId` | Yes | Unlike post |
-| GET | `/api/comments/:postId` | No | Get comments on post |
-| POST | `/api/comments/:postId` | Yes | Add comment |
-| DELETE | `/api/comments/:commentId` | Yes | Delete comment (author or post owner) |
-
----
 
 ## Project Structure
 
@@ -153,14 +111,3 @@ Task-2 Social Media Platform/
 | Auth | express-session (cookie-based sessions) |
 | Animations | CSS keyframes (confetti, particles, fade-in, glow) |
 
----
-
-## Design
-
-- **Warm orange accent** (`#ff6b35`) as primary interactive color
-- **Purple-blue gradient** (`#a855f7` → `#3b82f6`) for brand identity
-- **Dark teal backgrounds** (`#004e64`) for hero sections with contrast
-- **Cream background** (`#fdf6ed`) for page body with warm card surfaces
-- **Fredoka** headings + **Inter** body text for modern, friendly typography
-- **Glassmorphism navbar** with backdrop blur and animated gradient border
-- **Particle effects** in hero sections + **confetti** on likes
