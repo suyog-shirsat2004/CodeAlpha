@@ -59,7 +59,16 @@ Full-stack social media application with an Express.js backend and a responsive 
 
 ## Quick Start
 
-### Backend & Frontend (single server)
+### Frontend (standalone — no backend needed)
+
+```bash
+cd frontend
+npx serve .
+```
+
+Open `http://localhost:3000`. The landing page will show, but features requiring the backend (auth, feed, posts, comments, likes, follows) will not work.
+
+### Backend & Frontend (single server — full features)
 
 ```bash
 cd backend
@@ -67,13 +76,11 @@ npm install
 node server.js
 ```
 
-Open `http://localhost:3000` in your browser. The Express server serves both the REST API and the static frontend files.
+Open `http://localhost:3000`. The Express server serves both the REST API and the static frontend files.
 
 ---
 
 ## Test Accounts
-
-| Username | Password | Display Name |
 |----------|----------|-------------|
 | `suyog2004` | `suyog2004` | suyog2004 |
 | `rahuljadhav` | `pass123` | Rahul Jadhav |
