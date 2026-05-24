@@ -2,7 +2,7 @@
 
 Full-stack social media application with an Express.js backend and a responsive HTML/CSS/JS frontend.
 
-**Live site:** [http://localhost:3000/](http://localhost:3000/)
+**Live site:** [suyog-shirsat2004.github.io/CodeAlpha/Task-2/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-2/)
 
 ---
 
@@ -10,7 +10,7 @@ Full-stack social media application with an Express.js backend and a responsive 
 
 | Page | URL |
 |------|-----|
-| Live App | [http://localhost:3000/](http://localhost:3000/) |
+| Live App | [suyog-shirsat2004.github.io/CodeAlpha/Task-2/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-2/) |
 | GitHub Repo | [View on GitHub](https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-2%20Social%20Media%20Platform) |
 | Home / Feed | `http://localhost:3000/` |
 | Profile | `http://localhost:3000/profile.html` |
