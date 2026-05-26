@@ -2,10 +2,10 @@ import React from 'react';
 import { format, isPast, isToday } from 'date-fns';
 
 const priorityColors = {
-  low: 'bg-gray-100 text-gray-600',
-  medium: 'bg-blue-100 text-blue-700',
-  high: 'bg-amber-100 text-amber-700',
-  urgent: 'bg-red-100 text-red-700',
+  low: 'badge bg-secondary bg-opacity-10 text-secondary',
+  medium: 'badge bg-primary bg-opacity-10 text-primary',
+  high: 'badge bg-warning bg-opacity-10 text-warning',
+  urgent: 'badge bg-danger bg-opacity-10 text-danger',
 };
 
 const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
@@ -19,15 +19,16 @@ const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
       onDragStart={(e) => onDragStart?.(e, task)}
       onDragEnd={(e) => onDragEnd?.(e)}
       onClick={() => onClick?.(task)}
-      className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-3 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow duration-200 group"
+      className="task-card"
     >
-      <div className="flex items-start justify-between mb-2">
-        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${priorityColors[task.priority] || priorityColors.medium}`}>
+      <div className="d-flex align-items-start justify-content-between mb-2">
+        <span className={priorityColors[task.priority] || priorityColors.medium}>
           {task.priority}
         </span>
         {task.assignedTo && (
           <div
-            className="w-6 h-6 rounded-full bg-primary-600 text-white flex items-center justify-center text-xs font-bold flex-shrink-0"
+            className="avatar-sm rounded-circle d-flex align-items-center justify-content-center text-white"
+            style={{ background: 'linear-gradient(135deg, #6366f1, #818cf8)', fontSize: '.6rem', fontWeight: 700, width: '1.5rem', height: '1.5rem' }}
             title={task.assignedTo.name}
           >
             {task.assignedTo.name?.charAt(0).toUpperCase()}
@@ -35,29 +36,29 @@ const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
         )}
       </div>
 
-      <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">{task.title}</h4>
+      <h6 className="small fw-medium text-dark mb-1">{task.title}</h6>
 
       {task.description && (
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 line-clamp-2">{task.description}</p>
+        <p className="small text-muted mb-2" style={{ lineClamp: 2, WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
+          {task.description}
+        </p>
       )}
 
-      <div className="flex items-center justify-between mt-2">
+      <div className="d-flex align-items-center justify-content-between mt-2">
         {dueDate && (
-          <span className={`text-xs flex items-center gap-1 ${
-            isOverdue ? 'text-red-600 font-medium' :
-            isDueToday ? 'text-amber-600 font-medium' :
-            'text-gray-400 dark:text-gray-500'
+          <span className={`small d-flex align-items-center gap-1 ${
+            isOverdue ? 'text-danger fw-medium' :
+            isDueToday ? 'text-warning fw-medium' :
+            'text-muted'
           }`}>
-            {isOverdue ? '⏰ ' : isDueToday ? '📅 ' : '📅 '}
+            <i className={`bi ${isOverdue ? 'bi-alarm' : 'bi-calendar'}`}></i>
             {format(dueDate, 'MMM d')}
           </span>
         )}
 
-        <div className="flex gap-1 ml-auto">
-          {task.commentCount > 0 && (
-            <span className="text-xs text-gray-400 dark:text-gray-500">💬 {task.commentCount}</span>
-          )}
-        </div>
+        {task.commentCount > 0 && (
+          <span className="small text-muted"><i className="bi bi-chat me-1"></i>{task.commentCount}</span>
+        )}
       </div>
     </div>
   );

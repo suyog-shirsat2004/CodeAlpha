@@ -5,13 +5,12 @@ import TaskCard from '../components/TaskCard';
 import TaskModal from '../components/TaskModal';
 import AddMemberModal from '../components/AddMemberModal';
 import toast from 'react-hot-toast';
-import { HiOutlinePlus, HiOutlineArrowLeft, HiOutlineUserAdd, HiOutlineDotsHorizontal } from 'react-icons/hi';
 
 const COLUMNS = [
-  { id: 'todo', title: 'To Do', color: 'bg-gray-100 dark:bg-gray-800/50' },
-  { id: 'in-progress', title: 'In Progress', color: 'bg-blue-50 dark:bg-blue-900/20' },
-  { id: 'review', title: 'Review', color: 'bg-amber-50 dark:bg-amber-900/20' },
-  { id: 'done', title: 'Done', color: 'bg-green-50 dark:bg-green-900/20' },
+  { id: 'todo', title: 'To Do', cls: 'kanban-column-todo' },
+  { id: 'in-progress', title: 'In Progress', cls: 'kanban-column-progress' },
+  { id: 'review', title: 'Review', cls: 'kanban-column-review' },
+  { id: 'done', title: 'Done', cls: 'kanban-column-done' },
 ];
 
 const ProjectBoard = () => {
@@ -124,97 +123,92 @@ const ProjectBoard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <div className="d-flex align-items-center justify-content-center py-5" style={{ minHeight: '60vh' }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col">
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 lg:px-8 py-4">
-        <div className="max-w-7xl mx-auto w-full">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Link to="/" className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                <HiOutlineArrowLeft className="w-5 h-5" />
-              </Link>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{project?.projectName}</h1>
-                {project?.description && (
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{project.description}</p>
-                )}
-              </div>
+    <div className="d-flex flex-column" style={{ height: 'calc(100vh - 56px)' }}>
+      <div className="bg-white border-bottom px-4 py-3">
+        <div className="d-flex align-items-center justify-content-between" style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <div className="d-flex align-items-center gap-3">
+            <Link to="/" className="btn-ghost p-2 rounded text-muted">
+              <i className="bi bi-arrow-left fs-5"></i>
+            </Link>
+            <div>
+              <h1 className="h5 fw-bold text-dark mb-0">{project?.projectName}</h1>
+              {project?.description && (
+                <small className="text-muted">{project.description}</small>
+              )}
+            </div>
+          </div>
+
+          <div className="d-flex align-items-center gap-3">
+            <div className="avatar-group">
+              {project?.members?.slice(0, 4).map((member) => (
+                <div
+                  key={member._id}
+                  className="avatar-sm rounded-circle d-flex align-items-center justify-content-center"
+                  style={{ backgroundColor: '#d1d5db', color: '#4b5563', fontWeight: 700, fontSize: '.65rem' }}
+                  title={member.name}
+                >
+                  {member.name?.charAt(0).toUpperCase()}
+                </div>
+              ))}
             </div>
 
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-2 mr-2">
-                {project?.members?.slice(0, 4).map((member) => (
-                  <div
-                    key={member._id}
-                    className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 border-2 border-white dark:border-gray-800 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-300"
-                    title={member.name}
-                  >
-                    {member.name?.charAt(0).toUpperCase()}
-                  </div>
-                ))}
-              </div>
-
-              <button
-                onClick={() => setShowMemberModal(true)}
-                className="btn-secondary text-sm py-1.5 px-3 flex items-center gap-1"
-              >
-                <HiOutlineUserAdd className="w-4 h-4" /> Add Member
-              </button>
-            </div>
+            <button onClick={() => setShowMemberModal(true)} className="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
+              <i className="bi bi-person-plus"></i> Add Member
+            </button>
           </div>
         </div>
       </div>
 
-      <div className="flex-1 overflow-x-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="max-w-7xl mx-auto flex gap-6 h-full" style={{ minWidth: '700px' }}>
+      <div className="flex-grow-1 overflow-auto px-4 py-3">
+        <div className="d-flex gap-3 h-100" style={{ minWidth: '700px', maxWidth: '1280px', margin: '0 auto' }}>
           {COLUMNS.map((column) => {
             const columnTasks = getColumnTasks(column.id);
             return (
               <div
                 key={column.id}
-                className={`flex-1 flex flex-col rounded-xl ${column.color} p-4 min-w-[250px]`}
+                className={`kanban-column ${column.cls} d-flex flex-column`}
                 onDrop={(e) => handleDrop(e, column.id)}
                 onDragOver={handleDragOver}
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-sm">{column.title}</h3>
-                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 px-2 py-0.5 rounded-full">
-                      {columnTasks.length}
-                    </span>
+                <div className="d-flex align-items-center justify-content-between mb-3">
+                  <div className="d-flex align-items-center gap-2">
+                    <h6 className="fw-semibold text-dark mb-0 small">{column.title}</h6>
+                    <span className="badge bg-white text-muted border">{columnTasks.length}</span>
                   </div>
                   <button
                     onClick={() => {
                       setNewTask((t) => ({ ...t, column: column.id }));
                       setShowAddModal(true);
                     }}
-                    className="p-1 text-gray-400 dark:text-gray-500 hover:text-primary-600 dark:hover:text-primary-400 rounded hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors"
+                    className="btn-ghost p-1 rounded text-muted"
                   >
-                    <HiOutlinePlus className="w-4 h-4" />
+                    <i className="bi bi-plus"></i>
                   </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto space-y-3 min-h-[100px]">
+                <div className="flex-grow-1 overflow-auto d-flex flex-column gap-2" style={{ minHeight: '100px' }}>
                   {columnTasks.length === 0 && (
-                    <div className="text-center py-8">
-                      <p className="text-sm text-gray-400 dark:text-gray-500">No tasks</p>
+                    <div className="text-center py-4">
+                      <small className="text-muted">No tasks</small>
                     </div>
                   )}
                   {columnTasks.map((task) => (
-                    <div key={task._id}>
-                      <TaskCard
-                        task={task}
-                        onDragStart={handleDragStart}
-                        onClick={setSelectedTask}
-                        onDragEnd={handleDragEnd}
-                      />
-                    </div>
+                    <TaskCard
+                      key={task._id}
+                      task={task}
+                      onDragStart={handleDragStart}
+                      onClick={setSelectedTask}
+                      onDragEnd={handleDragEnd}
+                    />
                   ))}
                 </div>
               </div>
@@ -224,24 +218,28 @@ const ProjectBoard = () => {
       </div>
 
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="fixed inset-0 bg-black/50" onClick={() => setShowAddModal(false)} />
-          <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md z-10 mx-4 p-6">
-            <h2 className="text-lg font-semibold dark:text-gray-100 mb-4">
-              Add Task to {COLUMNS.find((c) => c.id === newTask.column)?.title}
-            </h2>
-            <input
-              type="text"
-              value={newTask.title}
-              onChange={(e) => setNewTask((t) => ({ ...t, title: e.target.value }))}
-              className="input-field mb-4"
-              placeholder="What needs to be done?"
-              autoFocus
-              onKeyDown={(e) => e.key === 'Enter' && handleCreateTask()}
-            />
-            <div className="flex gap-3">
-              <button onClick={handleCreateTask} className="btn-primary flex-1">Add Task</button>
-              <button onClick={() => setShowAddModal(false)} className="btn-secondary flex-1">Cancel</button>
+        <div className="modal d-block" tabIndex="-1" style={{ background: 'rgba(0,0,0,.5)' }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title fw-semibold">Add Task to {COLUMNS.find((c) => c.id === newTask.column)?.title}</h5>
+                <button type="button" className="btn-close" onClick={() => setShowAddModal(false)}></button>
+              </div>
+              <div className="modal-body">
+                <input
+                  type="text"
+                  value={newTask.title}
+                  onChange={(e) => setNewTask((t) => ({ ...t, title: e.target.value }))}
+                  className="form-control"
+                  placeholder="What needs to be done?"
+                  autoFocus
+                  onKeyDown={(e) => e.key === 'Enter' && handleCreateTask()}
+                />
+              </div>
+              <div className="modal-footer">
+                <button onClick={() => setShowAddModal(false)} className="btn btn-secondary">Cancel</button>
+                <button onClick={handleCreateTask} className="btn btn-primary">Add Task</button>
+              </div>
             </div>
           </div>
         </div>

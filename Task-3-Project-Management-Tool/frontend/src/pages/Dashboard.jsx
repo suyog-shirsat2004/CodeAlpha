@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { projectAPI } from '../services/api';
 import ProjectCard from '../components/ProjectCard';
 import toast from 'react-hot-toast';
-import { HiOutlinePlus } from 'react-icons/hi';
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -70,106 +69,124 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <div className="d-flex align-items-center justify-content-center py-5" style={{ minHeight: '60vh' }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex items-center justify-between mb-8">
+    <div className="container-fluid px-4 py-4" style={{ maxWidth: '1280px' }}>
+      <div className="d-flex align-items-center justify-content-between mb-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your projects and track progress</p>
+          <h1 className="h3 fw-bold text-dark">Dashboard</h1>
+          <p className="text-muted small mb-0">Manage your projects and track progress</p>
         </div>
-        <button onClick={() => setShowCreate(true)} className="btn-primary flex items-center gap-2">
-          <HiOutlinePlus className="w-5 h-5" />
+        <button onClick={() => setShowCreate(true)} className="btn btn-primary d-flex align-items-center gap-2">
+          <i className="bi bi-plus-lg"></i>
           New Project
         </button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div className="card text-center">
-          <p className="text-3xl font-bold text-primary-600">{stats.total}</p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Total Projects</p>
+      <div className="row g-3 mb-4">
+        <div className="col-sm-4">
+          <div className="card text-center p-4">
+            <div className="h2 fw-bold text-primary mb-1">{stats.total}</div>
+            <div className="small text-muted">Total Projects</div>
+          </div>
         </div>
-        <div className="card text-center">
-          <p className="text-3xl font-bold text-green-600">{stats.active}</p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Active</p>
+        <div className="col-sm-4">
+          <div className="card text-center p-4">
+            <div className="h2 fw-bold text-success mb-1">{stats.active}</div>
+            <div className="small text-muted">Active</div>
+          </div>
         </div>
-        <div className="card text-center">
-          <p className="text-3xl font-bold text-blue-600">{stats.completed}</p>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Completed</p>
+        <div className="col-sm-4">
+          <div className="card text-center p-4">
+            <div className="h2 fw-bold text-info mb-1">{stats.completed}</div>
+            <div className="small text-muted">Completed</div>
+          </div>
         </div>
       </div>
 
       {projects.length === 0 ? (
-        <div className="text-center py-20">
-          <div className="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-            <HiOutlinePlus className="w-8 h-8 text-gray-400 dark:text-gray-500" />
+        <div className="text-center py-5 fade-in">
+          <div className="d-inline-flex align-items-center justify-content-center rounded-circle bg-light p-4 mb-3">
+            <i className="bi bi-folder-plus text-muted" style={{ fontSize: '2rem' }}></i>
           </div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-1">No projects yet</h3>
-          <p className="text-gray-500 dark:text-gray-400 mb-4">Create your first project to get started</p>
-          <button onClick={() => setShowCreate(true)} className="btn-primary">
+          <h5 className="fw-semibold text-dark mb-1">No projects yet</h5>
+          <p className="text-muted small mb-3">Create your first project to get started</p>
+          <button onClick={() => setShowCreate(true)} className="btn btn-primary">
             Create Project
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="row g-4">
           {projects.map((project) => (
-            <ProjectCard key={project._id} project={project} onDelete={handleDelete} onToggleStatus={handleToggleStatus} />
+            <div key={project._id} className="col-sm-6 col-lg-4 fade-in">
+              <ProjectCard project={project} onDelete={handleDelete} onToggleStatus={handleToggleStatus} />
+            </div>
           ))}
         </div>
       )}
 
       {showCreate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="fixed inset-0 bg-black/50" onClick={() => setShowCreate(false)} />
-          <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md z-10 mx-4 p-6">
-            <h2 className="text-lg font-semibold dark:text-gray-100 mb-4">Create New Project</h2>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Project Name</label>
-                <input
-                  type="text"
-                  value={newProject.projectName}
-                  onChange={(e) => setNewProject((p) => ({ ...p, projectName: e.target.value }))}
-                  className="input-field"
-                  placeholder="My Awesome Project"
-                  autoFocus
-                />
+        <div className="modal d-block" tabIndex="-1" style={{ background: 'rgba(0,0,0,.5)' }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title fw-semibold">Create New Project</h5>
+                <button type="button" className="btn-close" onClick={() => setShowCreate(false)}></button>
               </div>
+              <div className="modal-body">
+                <div className="mb-3">
+                  <label className="form-label small fw-medium text-secondary">Project Name</label>
+                  <input
+                    type="text"
+                    value={newProject.projectName}
+                    onChange={(e) => setNewProject((p) => ({ ...p, projectName: e.target.value }))}
+                    className="form-control"
+                    placeholder="My Awesome Project"
+                    autoFocus
+                  />
+                </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description (optional)</label>
-                <textarea
-                  value={newProject.description}
-                  onChange={(e) => setNewProject((p) => ({ ...p, description: e.target.value }))}
-                  className="input-field min-h-[80px]"
-                  placeholder="What's this project about?"
-                  rows={3}
-                />
-              </div>
+                <div className="mb-3">
+                  <label className="form-label small fw-medium text-secondary">Description (optional)</label>
+                  <textarea
+                    value={newProject.description}
+                    onChange={(e) => setNewProject((p) => ({ ...p, description: e.target.value }))}
+                    className="form-control"
+                    placeholder="What's this project about?"
+                    rows={3}
+                  />
+                </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Color</label>
-                <div className="flex gap-2">
-                  {colors.map((color) => (
-                    <button
-                      key={color}
-                      onClick={() => setNewProject((p) => ({ ...p, color }))}
-                      className={`w-8 h-8 rounded-full transition-transform ${newProject.color === color ? 'ring-2 ring-offset-2 ring-primary-500 scale-110' : ''}`}
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
+                <div className="mb-2">
+                  <label className="form-label small fw-medium text-secondary mb-2">Color</label>
+                  <div className="d-flex gap-2">
+                    {colors.map((color) => (
+                      <button
+                        key={color}
+                        onClick={() => setNewProject((p) => ({ ...p, color }))}
+                        className="btn p-0 rounded-circle"
+                        style={{
+                          width: '2rem',
+                          height: '2rem',
+                          backgroundColor: color,
+                          outline: newProject.color === color ? '3px solid var(--primary)' : 'none',
+                          outlineOffset: '2px',
+                        }}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
-
-              <div className="flex gap-3 pt-2">
-                <button onClick={handleCreate} className="btn-primary flex-1">Create Project</button>
-                <button onClick={() => setShowCreate(false)} className="btn-secondary flex-1">Cancel</button>
+              <div className="modal-footer">
+                <button onClick={() => setShowCreate(false)} className="btn btn-secondary">Cancel</button>
+                <button onClick={handleCreate} className="btn btn-primary">Create Project</button>
               </div>
             </div>
           </div>

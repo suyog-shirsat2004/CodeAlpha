@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import { HiOutlineX, HiOutlineTrash, HiOutlinePaperAirplane } from 'react-icons/hi';
 import { taskAPI, commentAPI } from '../services/api';
 import toast from 'react-hot-toast';
 
@@ -86,115 +85,121 @@ const TaskModal = ({ task, isOpen, onClose, onUpdate, onDelete, projectMembers }
   if (!isOpen || !task) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-10 sm:pt-20">
-      <div className="fixed inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto z-10 mx-4">
-        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between rounded-t-2xl">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Edit Task</h2>
-          <button onClick={onClose} className="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-            <HiOutlineX className="w-5 h-5" />
-          </button>
-        </div>
-
-        <div className="p-6 space-y-4">
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="input-field text-lg font-medium"
-            placeholder="Task title"
-          />
-
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="input-field min-h-[80px] resize-y"
-            placeholder="Add a description..."
-            rows={3}
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
-              <select value={status} onChange={(e) => setStatus(e.target.value)} className="input-field">
-                <option value="todo">To Do</option>
-                <option value="in-progress">In Progress</option>
-                <option value="review">Review</option>
-                <option value="done">Done</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
-              <select value={priority} onChange={(e) => setPriority(e.target.value)} className="input-field">
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
-                <option value="urgent">Urgent</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Assign To</label>
-              <select value={assignedTo} onChange={(e) => setAssignedTo(e.target.value)} className="input-field">
-                <option value="">Unassigned</option>
-                {projectMembers?.map((m) => (
-                  <option key={m._id} value={m._id}>{m.name}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Due Date</label>
-              <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="input-field" />
-            </div>
+    <div className="modal d-block" tabIndex="-1" style={{ background: 'rgba(0,0,0,.5)' }}>
+      <div className="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title fw-semibold">Edit Task</h5>
+            <button type="button" className="btn-close" onClick={onClose}></button>
           </div>
 
-          <div className="flex items-center gap-3 pt-2">
-            <button onClick={handleSave} disabled={loading} className="btn-primary">
-              {loading ? 'Saving...' : 'Save Changes'}
-            </button>
-            <button onClick={handleDelete} className="btn-danger flex items-center gap-1">
-              <HiOutlineTrash className="w-4 h-4" /> Delete
-            </button>
-          </div>
-        </div>
+          <div className="modal-body">
+            <div className="mb-3">
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="form-control form-control-lg fw-medium"
+                placeholder="Task title"
+              />
+            </div>
 
-        <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4">
-          <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-4">Comments ({comments.length})</h3>
+            <div className="mb-3">
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="form-control"
+                placeholder="Add a description..."
+                rows={3}
+              />
+            </div>
 
-          <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
-            {comments.length === 0 && (
-              <p className="text-sm text-gray-400 dark:text-gray-500">No comments yet.</p>
-            )}
-            {comments.map((comment) => (
-              <div key={comment._id} className="flex gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 flex items-center justify-center text-xs font-bold flex-shrink-0">
-                  {comment.user?.name?.charAt(0).toUpperCase() || '?'}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{comment.user?.name}</span>
-                    <span className="text-xs text-gray-400 dark:text-gray-500">{format(new Date(comment.createdAt), 'MMM d, h:mm a')}</span>
-                  </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{comment.message}</p>
-                </div>
+            <div className="row g-3 mb-3">
+              <div className="col-sm-6">
+                <label className="form-label small fw-medium text-secondary">Status</label>
+                <select value={status} onChange={(e) => setStatus(e.target.value)} className="form-select">
+                  <option value="todo">To Do</option>
+                  <option value="in-progress">In Progress</option>
+                  <option value="review">Review</option>
+                  <option value="done">Done</option>
+                </select>
               </div>
-            ))}
-          </div>
 
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
-              className="input-field flex-1"
-              placeholder="Write a comment..."
-            />
-            <button onClick={handleAddComment} className="btn-primary px-3" disabled={!newComment.trim()}>
-              <HiOutlinePaperAirplane className="w-4 h-4" />
-            </button>
+              <div className="col-sm-6">
+                <label className="form-label small fw-medium text-secondary">Priority</label>
+                <select value={priority} onChange={(e) => setPriority(e.target.value)} className="form-select">
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="urgent">Urgent</option>
+                </select>
+              </div>
+
+              <div className="col-sm-6">
+                <label className="form-label small fw-medium text-secondary">Assign To</label>
+                <select value={assignedTo} onChange={(e) => setAssignedTo(e.target.value)} className="form-select">
+                  <option value="">Unassigned</option>
+                  {projectMembers?.map((m) => (
+                    <option key={m._id} value={m._id}>{m.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="col-sm-6">
+                <label className="form-label small fw-medium text-secondary">Due Date</label>
+                <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="form-control" />
+              </div>
+            </div>
+
+            <div className="d-flex gap-2">
+              <button onClick={handleSave} disabled={loading} className="btn btn-primary">
+                {loading ? 'Saving...' : 'Save Changes'}
+              </button>
+              <button onClick={handleDelete} className="btn btn-outline-danger d-flex align-items-center gap-1">
+                <i className="bi bi-trash"></i> Delete
+              </button>
+            </div>
+
+            <hr />
+
+            <h6 className="fw-semibold text-dark mb-3">Comments ({comments.length})</h6>
+
+            <div className="d-flex flex-column gap-3 mb-3" style={{ maxHeight: '240px', overflowY: 'auto' }}>
+              {comments.length === 0 && (
+                <small className="text-muted">No comments yet.</small>
+              )}
+              {comments.map((comment) => (
+                <div key={comment._id} className="d-flex gap-2">
+                  <div
+                    className="avatar-sm rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                    style={{ background: 'linear-gradient(135deg, #6366f1, #818cf8)', color: '#fff', fontSize: '.6rem', fontWeight: 700 }}
+                  >
+                    {comment.user?.name?.charAt(0).toUpperCase() || '?'}
+                  </div>
+                  <div className="flex-grow-1 min-w-0">
+                    <div className="d-flex align-items-center gap-2">
+                      <span className="small fw-semibold text-dark">{comment.user?.name}</span>
+                      <span className="small text-muted">{format(new Date(comment.createdAt), 'MMM d, h:mm a')}</span>
+                    </div>
+                    <p className="small text-secondary mt-1 mb-0">{comment.message}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="input-group">
+              <input
+                type="text"
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAddComment()}
+                className="form-control"
+                placeholder="Write a comment..."
+              />
+              <button onClick={handleAddComment} className="btn btn-primary" disabled={!newComment.trim()}>
+                <i className="bi bi-send"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>

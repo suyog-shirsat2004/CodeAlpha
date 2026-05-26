@@ -1,49 +1,207 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  body {
-    @apply bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased;
-  }
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --primary-light: #eef2ff;
+  --bg-body: #f8fafc;
+  --card-shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
 }
 
-@layer components {
-  .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-  .btn-secondary {
-    @apply bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
-  }
-  .btn-danger {
-    @apply bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
-  }
-  .input-field {
-    @apply w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all duration-200;
-  }
-  .card {
-    @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6;
-  }
+body {
+  background-color: var(--bg-body);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+.card {
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: .75rem;
 }
-::-webkit-scrollbar-track {
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+
+.form-control, .form-select {
+  border-radius: .5rem;
+  border-color: #d1d5db;
+  padding: .5rem .75rem;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99,102,241,.15);
+}
+
+.btn {
+  border-radius: .5rem;
+  font-weight: 500;
+  padding: .5rem 1rem;
+  transition: all .2s;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-ghost {
+  color: #6b7280;
   background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  border: none;
 }
 
-/* Kanban card drag styles */
+.btn-ghost:hover {
+  color: #374151;
+  background-color: #f3f4f6;
+}
+
+.btn-danger-ghost {
+  color: #9ca3af;
+  background: transparent;
+  border: none;
+}
+
+.btn-danger-ghost:hover {
+  color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.badge {
+  font-weight: 500;
+  font-size: .75rem;
+  padding: .25rem .625rem;
+  border-radius: 9999px;
+}
+
+.avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: .875rem;
+  flex-shrink: 0;
+}
+
+.avatar-sm {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: .7rem;
+}
+
+.avatar-initials {
+  background: linear-gradient(135deg, var(--primary), #818cf8);
+  color: #fff;
+}
+
+.avatar-group {
+  display: flex;
+}
+
+.avatar-group .avatar,
+.avatar-group .avatar-sm {
+  border: 2px solid #fff;
+  margin-right: -.5rem;
+}
+
+.avatar-group .avatar:last-child,
+.avatar-group .avatar-sm:last-child {
+  margin-right: 0;
+}
+
+.text-primary { color: var(--primary) !important; }
+
+.bg-primary-light { background-color: var(--primary-light); }
+
+.fade-in {
+  animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Kanban */
+.kanban-column {
+  border-radius: .75rem;
+  padding: 1rem;
+  flex: 1;
+  min-width: 250px;
+}
+
+.kanban-column-todo { background-color: #f3f4f6; }
+.kanban-column-progress { background-color: #eff6ff; }
+.kanban-column-review { background-color: #fffbeb; }
+.kanban-column-done { background-color: #ecfdf5; }
+
+.task-card {
+  background: #fff;
+  border-radius: .5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  border: 1px solid #e5e7eb;
+  padding: .75rem;
+  cursor: grab;
+  transition: box-shadow .2s;
+}
+
+.task-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,.1);
+}
+
+.task-card:active {
+  cursor: grabbing;
+}
+
 .task-card-dragging {
-  opacity: 0.5;
+  opacity: .5;
   transform: rotate(3deg);
 }
+
+/* Modal */
+.modal-content {
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+}
+
+.modal-header {
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 1.5rem;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-footer {
+  border-top: 1px solid #e5e7eb;
+  padding: 1rem 1.5rem;
+}
+
+.hover-bg:hover {
+  background-color: #f9fafb;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }

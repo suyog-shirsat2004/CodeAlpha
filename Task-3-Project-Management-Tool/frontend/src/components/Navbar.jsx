@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { HiOutlineViewBoards, HiOutlineLogout, HiOutlineSun, HiOutlineMoon } from 'react-icons/hi';
 
 const Navbar = ({ darkMode, toggleDarkMode }) => {
   const { user, logout } = useAuth();
@@ -17,46 +16,35 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     : 'U';
 
   return (
-    <nav className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold text-primary-600 dark:text-primary-400">
-            <HiOutlineViewBoards className="w-7 h-7" />
-            <span>ProjectFlow</span>
-          </Link>
+    <nav className="navbar navbar-expand bg-white border-bottom shadow-sm px-3">
+      <div className="container-fluid">
+        <Link to="/" className="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary">
+          <i className="bi bi-grid-3x3-gap-fill fs-4"></i>
+          ProjectFlow
+        </Link>
 
-          {user && (
-            <div className="flex items-center gap-4">
-              <button
-                onClick={toggleDarkMode}
-                className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              >
-                {darkMode ? <HiOutlineSun className="w-5 h-5" /> : <HiOutlineMoon className="w-5 h-5" />}
-              </button>
+        {user && (
+          <div className="d-flex align-items-center gap-3">
+            <button onClick={toggleDarkMode} className="btn-ghost p-2 rounded">
+              {darkMode ? <i className="bi bi-sun fs-5"></i> : <i className="bi bi-moon fs-5"></i>}
+            </button>
 
-              <div className="flex items-center gap-3">
-                <Link to="/" className="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors">
-                  Dashboard
-                </Link>
+            <Link to="/" className="btn-ghost text-decoration-none small fw-medium px-2 py-1 rounded">
+              Dashboard
+            </Link>
+
+            <div className="d-flex align-items-center gap-2">
+              <div className="avatar avatar-initials" style={{ width: '2rem', height: '2rem', fontSize: '.7rem' }}>
+                {initials}
               </div>
-
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-primary-600 text-white flex items-center justify-center text-xs font-bold">
-                  {initials}
-                </div>
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">{user.name}</span>
-              </div>
-
-              <button
-                onClick={handleLogout}
-                className="p-2 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                title="Logout"
-              >
-                <HiOutlineLogout className="w-5 h-5" />
-              </button>
+              <span className="small fw-medium text-secondary d-none d-sm-block">{user.name}</span>
             </div>
-          )}
-        </div>
+
+            <button onClick={handleLogout} className="btn-danger-ghost p-2 rounded" title="Logout">
+              <i className="bi bi-box-arrow-right fs-5"></i>
+            </button>
+          </div>
+        )}
       </div>
     </nav>
   );

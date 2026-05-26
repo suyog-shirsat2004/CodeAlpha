@@ -10,15 +10,18 @@ import Dashboard from './pages/Dashboard';
 import ProjectBoard from './pages/ProjectBoard';
 
 const AppContent = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    document.documentElement.getAttribute('data-bs-theme') === 'dark'
+  );
 
   const toggleDarkMode = () => {
-    setDarkMode((prev) => !prev);
-    document.documentElement.classList.toggle('dark');
+    const next = !darkMode;
+    setDarkMode(next);
+    document.documentElement.setAttribute('data-bs-theme', next ? 'dark' : 'light');
   };
 
   return (
-    <div className={darkMode ? 'dark' : ''}>
+    <>
       <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <Routes>
         <Route path="/login" element={<Login />} />
@@ -41,7 +44,7 @@ const AppContent = () => {
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </div>
+    </>
   );
 };
 
