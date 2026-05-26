@@ -3,6 +3,11 @@ const APP_VERSION = '1.0.0';
 
 function isCurrentPage(page) { return window.location.pathname.endsWith(page); }
 
+function basePath() {
+  var p = window.location.pathname;
+  return p.substring(0, p.lastIndexOf('/') + 1);
+}
+
 function isHomePage() {
   var p = window.location.pathname;
   return p === '/' || p.endsWith('/index.html') || p.endsWith('/Task-2/');
@@ -160,7 +165,7 @@ if (nav) {
 document.getElementById('logout-btn')?.addEventListener('click', async (e) => {
   e.preventDefault();
   await api('/api/logout', { method: 'POST' });
-  window.location.href = '.';
+  window.location.href = basePath();
 });
 
 /* ============================================
@@ -196,7 +201,7 @@ if (isCurrentPage('/login.html')) {
     try {
       const endpoint = isRegister ? '/api/register' : '/api/login';
       await api(endpoint, { method: 'POST', body: JSON.stringify({ username, password }) });
-      window.location.href = '.';
+      window.location.href = basePath();
     } catch (err) {
       errorDiv.textContent = err.message;
       errorDiv.classList.remove('d-none');
