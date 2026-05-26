@@ -43,23 +43,43 @@
   ],
   "posts": [
     {
-      "id": "mpj7xgkr0yyo",
-      "userId": "mpj6zvlzxloh",
-      "content": "\"From finishing matches with his iconic helicopter shot to leading India to historic victories, MS Dhoni has redefined what it means to be a true game‑changer. A legend forever! 🏆 #MSDhoni #CricketLegend\"",
-      "imageUrl": "http://localhost:3000/uploads/1779593320794-qqfoos.jpg",
+      "id": "p001",
+      "userId": "usr01rahul",
+      "content": "Just finished building a new React component! 🚀",
+      "imageUrl": "",
       "videoUrl": "",
-      "createdAt": "2026-05-24T03:29:04.299Z",
-      "likeCount": 1,
+      "createdAt": "2026-05-25T10:00:00.000Z",
+      "likeCount": 3,
       "commentCount": 1
+    },
+    {
+      "id": "p002",
+      "userId": "usr03kiran",
+      "content": "New design system palette — what do you think?",
+      "imageUrl": "",
+      "videoUrl": "",
+      "createdAt": "2026-05-25T09:00:00.000Z",
+      "likeCount": 2,
+      "commentCount": 0
+    },
+    {
+      "id": "p003",
+      "userId": "usr01rahul",
+      "content": "Anyone else excited for the new framework release?",
+      "imageUrl": "",
+      "videoUrl": "",
+      "createdAt": "2026-05-25T08:00:00.000Z",
+      "likeCount": 2,
+      "commentCount": 0
     }
   ],
   "comments": [
     {
-      "id": "mpj7xwh8o6o4",
-      "postId": "mpj7xgkr0yyo",
-      "userId": "mpj6zvlzxloh",
-      "content": "wow",
-      "createdAt": "2026-05-24T03:29:24.908Z"
+      "id": "c001",
+      "postId": "p001",
+      "userId": "usr03kiran",
+      "content": "Looks great! 🔥",
+      "createdAt": "2026-05-25T10:30:00.000Z"
     }
   ],
   "follows": [
@@ -72,13 +92,48 @@
       "id": "mpj9qak50i9m",
       "followerId": "mpj6zvlzxloh",
       "followingId": "usr02pranav"
+    },
+    {
+      "id": "f001",
+      "followerId": "mpj6zvlzxloh",
+      "followingId": "usr03kiran"
     }
   ],
   "likes": [
     {
-      "id": "mpj7xlh0zloz",
-      "postId": "mpj7xgkr0yyo",
+      "id": "l001",
+      "postId": "p001",
       "userId": "mpj6zvlzxloh"
+    },
+    {
+      "id": "l002",
+      "postId": "p001",
+      "userId": "usr02pranav"
+    },
+    {
+      "id": "l003",
+      "postId": "p001",
+      "userId": "usr03kiran"
+    },
+    {
+      "id": "l004",
+      "postId": "p002",
+      "userId": "mpj6zvlzxloh"
+    },
+    {
+      "id": "l005",
+      "postId": "p002",
+      "userId": "usr01rahul"
+    },
+    {
+      "id": "l006",
+      "postId": "p003",
+      "userId": "mpj6zvlzxloh"
+    },
+    {
+      "id": "l007",
+      "postId": "p003",
+      "userId": "usr03kiran"
     }
   ]
 }

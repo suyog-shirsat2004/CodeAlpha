@@ -221,7 +221,7 @@ app.get('/api/posts', requireAuth, (req, res) => {
     const user = db.users.find(u => u.id === p.userId);
     const isLiked = db.likes.some(l => l.postId === p.id && l.userId === req.session.userId);
     return { ...p, user: user ? { id: user.id, username: user.username, displayName: user.displayName, avatar: user.avatar } : null, isLiked };
-  });
+  }).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   res.json({ posts });
 });
 
@@ -236,7 +236,8 @@ app.get('/api/posts/feed', requireAuth, (req, res) => {
       const user = db.users.find(u => u.id === p.userId);
       const isLiked = db.likes.some(l => l.postId === p.id && l.userId === req.session.userId);
       return { ...p, user: user ? { id: user.id, username: user.username, displayName: user.displayName, avatar: user.avatar } : null, isLiked };
-    });
+    })
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   res.json({ posts });
 });
 
@@ -248,7 +249,8 @@ app.get('/api/posts/user/:userId', (req, res) => {
       const user = db.users.find(u => u.id === p.userId);
       const isLiked = req.session.userId ? db.likes.some(l => l.postId === p.id && l.userId === req.session.userId) : false;
       return { ...p, user: user ? { id: user.id, username: user.username, displayName: user.displayName, avatar: user.avatar } : null, isLiked };
-    });
+    })
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   res.json({ posts });
 });
 
@@ -341,7 +343,7 @@ app.post('/api/comments/:postId', requireAuth, (req, res) => {
   db.comments.push(comment);
   post.commentCount = db.comments.filter(c => c.postId === req.params.postId).length;
   writeDB(db);
-  res.json({ comment });
+  res.json({ comment, commentCount: post.commentCount });
 });
 
 app.delete('/api/comments/:commentId', requireAuth, (req, res) => {
