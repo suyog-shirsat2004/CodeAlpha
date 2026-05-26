@@ -270,6 +270,7 @@
         fIds.push(uid7);
         var ps = d.posts.filter(function (p) { return fIds.indexOf(p.userId) !== -1; });
         ps = affix(ps, d, uid7);
+        ps.sort(function (a, b) { return new Date(b.createdAt) - new Date(a.createdAt); });
         return jr(200, { posts: ps });
       }
 
@@ -277,6 +278,7 @@
       if (m6 && method === 'GET') {
         var ps2 = d.posts.filter(function (p) { return p.userId === m6[1]; });
         ps2 = affix(ps2, d, d._s || null);
+        ps2.sort(function (a, b) { return new Date(b.createdAt) - new Date(a.createdAt); });
         return jr(200, { posts: ps2 });
       }
 
@@ -309,6 +311,7 @@
       if (m8 && method === 'GET') {
         var lpIds = d.likes.filter(function (l) { return l.userId === m8[1]; }).map(function (l) { return l.postId; });
         var ps3 = d.posts.filter(function (p) { return lpIds.indexOf(p.id) !== -1; });
+        ps3.sort(function (a, b) { return new Date(b.createdAt) - new Date(a.createdAt); });
         ps3 = ps3.map(function (p) {
           var u = user(d, p.userId);
           return Object.assign({}, p, { user: u ? { id: u.id, username: u.username, displayName: u.displayName, avatar: u.avatar } : null, isLiked: true });
@@ -359,7 +362,7 @@
         d.comments.push(com);
         p6.commentCount = d.comments.filter(function (c) { return c.postId === p6.id; }).length;
         sv(d);
-        return jr(200, { comment: com });
+        return jr(200, { comment: com, commentCount: p6.commentCount });
       }
 
       if (m11 && method === 'DELETE') {

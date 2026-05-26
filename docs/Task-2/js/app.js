@@ -406,31 +406,32 @@ function renderPosts(posts) {
   return '<div class="card shadow-sm border-0 rounded-4 p-3">' + posts.map((p, i) => {
     const user = p.user;
     return `
-    <div class="post-item" style="animation-delay:${i * 0.06}s">
+    <div class="post-item" data-post-id="${p.id}" style="animation-delay:${i * 0.06}s">
       <div class="post-header">
         <div class="post-avatar">${user && user.avatar ? `<img src="${user.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">` : (user ? getInitials(user.displayName) : '?')}</div>
         <div class="post-header-info">
           <a href="profile.html?id=${user ? user.id : ''}" class="post-author">${user ? escHtml(user.displayName) : 'Unknown'}</a>
           <div class="post-time">${timeAgo(p.createdAt)}</div>
         </div>
-      ${__currentUserId && user && user.id === __currentUserId ? `<div class="post-header-actions"><button class="post-edit-btn" onclick="openEditPost('${p.id}')" title="Edit"><i class="bi bi-pencil"></i></button><button class="post-delete-btn" onclick="deletePost('${p.id}')" title="Delete"><i class="bi bi-trash3"></i></button></div>` : ''}
+      ${__currentUserId && user && user.id === __currentUserId ? `<div class="post-header-actions"><button class="post-edit-btn" onclick="openEditPost('${p.id}')" title="Edit"><i class="bi bi-pencil"></i></button><button class="post-delete-btn" onclick="deletePost('${p.id}', this)" title="Delete"><i class="bi bi-trash3"></i></button></div>` : ''}
       </div>
       ${p.content ? `<div class="post-text">${escHtml(p.content)}</div>` : ''}
       ${p.imageUrl ? `<div class="post-media"><img src="${p.imageUrl}" alt="" loading="lazy"></div>` : ''}
       ${p.videoUrl ? `<div class="post-media"><video src="${p.videoUrl}" controls preload="metadata"></video></div>` : ''}
       <div class="post-actions">
-        <button class="${p.isLiked ? 'liked' : ''}" onclick="toggleLike('${p.id}', this)">${p.isLiked ? '❤️' : '♡'} <span>${p.likeCount || 0}</span></button>
-        <button onclick="openComments('${p.id}')">💬 <span>${p.commentCount || 0}</span></button>
+        <button class="${p.isLiked ? 'liked' : ''}" onclick="toggleLike('${p.id}', this)">${p.isLiked ? '❤️' : '♡'} <span>${Number(p.likeCount) || 0}</span></button>
+        <button onclick="openComments('${p.id}')">💬 <span>${Number(p.commentCount) || 0}</span></button>
       </div>
     </div>`;
   }).join('') + '</div>';
 }
 
-async function deletePost(postId) {
+async function deletePost(postId, btn) {
   if (!confirm('Delete this post?')) return;
   try {
     await api('/api/posts/' + postId, { method: 'DELETE' });
-    window.location.reload();
+    const el = btn ? btn.closest('.post-item') : document.querySelector(`[data-post-id="${postId}"]`);
+    if (el) el.remove();
   } catch (err) { alert(err.message); }
 }
 
@@ -510,7 +511,7 @@ async function openComments(postId) {
       document.querySelectorAll('.post-actions button').forEach(b => {
         if (b.innerHTML.includes('💬')) {
           const span = b.querySelector('span');
-          if (span) span.textContent = parseInt(span.textContent) + 1;
+          if (span) span.textContent = data.commentCount;
         }
       });
     } catch { }
