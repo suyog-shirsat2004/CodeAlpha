@@ -100,6 +100,8 @@ function findAll(table, conditions = {}, options = {}) {
   let sql = `SELECT * FROM ${table}`;
   const clauses = [];
 
+  conditions = { ...conditions };
+
   if (conditions.$or) {
     const orClauses = conditions.$or.map(cond => {
       return '(' + Object.entries(cond).map(([k, v]) => {

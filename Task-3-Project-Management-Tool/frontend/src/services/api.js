@@ -1,11 +1,12 @@
 import { authAPI as mockAuth, projectAPI as mockProject, taskAPI as mockTask, commentAPI as mockComment } from './mock-api';
 import axios from 'axios';
 
-const useMock = typeof window !== 'undefined' && (
-  window.location.hostname.includes('github.io') ||
-  window.location.hostname.includes('vercel.app') ||
-  window.location.hostname.includes('netlify.app') ||
-  !['localhost', '127.0.0.1', '0.0.0.0'].some(h => window.location.hostname.includes(h))
+const useMock = process.env.REACT_APP_USE_MOCK === 'true' || (
+  typeof window !== 'undefined' && (
+    window.location.hostname.includes('github.io') ||
+    window.location.hostname.includes('vercel.app') ||
+    window.location.hostname.includes('netlify.app')
+  )
 );
 
 let authAPI, projectAPI, taskAPI, commentAPI;
@@ -42,7 +43,7 @@ if (useMock) {
     login: (data) => API.post('/auth/login', data),
     getMe: () => API.get('/auth/me'),
     updateProfile: (data) => API.put('/auth/profile', data),
-    searchUsers: (query) => API.get(`/auth/search?q=${query}`),
+    searchUsers: (query) => API.get('/auth/search', { params: { q: query } }),
   };
 
   projectAPI = {

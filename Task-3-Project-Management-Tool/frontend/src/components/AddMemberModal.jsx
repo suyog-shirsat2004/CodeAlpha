@@ -19,7 +19,9 @@ const AddMemberModal = ({ isOpen, onClose, project, onMemberAdded }) => {
       const { data } = await authAPI.searchUsers(q);
       const memberIds = project.members?.map((m) => m._id) || [];
       setResults(data.filter((u) => !memberIds.includes(u._id)));
-    } catch {
+    } catch (err) {
+      console.error('Search failed:', err);
+      toast.error(err.response?.data?.message || 'Failed to search users');
       setResults([]);
     }
     setSearching(false);
