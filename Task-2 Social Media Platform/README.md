@@ -1,4 +1,4 @@
-# ShareSphere — Social Media Platform
+# ShareSphere — Social Media Platform (Task 2)
 
 Full-stack social media application with an Express.js backend and a responsive HTML/CSS/JS frontend.
 
