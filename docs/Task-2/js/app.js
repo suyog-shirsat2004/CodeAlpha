@@ -299,7 +299,7 @@ if (isHomePage()) {
         <div class="suggested-user" style="animation-delay:${i * 0.08}s">
           <div class="su-avatar">${u.avatar ? `<img src="${u.avatar}">` : getInitials(u.displayName)}</div>
           <div class="su-info">
-            <a href="/profile.html?id=${u.id}" class="su-name">${escHtml(u.displayName)}</a>
+            <a href="profile.html?id=${u.id}" class="su-name">${escHtml(u.displayName)}</a>
             <div class="su-username">@${escHtml(u.username)}</div>
           </div>
           <button class="btn btn-sm rounded-pill ${u.isFollowing ? 'btn-outline-danger' : 'btn-primary'}" onclick="suggestedFollow('${u.id}', this)">${u.isFollowing ? 'Unfollow' : 'Follow'}</button>
@@ -410,7 +410,7 @@ function renderPosts(posts) {
       <div class="post-header">
         <div class="post-avatar">${user && user.avatar ? `<img src="${user.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">` : (user ? getInitials(user.displayName) : '?')}</div>
         <div class="post-header-info">
-          <a href="/profile.html?id=${user ? user.id : ''}" class="post-author">${user ? escHtml(user.displayName) : 'Unknown'}</a>
+          <a href="profile.html?id=${user ? user.id : ''}" class="post-author">${user ? escHtml(user.displayName) : 'Unknown'}</a>
           <div class="post-time">${timeAgo(p.createdAt)}</div>
         </div>
       ${__currentUserId && user && user.id === __currentUserId ? `<div class="post-header-actions"><button class="post-edit-btn" onclick="openEditPost('${p.id}')" title="Edit"><i class="bi bi-pencil"></i></button><button class="post-delete-btn" onclick="deletePost('${p.id}')" title="Delete"><i class="bi bi-trash3"></i></button></div>` : ''}
@@ -530,7 +530,7 @@ async function loadComments(postId) {
         return `
         <div class="comment-item">
           <div class="d-flex align-items-center gap-2 mb-1">
-            <a href="/profile.html?id=${c.user.id}" class="comment-author">${escHtml(c.user.displayName)}</a>
+            <a href="profile.html?id=${c.user.id}" class="comment-author">${escHtml(c.user.displayName)}</a>
             <span class="comment-time">${timeAgo(c.createdAt)}</span>
             ${canDelete ? `<button class="comment-delete-btn" onclick="deleteComment('${c.id}')" title="Delete"><i class="bi bi-x"></i></button>` : ''}
           </div>
@@ -682,7 +682,7 @@ if (isCurrentPage('/profile.html')) {
           <div class="follow-user-item">
             <div class="fu-avatar">${u.avatar ? `<img src="${u.avatar}">` : getInitials(u.displayName)}</div>
             <div class="fu-info">
-              <a href="/profile.html?id=${u.id}" class="fu-name">${escHtml(u.displayName)}</a>
+              <a href="profile.html?id=${u.id}" class="fu-name">${escHtml(u.displayName)}</a>
               <div class="fu-username">@${escHtml(u.username)}</div>
             </div>
             ${currentUser && u.id !== currentUser.id ? `<button class="btn btn-sm rounded-pill ${u.isFollowing ? 'btn-outline-danger' : 'btn-primary'}" onclick="followInList('${u.id}', this)">${u.isFollowing ? 'Unfollow' : 'Follow'}</button>` : ''}
@@ -705,7 +705,7 @@ if (isCurrentPage('/profile.html')) {
           <div class="follow-user-item">
             <div class="fu-avatar">${u.avatar ? `<img src="${u.avatar}">` : getInitials(u.displayName)}</div>
             <div class="fu-info">
-              <a href="/profile.html?id=${u.id}" class="fu-name">${escHtml(u.displayName)}</a>
+              <a href="profile.html?id=${u.id}" class="fu-name">${escHtml(u.displayName)}</a>
               <div class="fu-username">@${escHtml(u.username)}</div>
             </div>
             ${currentUser && u.id !== currentUser.id ? `<button class="btn btn-sm rounded-pill ${u.isFollowing ? 'btn-outline-danger' : 'btn-primary'}" onclick="followInList('${u.id}', this)">${u.isFollowing ? 'Unfollow' : 'Follow'}</button>` : ''}
