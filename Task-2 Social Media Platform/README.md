@@ -6,6 +6,17 @@ Full-stack social media application with an Express.js backend and a responsive 
 
 ---
 
+## All Tasks
+
+| Task | Project | Stack | Live Demo |
+|------|---------|-------|-----------|
+| **01** | [E-Commerce Store](https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-1%20Simple%20E-commerce%20Store) | Django REST + HTML/CSS/JS | [Live](https://suyog-shirsat2004.github.io/CodeAlpha/Task-1/) |
+| **02** | **Social Media Platform (ShareSphere)** ← you are here | Express.js + HTML/CSS/JS | [Live](https://suyog-shirsat2004.github.io/CodeAlpha/Task-2/) |
+| **03** | [Project Management Tool](https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-3-Project-Management-Tool) | MERN (MongoDB, Express, React, Node.js) | [Live](https://suyog-shirsat2004.github.io/CodeAlpha/Task-3/) |
+| **04** | [Real-Time Communication App](https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-4-Real-Time-Communication-App) | WebRTC, Socket.io, React, Node.js | [Live](https://suyog-shirsat2004.github.io/CodeAlpha/Task-4/) |
+
+---
+
 ## Live Demo
 
 | Page | URL |
