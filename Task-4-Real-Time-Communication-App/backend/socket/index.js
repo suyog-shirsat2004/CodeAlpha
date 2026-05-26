@@ -11,7 +11,7 @@ const setupSocket = (io) => {
       socket.data.roomCode = roomCode;
       socket.data.user = user;
       socket.join(roomCode);
-      socket.to(roomCode).emit('user-joined-room', { userId: user._id, name: user.name });
+      socket.to(roomCode).emit('user-joined-room', { socketId: socket.id, userId: user._id, name: user.name });
     });
 
     socket.on('leave-room', ({ roomCode, userId }) => {

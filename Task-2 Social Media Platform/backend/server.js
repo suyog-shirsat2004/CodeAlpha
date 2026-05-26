@@ -184,10 +184,10 @@ app.get('/api/users/:id/followers', (req, res) => {
 /* ---- POSTS ---- */
 app.post('/api/posts', requireAuth, (req, res) => {
   const { content, imageUrl, videoUrl } = req.body;
-  if (!content || !content.trim()) return res.status(400).json({ error: 'Content required' });
+  if ((!content || !content.trim()) && !imageUrl && !videoUrl) return res.status(400).json({ error: 'Content or media required' });
 
   const db = readDB();
-  const post = { id: id(), userId: req.session.userId, content, imageUrl: imageUrl || '', videoUrl: videoUrl || '', createdAt: new Date().toISOString(), likeCount: 0, commentCount: 0 };
+  const post = { id: id(), userId: req.session.userId, content: content || '', imageUrl: imageUrl || '', videoUrl: videoUrl || '', createdAt: new Date().toISOString(), likeCount: 0, commentCount: 0 };
   db.posts.unshift(post);
   writeDB(db);
   res.json({ post });

@@ -10,7 +10,8 @@ function basePath() {
 
 function isHomePage() {
   var p = window.location.pathname;
-  return p === '/' || p.endsWith('/index.html') || p.endsWith('/Task-2/');
+  var bp = basePath();
+  return p === '/' || p.endsWith('/index.html') || p === bp || p === bp.substring(0, bp.length - 1);
 }
 
 function setNavAvatar(user) {

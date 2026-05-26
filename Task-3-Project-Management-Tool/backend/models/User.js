@@ -79,6 +79,7 @@ function applySelect(doc, selectStr) {
   for (const f of fields) {
     if (f in doc) result[f] = doc[f];
   }
+  if (!('_id' in result) && '_id' in doc) result._id = doc._id;
   return result;
 }
 
@@ -89,8 +90,10 @@ function wrapQuery(doc) {
 const User = {
   findOne: function (conditions) {
     return new Query(async (q) => {
-      let doc = db.findOne(TABLE, conditions);
+      let docs = db.findAll(TABLE, conditions, { sort: q._sort, limit: 1 });
+      let doc = docs.length > 0 ? docs[0] : null;
       doc = wrap(doc);
+      if (q._select) doc = applySelect(doc, q._select);
       return doc;
     });
   },

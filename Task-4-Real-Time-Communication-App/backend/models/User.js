@@ -1,24 +1,39 @@
-const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const db = require('../config/db');
 
-const userSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-    password: { type: String, required: true, minlength: 6, select: false },
-    avatar: { type: String, default: '' },
+const TABLE = 'users';
+
+const User = {
+  findOne: function (conditions) {
+    const doc = db.findOne(TABLE, conditions);
+    return doc;
   },
-  { timestamps: true }
-);
 
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
-  next();
-});
+  findById: function (id) {
+    return db.findById(TABLE, id);
+  },
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  findAll: function (conditions = {}) {
+    return db.findAll(TABLE, conditions);
+  },
+
+  create: async function (data) {
+    const salt = await bcrypt.genSalt(10);
+    const hashed = await bcrypt.hash(data.password, salt);
+    return db.insert(TABLE, {
+      _id: db.genId(),
+      name: data.name,
+      email: data.email.toLowerCase().trim(),
+      password: hashed,
+      avatar: data.avatar || '',
+      createdAt: db.now(),
+      updatedAt: db.now(),
+    });
+  },
+
+  update: function (id, data) {
+    return db.update(TABLE, id, data);
+  },
 };
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = User;

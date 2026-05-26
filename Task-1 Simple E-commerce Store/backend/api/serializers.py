@@ -107,8 +107,14 @@ class CartSerializer(serializers.ModelSerializer):
         return sum(item.quantity for item in obj.items.all())
 
 class AddToCartSerializer(serializers.Serializer):
-    product_id = serializers.IntegerField()
+    product_id = serializers.IntegerField(required=False)
+    productId = serializers.IntegerField(required=False, source='product_id')
     quantity = serializers.IntegerField(default=1, min_value=1)
+
+    def validate(self, data):
+        if 'product_id' not in data or data.get('product_id') is None:
+            raise serializers.ValidationError({'product_id': 'This field is required.'})
+        return data
 
 # ─── Order ─────────────────────────────────────────────────────────────────────
 

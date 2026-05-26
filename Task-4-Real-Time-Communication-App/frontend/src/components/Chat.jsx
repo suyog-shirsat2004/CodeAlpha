@@ -26,8 +26,8 @@ const Chat = ({ socket, roomCode, userName }) => {
   const sendMessage = (e) => {
     e.preventDefault();
     if (!input.trim()) return;
-    socket.emit('chat:message', { roomCode, message: input.trim(), user: { _id: 'local', name: userName } });
-    setMessages((prev) => [...prev, { text: input.trim(), user: { name: userName }, timestamp: new Date().toISOString() }]);
+    socket.emit('chat:message', { roomCode, message: input.trim(), user: { _id: userName, name: userName } });
+    setMessages((prev) => [...prev, { text: input.trim(), user: { name: userName, _id: userName }, timestamp: new Date().toISOString() }]);
     setInput('');
   };
 

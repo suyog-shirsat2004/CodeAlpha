@@ -15,11 +15,14 @@ const Whiteboard = ({ socket, roomCode }) => {
     };
   };
 
+  const lastPos = useRef(null);
+
   const startDrawing = useCallback((e) => {
     const pos = getPos(e);
     const ctx = canvasRef.current.getContext('2d');
     ctx.beginPath();
     ctx.moveTo(pos.x, pos.y);
+    lastPos.current = pos;
     setIsDrawing(true);
   }, []);
 
@@ -33,11 +36,11 @@ const Whiteboard = ({ socket, roomCode }) => {
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
 
-    if (socket) {
+    if (socket && lastPos.current) {
       socket.emit('wb:draw', {
         roomCode,
         data: {
-          from: { x: pos.x - (pos.x - (pos.x - (pos.x))), y: pos.y - (pos.y - (pos.y - (pos.y))) },
+          from: lastPos.current,
           to: pos,
           color: tool === 'eraser' ? '#111827' : color,
           width: tool === 'eraser' ? lineWidth * 3 : lineWidth,
@@ -45,6 +48,7 @@ const Whiteboard = ({ socket, roomCode }) => {
         },
       });
     }
+    lastPos.current = pos;
   }, [isDrawing, color, lineWidth, tool, socket, roomCode]);
 
   const stopDrawing = () => {
@@ -61,6 +65,8 @@ const Whiteboard = ({ socket, roomCode }) => {
     if (!socket) return;
     const handleDraw = (data) => {
       const ctx = canvasRef.current.getContext('2d');
+      ctx.beginPath();
+      ctx.moveTo(data.from.x, data.from.y);
       ctx.strokeStyle = data.color;
       ctx.lineWidth = data.width;
       ctx.lineCap = 'round';

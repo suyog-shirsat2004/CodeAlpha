@@ -8,7 +8,7 @@ const priorityColors = {
   urgent: 'bg-red-100 text-red-700',
 };
 
-const TaskCard = ({ task, onDragStart, onClick }) => {
+const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
   const dueDate = task.dueDate ? new Date(task.dueDate) : null;
   const isOverdue = dueDate && isPast(dueDate) && !isToday(dueDate);
   const isDueToday = dueDate && isToday(dueDate);
@@ -17,6 +17,7 @@ const TaskCard = ({ task, onDragStart, onClick }) => {
     <div
       draggable
       onDragStart={(e) => onDragStart?.(e, task)}
+      onDragEnd={(e) => onDragEnd?.(e)}
       onClick={() => onClick?.(task)}
       className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow duration-200 group"
     >

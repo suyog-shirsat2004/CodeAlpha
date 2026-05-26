@@ -43,7 +43,7 @@ module.exports = (io, socket) => {
         fileName,
         fileType,
         size: buffer.length,
-        sender: socket.user?.name || 'Anonymous',
+        sender: socket.data.user?.name || 'Anonymous',
         encryptionKey,
         iv: encrypted.iv,
       };

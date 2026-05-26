@@ -77,13 +77,18 @@ const Room = () => {
       if (!stream) return;
 
       socket.emit('join-room', { roomCode, user });
+      socket.emit('video:join', { roomCode, user });
 
-      socket.on('user-joined-room', ({ userId, name }) => {
+      socket.on('user-joined-room', ({ socketId, userId, name }) => {
         setParticipants((prev) => [...prev.filter((p) => p.userId !== userId), { userId, name }]);
         if (userId !== user._id && stream) {
-          const peer = createPeer(socket.id, true, stream);
+          const peer = createPeer(socketId, true, stream);
           peersRef.current[userId] = peer;
         }
+      });
+
+      socket.on('room-users', (users) => {
+        setParticipants(users.map((u) => ({ userId: u.userId, name: u.name })));
       });
 
       socket.on('user-left-room', (userId) => {
@@ -124,6 +129,7 @@ const Room = () => {
       }
       const socket = getSocket();
       if (socket) {
+        socket.emit('video:leave', { roomCode, userId: user._id });
         socket.emit('leave-room', { roomCode, userId: user._id });
         disconnectSocket();
       }

@@ -2,11 +2,16 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
-const connectDB = require('./config/db');
+const { getDb } = require('./config/db');
 const keys = require('./config/keys');
 const setupSocket = require('./socket');
 
-connectDB();
+getDb().then(() => {
+  console.log('SQLite database initialized');
+}).catch(err => {
+  console.error('Database initialization error:', err);
+  process.exit(1);
+});
 
 const app = express();
 const server = http.createServer(app);

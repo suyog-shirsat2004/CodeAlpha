@@ -77,7 +77,9 @@ function wrap(projectData) {
 
   doc.deleteOne = async function () {
     db.removeMany('tasks', { project: this._id });
-    db.removeMany('comments', { task: this._id });
+    db.removeMany('comments', { task: this._id, _project: this._id });
+    const d = db.getDb();
+    d.prepare(`DELETE FROM comments WHERE task IN (SELECT _id FROM tasks WHERE project = ?)`).run(this._id);
     return db.remove(TABLE, this._id);
   };
 

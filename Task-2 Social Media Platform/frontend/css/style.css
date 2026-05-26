@@ -11,6 +11,7 @@
   --card-bg: #fffaf5;
   --card-shadow: 0 8px 32px rgba(255, 107, 53, 0.10);
   --gradient-hero: linear-gradient(135deg, #ff6b35 0%, #f7c59f 50%, #ffd166 100%);
+  --border: #e0d5cb;
   --brand-start: #a855f7;
   --brand-end: #3b82f6;
   --font-display: 'Fredoka', 'Segoe UI', sans-serif;
@@ -36,6 +37,10 @@ body {
   min-height: 64px;
   z-index: 1000;
   transition: all 0.3s ease;
+}
+#main-nav.scrolled {
+  background: rgba(43, 45, 66, 0.98);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 #main-nav::after {
   content: '';

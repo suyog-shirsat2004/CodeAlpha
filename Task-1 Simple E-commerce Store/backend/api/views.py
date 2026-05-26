@@ -253,7 +253,8 @@ def add_to_cart(request):
         return error_response(serializer.errors, 400)
 
     try:
-        product = Product.objects.get(pk=serializer.data['product_id'])
+        pid = serializer.data.get('product_id') or serializer.data.get('productId')
+        product = Product.objects.get(pk=pid)
     except Product.DoesNotExist:
         return error_response('Product not found', 404)
 
@@ -285,11 +286,12 @@ def update_cart_item(request, item_id):
     except (Cart.DoesNotExist, CartItem.DoesNotExist):
         return error_response('Item not found in cart', 404)
 
-    quantity = request.data.get('quantity')
-    if not quantity or int(quantity) < 1:
-        return error_response('Quantity must be at least 1', 400)
+    try:
+        quantity = int(request.data.get('quantity', 0))
+    except (TypeError, ValueError):
+        return error_response('Invalid quantity', 400)
 
-    quantity = int(quantity)
+    if quantity < 1:
     if item.product.stock < quantity:
         return error_response(f'Insufficient stock. Only {item.product.stock} available.', 400)
 
