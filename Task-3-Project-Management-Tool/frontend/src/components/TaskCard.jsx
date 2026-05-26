@@ -19,7 +19,7 @@ const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
       onDragStart={(e) => onDragStart?.(e, task)}
       onDragEnd={(e) => onDragEnd?.(e)}
       onClick={() => onClick?.(task)}
-      className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow duration-200 group"
+      className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-3 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow duration-200 group"
     >
       <div className="flex items-start justify-between mb-2">
         <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${priorityColors[task.priority] || priorityColors.medium}`}>
@@ -35,10 +35,10 @@ const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
         )}
       </div>
 
-      <h4 className="text-sm font-medium text-gray-900 mb-1">{task.title}</h4>
+      <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">{task.title}</h4>
 
       {task.description && (
-        <p className="text-xs text-gray-500 mb-2 line-clamp-2">{task.description}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 line-clamp-2">{task.description}</p>
       )}
 
       <div className="flex items-center justify-between mt-2">
@@ -46,7 +46,7 @@ const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
           <span className={`text-xs flex items-center gap-1 ${
             isOverdue ? 'text-red-600 font-medium' :
             isDueToday ? 'text-amber-600 font-medium' :
-            'text-gray-400'
+            'text-gray-400 dark:text-gray-500'
           }`}>
             {isOverdue ? '⏰ ' : isDueToday ? '📅 ' : '📅 '}
             {format(dueDate, 'MMM d')}
@@ -55,7 +55,7 @@ const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
 
         <div className="flex gap-1 ml-auto">
           {task.commentCount > 0 && (
-            <span className="text-xs text-gray-400">💬 {task.commentCount}</span>
+            <span className="text-xs text-gray-400 dark:text-gray-500">💬 {task.commentCount}</span>
           )}
         </div>
       </div>

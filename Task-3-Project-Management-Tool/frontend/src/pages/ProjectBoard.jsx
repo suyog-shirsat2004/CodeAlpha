@@ -8,10 +8,10 @@ import toast from 'react-hot-toast';
 import { HiOutlinePlus, HiOutlineArrowLeft, HiOutlineUserAdd, HiOutlineDotsHorizontal } from 'react-icons/hi';
 
 const COLUMNS = [
-  { id: 'todo', title: 'To Do', color: 'bg-gray-100' },
-  { id: 'in-progress', title: 'In Progress', color: 'bg-blue-50' },
-  { id: 'review', title: 'Review', color: 'bg-amber-50' },
-  { id: 'done', title: 'Done', color: 'bg-green-50' },
+  { id: 'todo', title: 'To Do', color: 'bg-gray-100 dark:bg-gray-800/50' },
+  { id: 'in-progress', title: 'In Progress', color: 'bg-blue-50 dark:bg-blue-900/20' },
+  { id: 'review', title: 'Review', color: 'bg-amber-50 dark:bg-amber-900/20' },
+  { id: 'done', title: 'Done', color: 'bg-green-50 dark:bg-green-900/20' },
 ];
 
 const ProjectBoard = () => {
@@ -132,17 +132,17 @@ const ProjectBoard = () => {
 
   return (
     <div className="h-[calc(100vh-4rem)] flex flex-col">
-      <div className="bg-white border-b border-gray-200 px-4 sm:px-6 lg:px-8 py-4">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 lg:px-8 py-4">
         <div className="max-w-7xl mx-auto w-full">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link to="/" className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+              <Link to="/" className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                 <HiOutlineArrowLeft className="w-5 h-5" />
               </Link>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">{project?.projectName}</h1>
+                <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">{project?.projectName}</h1>
                 {project?.description && (
-                  <p className="text-sm text-gray-500 mt-0.5">{project.description}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{project.description}</p>
                 )}
               </div>
             </div>
@@ -152,7 +152,7 @@ const ProjectBoard = () => {
                 {project?.members?.slice(0, 4).map((member) => (
                   <div
                     key={member._id}
-                    className="w-8 h-8 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-xs font-bold text-gray-600"
+                    className="w-8 h-8 rounded-full bg-gray-300 dark:bg-gray-600 border-2 border-white dark:border-gray-800 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-300"
                     title={member.name}
                   >
                     {member.name?.charAt(0).toUpperCase()}
@@ -184,8 +184,8 @@ const ProjectBoard = () => {
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-gray-900 text-sm">{column.title}</h3>
-                    <span className="text-xs font-medium text-gray-500 bg-white/80 px-2 py-0.5 rounded-full">
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-sm">{column.title}</h3>
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 px-2 py-0.5 rounded-full">
                       {columnTasks.length}
                     </span>
                   </div>
@@ -194,7 +194,7 @@ const ProjectBoard = () => {
                       setNewTask((t) => ({ ...t, column: column.id }));
                       setShowAddModal(true);
                     }}
-                    className="p-1 text-gray-400 hover:text-primary-600 rounded hover:bg-white/50 transition-colors"
+                    className="p-1 text-gray-400 dark:text-gray-500 hover:text-primary-600 dark:hover:text-primary-400 rounded hover:bg-white/50 dark:hover:bg-gray-800/50 transition-colors"
                   >
                     <HiOutlinePlus className="w-4 h-4" />
                   </button>
@@ -203,7 +203,7 @@ const ProjectBoard = () => {
                 <div className="flex-1 overflow-y-auto space-y-3 min-h-[100px]">
                   {columnTasks.length === 0 && (
                     <div className="text-center py-8">
-                      <p className="text-sm text-gray-400">No tasks</p>
+                      <p className="text-sm text-gray-400 dark:text-gray-500">No tasks</p>
                     </div>
                   )}
                   {columnTasks.map((task) => (
@@ -226,8 +226,8 @@ const ProjectBoard = () => {
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="fixed inset-0 bg-black/50" onClick={() => setShowAddModal(false)} />
-          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md z-10 mx-4 p-6">
-            <h2 className="text-lg font-semibold mb-4">
+          <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md z-10 mx-4 p-6">
+            <h2 className="text-lg font-semibold dark:text-gray-100 mb-4">
               Add Task to {COLUMNS.find((c) => c.id === newTask.column)?.title}
             </h2>
             <input

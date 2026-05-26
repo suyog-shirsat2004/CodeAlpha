@@ -88,10 +88,10 @@ const TaskModal = ({ task, isOpen, onClose, onUpdate, onDelete, projectMembers }
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-10 sm:pt-20">
       <div className="fixed inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto z-10 mx-4">
-        <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
-          <h2 className="text-lg font-semibold text-gray-900">Edit Task</h2>
-          <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100">
+      <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto z-10 mx-4">
+        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between rounded-t-2xl">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Edit Task</h2>
+          <button onClick={onClose} className="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
             <HiOutlineX className="w-5 h-5" />
           </button>
         </div>
@@ -115,7 +115,7 @@ const TaskModal = ({ task, isOpen, onClose, onUpdate, onDelete, projectMembers }
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
               <select value={status} onChange={(e) => setStatus(e.target.value)} className="input-field">
                 <option value="todo">To Do</option>
                 <option value="in-progress">In Progress</option>
@@ -125,7 +125,7 @@ const TaskModal = ({ task, isOpen, onClose, onUpdate, onDelete, projectMembers }
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Priority</label>
               <select value={priority} onChange={(e) => setPriority(e.target.value)} className="input-field">
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -135,7 +135,7 @@ const TaskModal = ({ task, isOpen, onClose, onUpdate, onDelete, projectMembers }
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Assign To</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Assign To</label>
               <select value={assignedTo} onChange={(e) => setAssignedTo(e.target.value)} className="input-field">
                 <option value="">Unassigned</option>
                 {projectMembers?.map((m) => (
@@ -145,7 +145,7 @@ const TaskModal = ({ task, isOpen, onClose, onUpdate, onDelete, projectMembers }
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Due Date</label>
               <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="input-field" />
             </div>
           </div>
@@ -160,24 +160,24 @@ const TaskModal = ({ task, isOpen, onClose, onUpdate, onDelete, projectMembers }
           </div>
         </div>
 
-        <div className="border-t border-gray-200 px-6 py-4">
-          <h3 className="font-medium text-gray-900 mb-4">Comments ({comments.length})</h3>
+        <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4">
+          <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-4">Comments ({comments.length})</h3>
 
           <div className="space-y-3 mb-4 max-h-60 overflow-y-auto">
             {comments.length === 0 && (
-              <p className="text-sm text-gray-400">No comments yet.</p>
+              <p className="text-sm text-gray-400 dark:text-gray-500">No comments yet.</p>
             )}
             {comments.map((comment) => (
               <div key={comment._id} className="flex gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                <div className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 flex items-center justify-center text-xs font-bold flex-shrink-0">
                   {comment.user?.name?.charAt(0).toUpperCase() || '?'}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-gray-900">{comment.user?.name}</span>
-                    <span className="text-xs text-gray-400">{format(new Date(comment.createdAt), 'MMM d, h:mm a')}</span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{comment.user?.name}</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500">{format(new Date(comment.createdAt), 'MMM d, h:mm a')}</span>
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">{comment.message}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{comment.message}</p>
                 </div>
               </div>
             ))}

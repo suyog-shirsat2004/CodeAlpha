@@ -25,7 +25,7 @@ const ProjectCard = ({ project, onDelete, onToggleStatus }) => {
         </div>
         <div className="flex items-center gap-1">
           <button
-            className="p-1.5 text-gray-400 hover:text-primary-600 transition-colors"
+            className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
             onClick={() => onToggleStatus?.(project._id, project.status)}
             title={project.status === 'completed' ? 'Reopen project' : 'Mark complete'}
           >
@@ -36,7 +36,7 @@ const ProjectCard = ({ project, onDelete, onToggleStatus }) => {
             )}
           </button>
           <button
-            className="p-1.5 text-gray-400 hover:text-red-600 transition-colors"
+            className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-colors"
             onClick={() => onDelete?.(project._id)}
             title="Delete project"
           >
@@ -46,29 +46,29 @@ const ProjectCard = ({ project, onDelete, onToggleStatus }) => {
       </div>
 
       <Link to={`/project/${project._id}`}>
-        <h3 className="font-semibold text-gray-900 mb-1 hover:text-primary-600 transition-colors">
+        <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-1 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
           {project.projectName}
         </h3>
       </Link>
 
       {project.description && (
-        <p className="text-sm text-gray-500 mb-4 line-clamp-2">{project.description}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">{project.description}</p>
       )}
 
-      <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
+      <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
         <div className="flex items-center gap-2">
           <div className="flex -space-x-2">
             {project.members?.slice(0, 3).map((member) => (
               <div
                 key={member._id}
-                className="w-7 h-7 rounded-full bg-gray-300 border-2 border-white flex items-center justify-center text-xs font-bold text-gray-600"
+                className="w-7 h-7 rounded-full bg-gray-300 dark:bg-gray-600 border-2 border-white dark:border-gray-800 flex items-center justify-center text-xs font-bold text-gray-600 dark:text-gray-300"
                 title={member.name}
               >
                 {member.name?.charAt(0).toUpperCase()}
               </div>
             ))}
             {memberCount > 3 && (
-              <div className="w-7 h-7 rounded-full bg-gray-100 border-2 border-white flex items-center justify-center text-xs text-gray-500">
+              <div className="w-7 h-7 rounded-full bg-gray-100 dark:bg-gray-700 border-2 border-white dark:border-gray-800 flex items-center justify-center text-xs text-gray-500 dark:text-gray-400">
                 +{memberCount - 3}
               </div>
             )}
