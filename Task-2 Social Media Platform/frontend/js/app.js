@@ -160,7 +160,7 @@ if (nav) {
 document.getElementById('logout-btn')?.addEventListener('click', async (e) => {
   e.preventDefault();
   await api('/api/logout', { method: 'POST' });
-  window.location.href = '/';
+  window.location.href = '.';
 });
 
 /* ============================================
@@ -196,7 +196,7 @@ if (isCurrentPage('/login.html')) {
     try {
       const endpoint = isRegister ? '/api/register' : '/api/login';
       await api(endpoint, { method: 'POST', body: JSON.stringify({ username, password }) });
-      window.location.href = '/';
+      window.location.href = '.';
     } catch (err) {
       errorDiv.textContent = err.message;
       errorDiv.classList.remove('d-none');
@@ -558,7 +558,7 @@ if (isCurrentPage('/profile.html')) {
       setNavAvatar(currentUser);
     }
     const queryId = getQueryParam('id');
-    if (!currentUser && !queryId) { window.location.href = '/login.html'; return; }
+    if (!currentUser && !queryId) { window.location.href = 'login.html'; return; }
     viewedUserId = queryId || currentUser.id;
     createParticles('profile-particles');
     loadProfile(viewedUserId);
