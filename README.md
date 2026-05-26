@@ -10,7 +10,7 @@ A collection of 4 full-stack web applications built during the CodeAlpha interns
 |---|---------|----------|---------|----------|------|-----------|
 | 1 | [Simple E-commerce Store](./Task-1%20Simple%20E-commerce%20Store/) | HTML/CSS/JS | Django + DRF (Python) | SQLite | JWT | [Demo](https://suyog-shirsat2004.github.io/CodeAlpha/Task-1/) |
 | 2 | [Social Media Platform (ShareSphere)](./Task-2%20Social%20Media%20Platform/) | HTML/CSS/JS + Bootstrap 5 | Express.js (Node) | JSON file / localStorage | Session / Mock | [Demo](https://suyog-shirsat2004.github.io/CodeAlpha/Task-2/) |
-| 3 | [Project Management Tool](./Task-3-Project-Management-Tool/) | React 18 + Tailwind CSS | Express.js (Node) | MongoDB | JWT | [Demo](https://suyog-shirsat2004.github.io/CodeAlpha/Task-3/) |
+| 3 | [Project Management Tool](./Task-3-Project-Management-Tool/) | React 18 + Tailwind CSS | Express.js (Node) | SQLite | JWT | [Demo](https://suyog-shirsat2004.github.io/CodeAlpha/Task-3/) |
 | 4 | [Real-Time Communication App](./Task-4-Real-Time-Communication-App/) | React 18 + Tailwind CSS | Express.js + Socket.io (Node) | MongoDB | JWT | [Demo](https://suyog-shirsat2004.github.io/CodeAlpha/Task-4/) |
 
 ---
@@ -42,8 +42,8 @@ Full-stack social media app with user profiles, posts, comments, likes, follows,
 
 Kanban-style project management tool with drag-and-drop boards, team collaboration, task priorities, due dates, and dark/light mode.
 
-**Stack:** React 18, Tailwind CSS, Express.js, MongoDB, JWT  
-**Setup:** Start MongoDB, then `cd Task-3-Project-Management-Tool/backend && npm install && npm run dev` and `cd Task-3-Project-Management-Tool/frontend && npm install && npm start`
+**Stack:** React 18, Tailwind CSS, Express.js, SQLite, JWT  
+**Setup:** `cd Task-3-Project-Management-Tool/backend && npm install && npm run dev` and `cd Task-3-Project-Management-Tool/frontend && npm install && npm start`
 
 [→ View details](Task-3-Project-Management-Tool/README.md)
 

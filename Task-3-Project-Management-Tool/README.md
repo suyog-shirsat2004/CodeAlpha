@@ -1,6 +1,6 @@
 # Project Management Tool
 
-A full-stack **Kanban-style Project Management Tool** built with the **MERN stack** (MongoDB, Express, React, Node.js).
+A full-stack **Kanban-style Project Management Tool** built with **Express, React, SQLite, and Node.js**.
 
 **Live demo:** [suyog-shirsat2004.github.io/CodeAlpha/Task-3/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-3/) *(frontend UI — run backend locally for full features)*
 
@@ -76,35 +76,11 @@ Task-3-Project-Management-Tool/
 
 ### Prerequisites
 - **Node.js** (v16 or higher)
-- **MongoDB** (installed and running)
 - **npm** (comes with Node.js)
 
 ---
 
-### Step 1: Start MongoDB
-
-**Windows**
-```cmd
-net start MongoDB
-```
-> If MongoDB is not installed as a service, run:
-> ```cmd
-> "C:\Program Files\MongoDB\Server\8.3\bin\mongod.exe"
-> ```
-
-**macOS (Homebrew)**
-```bash
-brew services start mongodb-community
-```
-
-**Linux**
-```bash
-sudo systemctl start mongod
-```
-
----
-
-### Step 2: Start the Backend (Terminal 1)
+### Step 1: Start the Backend (Terminal 1)
 
 ```bash
 cd "Task-3-Project-Management-Tool/backend"
@@ -112,11 +88,11 @@ npm install
 npm run dev
 ```
 
-Wait for: `Server running on port 5000` + `MongoDB Connected: localhost`
+Wait for: `Server running on port 5000`
 
 ---
 
-### Step 3: Start the Frontend (Terminal 2)
+### Step 2: Start the Frontend (Terminal 2)
 
 ```bash
 cd "Task-3-Project-Management-Tool/frontend"
@@ -128,7 +104,7 @@ Open `http://localhost:3000` in your browser.
 
 ---
 
-### Step 4: Using the App
+### Step 3: Using the App
 
 1. **Register** a new account
 2. **Create a Project** from the dashboard
@@ -143,9 +119,8 @@ Open `http://localhost:3000` in your browser.
 
 | Terminal | Where | Command | Runs On |
 |----------|-------|---------|---------|
-| **#1** | MongoDB service | `net start MongoDB` | Background |
-| **#2** | `backend/` | `npm run dev` | `http://localhost:5000` |
-| **#3** | `frontend/` | `npm start` | `http://localhost:3000` |
+| **#1** | `backend/` | `npm run dev` | `http://localhost:5000` |
+| **#2** | `frontend/` | `npm start` | `http://localhost:3000` |
 
 ---
 
@@ -153,7 +128,6 @@ Open `http://localhost:3000` in your browser.
 
 ```
 PORT=5000
-MONGO_URI=mongodb://localhost:27017/project-management-tool
 JWT_SECRET=your_jwt_secret_key_change_in_production
 ```
 
@@ -202,8 +176,8 @@ JWT_SECRET=your_jwt_secret_key_change_in_production
 | Layer | Technology |
 |-------|------------|
 | **Frontend** | React 18, React Router v6, Tailwind CSS, Axios, react-hot-toast, react-icons, date-fns |
-| **Backend** | Node.js, Express.js, JWT (jsonwebtoken), bcryptjs, Mongoose |
-| **Database** | MongoDB (local) |
+| **Backend** | Node.js, Express.js, JWT (jsonwebtoken), bcryptjs, better-sqlite3 |
+| **Database** | SQLite (file-based, zero config) |
 | **Auth** | JWT (JSON Web Tokens) |
 | **Drag & Drop** | HTML5 Drag and Drop API |
 
