@@ -1,6 +1,13 @@
 let __currentUserId = null;
 const APP_VERSION = '1.0.0';
 
+function isCurrentPage(page) { return window.location.pathname.endsWith(page); }
+
+function isHomePage() {
+  var p = window.location.pathname;
+  return p === '/' || p.endsWith('/index.html') || p.endsWith('/Task-2/');
+}
+
 function setNavAvatar(user) {
   var el = document.getElementById('nav-avatar');
   var icon = document.getElementById('nav-person-icon');
@@ -159,7 +166,7 @@ document.getElementById('logout-btn')?.addEventListener('click', async (e) => {
 /* ============================================
    LOGIN PAGE
    ============================================ */
-if (window.location.pathname === '/login.html') {
+if (isCurrentPage('/login.html')) {
   let isRegister = false;
   const errorDiv = document.getElementById('auth-error');
   const title = document.getElementById('auth-title');
@@ -200,7 +207,7 @@ if (window.location.pathname === '/login.html') {
 /* ============================================
    FEED PAGE
    ============================================ */
-if (window.location.pathname === '/') {
+if (isHomePage()) {
   let currentUser = null;
   let pendingMediaUrl = '';
   let pendingMediaType = '';
@@ -540,7 +547,7 @@ async function deleteComment(commentId) {
 /* ============================================
    PROFILE PAGE
    ============================================ */
-if (window.location.pathname === '/profile.html') {
+if (isCurrentPage('/profile.html')) {
   let currentUser = null, viewedUserId = null;
 
   async function initProfile() {
