@@ -360,5 +360,5 @@ app.delete('/api/comments/:commentId', requireAuth, (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Social platform running at http://localhost:${PORT}`);
+  console.log(`ShareSphere running at http://localhost:${PORT}`);
 });

@@ -1,4 +1,5 @@
 let __currentUserId = null;
+const APP_VERSION = '1.0.0';
 
 function setNavAvatar(user) {
   var el = document.getElementById('nav-avatar');

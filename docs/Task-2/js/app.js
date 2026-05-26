@@ -1,4 +1,5 @@
 let __currentUserId = null;
+const APP_VERSION = '1.0.0';
 
 function setNavAvatar(user) {
   var el = document.getElementById('nav-avatar');
@@ -152,13 +153,13 @@ if (nav) {
 document.getElementById('logout-btn')?.addEventListener('click', async (e) => {
   e.preventDefault();
   await api('/api/logout', { method: 'POST' });
-  window.location.href = '.';
+  window.location.href = '/';
 });
 
 /* ============================================
    LOGIN PAGE
    ============================================ */
-if (window.location.pathname.endsWith('/login.html')) {
+if (window.location.pathname === '/login.html') {
   let isRegister = false;
   const errorDiv = document.getElementById('auth-error');
   const title = document.getElementById('auth-title');
@@ -188,7 +189,7 @@ if (window.location.pathname.endsWith('/login.html')) {
     try {
       const endpoint = isRegister ? '/api/register' : '/api/login';
       await api(endpoint, { method: 'POST', body: JSON.stringify({ username, password }) });
-      window.location.href = '.';
+      window.location.href = '/';
     } catch (err) {
       errorDiv.textContent = err.message;
       errorDiv.classList.remove('d-none');
@@ -199,7 +200,7 @@ if (window.location.pathname.endsWith('/login.html')) {
 /* ============================================
    FEED PAGE
    ============================================ */
-if (window.location.pathname === '/' || window.location.pathname.endsWith('/CodeAlpha/') || window.location.pathname.endsWith('/CodeAlpha') || window.location.pathname.endsWith('/Task-2/') || window.location.pathname.endsWith('/index.html')) {
+if (window.location.pathname === '/') {
   let currentUser = null;
   let pendingMediaUrl = '';
   let pendingMediaType = '';
@@ -277,7 +278,6 @@ if (window.location.pathname === '/' || window.location.pathname.endsWith('/Code
   async function loadSuggested() {
     try {
       const data = await api('/api/users');
-      console.log('loadSuggested data.users.length:', data.users.length, 'data.users:', data.users);
       const container = document.getElementById('suggested-users');
       if (!data.users || data.users.length === 0) {
         container.innerHTML = '<p class="text-muted small mb-0">No other users yet.</p>';
@@ -287,7 +287,7 @@ if (window.location.pathname === '/' || window.location.pathname.endsWith('/Code
         <div class="suggested-user" style="animation-delay:${i * 0.08}s">
           <div class="su-avatar">${u.avatar ? `<img src="${u.avatar}">` : getInitials(u.displayName)}</div>
           <div class="su-info">
-            <a href="profile.html?id=${u.id}" class="su-name">${escHtml(u.displayName)}</a>
+            <a href="/profile.html?id=${u.id}" class="su-name">${escHtml(u.displayName)}</a>
             <div class="su-username">@${escHtml(u.username)}</div>
           </div>
           <button class="btn btn-sm rounded-pill ${u.isFollowing ? 'btn-outline-danger' : 'btn-primary'}" onclick="suggestedFollow('${u.id}', this)">${u.isFollowing ? 'Unfollow' : 'Follow'}</button>
@@ -398,7 +398,7 @@ function renderPosts(posts) {
       <div class="post-header">
         <div class="post-avatar">${user && user.avatar ? `<img src="${user.avatar}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">` : (user ? getInitials(user.displayName) : '?')}</div>
         <div class="post-header-info">
-          <a href="profile.html?id=${user ? user.id : ''}" class="post-author">${user ? escHtml(user.displayName) : 'Unknown'}</a>
+          <a href="/profile.html?id=${user ? user.id : ''}" class="post-author">${user ? escHtml(user.displayName) : 'Unknown'}</a>
           <div class="post-time">${timeAgo(p.createdAt)}</div>
         </div>
       ${__currentUserId && user && user.id === __currentUserId ? `<div class="post-header-actions"><button class="post-edit-btn" onclick="openEditPost('${p.id}')" title="Edit"><i class="bi bi-pencil"></i></button><button class="post-delete-btn" onclick="deletePost('${p.id}')" title="Delete"><i class="bi bi-trash3"></i></button></div>` : ''}
@@ -518,7 +518,7 @@ async function loadComments(postId) {
         return `
         <div class="comment-item">
           <div class="d-flex align-items-center gap-2 mb-1">
-            <a href="profile.html?id=${c.user.id}" class="comment-author">${escHtml(c.user.displayName)}</a>
+            <a href="/profile.html?id=${c.user.id}" class="comment-author">${escHtml(c.user.displayName)}</a>
             <span class="comment-time">${timeAgo(c.createdAt)}</span>
             ${canDelete ? `<button class="comment-delete-btn" onclick="deleteComment('${c.id}')" title="Delete"><i class="bi bi-x"></i></button>` : ''}
           </div>
@@ -540,7 +540,7 @@ async function deleteComment(commentId) {
 /* ============================================
    PROFILE PAGE
    ============================================ */
-if (window.location.pathname.endsWith('/profile.html')) {
+if (window.location.pathname === '/profile.html') {
   let currentUser = null, viewedUserId = null;
 
   async function initProfile() {
@@ -551,7 +551,7 @@ if (window.location.pathname.endsWith('/profile.html')) {
       setNavAvatar(currentUser);
     }
     const queryId = getQueryParam('id');
-    if (!currentUser && !queryId) { window.location.href = 'login.html'; return; }
+    if (!currentUser && !queryId) { window.location.href = '/login.html'; return; }
     viewedUserId = queryId || currentUser.id;
     createParticles('profile-particles');
     loadProfile(viewedUserId);
@@ -670,7 +670,7 @@ if (window.location.pathname.endsWith('/profile.html')) {
           <div class="follow-user-item">
             <div class="fu-avatar">${u.avatar ? `<img src="${u.avatar}">` : getInitials(u.displayName)}</div>
             <div class="fu-info">
-              <a href="profile.html?id=${u.id}" class="fu-name">${escHtml(u.displayName)}</a>
+              <a href="/profile.html?id=${u.id}" class="fu-name">${escHtml(u.displayName)}</a>
               <div class="fu-username">@${escHtml(u.username)}</div>
             </div>
             ${currentUser && u.id !== currentUser.id ? `<button class="btn btn-sm rounded-pill ${u.isFollowing ? 'btn-outline-danger' : 'btn-primary'}" onclick="followInList('${u.id}', this)">${u.isFollowing ? 'Unfollow' : 'Follow'}</button>` : ''}
@@ -693,7 +693,7 @@ if (window.location.pathname.endsWith('/profile.html')) {
           <div class="follow-user-item">
             <div class="fu-avatar">${u.avatar ? `<img src="${u.avatar}">` : getInitials(u.displayName)}</div>
             <div class="fu-info">
-              <a href="profile.html?id=${u.id}" class="fu-name">${escHtml(u.displayName)}</a>
+              <a href="/profile.html?id=${u.id}" class="fu-name">${escHtml(u.displayName)}</a>
               <div class="fu-username">@${escHtml(u.username)}</div>
             </div>
             ${currentUser && u.id !== currentUser.id ? `<button class="btn btn-sm rounded-pill ${u.isFollowing ? 'btn-outline-danger' : 'btn-primary'}" onclick="followInList('${u.id}', this)">${u.isFollowing ? 'Unfollow' : 'Follow'}</button>` : ''}
