@@ -43,7 +43,8 @@ Full-stack social media app with user profiles, posts, comments, likes, follows,
 Kanban-style project management tool with drag-and-drop boards, team collaboration, task priorities, due dates, and dark/light mode.
 
 **Stack:** React 18, Tailwind CSS, Express.js, SQLite, JWT  
-**Setup:** `cd Task-3-Project-Management-Tool/backend && npm install && npm run dev` and `cd Task-3-Project-Management-Tool/frontend && npm install && npm start`
+**Setup:** `cd Task-3-Project-Management-Tool/backend && npm install && npm run dev` and `cd Task-3-Project-Management-Tool/frontend && npm install && npm start`  
+**Standalone (no backend):** The GitHub Pages demo uses a localStorage-based mock API — works fully client-side.
 
 [→ View details](Task-3-Project-Management-Tool/README.md)
 
