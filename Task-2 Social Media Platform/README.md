@@ -1,8 +1,8 @@
 # ShareSphere — Social Media Platform (Task 2)
 
-Full-stack social media application with an Express.js backend and a responsive HTML/CSS/JS frontend.
+Full-stack social media application with an Express.js backend and a responsive HTML/CSS/JS frontend. Works fully client-side on GitHub Pages via a built-in mock API.
 
-**Live site:** [suyog-shirsat2004.github.io/CodeAlpha/Task-2/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-2/) *(frontend only — run backend locally for full features)*
+**Live site:** [suyog-shirsat2004.github.io/CodeAlpha/Task-2/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-2/) *(all features work — no backend needed)*
 
 ---
 
@@ -10,7 +10,7 @@ Full-stack social media application with an Express.js backend and a responsive 
 
 | Page | URL |
 |------|-----|
-| Live App | [suyog-shirsat2004.github.io/CodeAlpha/Task-2/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-2/) *(frontend only)* |
+| Live App | [suyog-shirsat2004.github.io/CodeAlpha/Task-2/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-2/) *(fully functional via localStorage mock API)* |
 | GitHub Repo | [View on GitHub](https://github.com/suyog-shirsat2004/CodeAlpha/tree/main/Task-2%20Social%20Media%20Platform) |
 | Home / Feed | `http://localhost:3000/` |
 | Profile | `http://localhost:3000/profile.html` |
@@ -66,7 +66,7 @@ cd frontend
 npx serve .
 ```
 
-Open `http://localhost:3000`. The landing page will show, but features requiring the backend (auth, feed, posts, comments, likes, follows) will not work.
+Open `http://localhost:3000`. All features work using a client-side mock API (`mock-api.js`) backed by `localStorage` — no server required.
 
 ### Backend & Frontend (single server — full features)
 
@@ -95,7 +95,8 @@ Task-2 Social Media Platform/
     ├── css/
     │   └── style.css        # Complete stylesheet (animations, responsive, variables)
     └── js/
-        └── app.js           # Frontend application logic (auth, feed, profile, posts, comments)
+        ├── app.js           # Frontend application logic (auth, feed, profile, posts, comments)
+        └── mock-api.js      # Client-side API mock (localStorage backend for static hosting)
 ```
 
 ---
@@ -105,9 +106,10 @@ Task-2 Social Media Platform/
 | Layer | Technology |
 |-------|-----------|
 | Frontend | HTML5, CSS3 (vanilla), JavaScript (vanilla), Bootstrap 5.3, Bootstrap Icons |
-| Backend | Node.js, Express.js |
-| Database | JSON file (`db.json`) |
-| File Uploads | Multer (disk storage) |
-| Auth | express-session (cookie-based sessions) |
+| Backend | Node.js, Express.js (optional — client-side mock also available) |
+| Database | JSON file (`db.json`) or `localStorage` (mock mode) |
+| File Uploads | Multer (disk storage) or data URLs (mock mode) |
+| Auth | express-session (cookie-based sessions) or localStorage (mock mode) |
+| Mock API | `mock-api.js` — intercepts `fetch()`, persists data in `localStorage` |
 | Animations | CSS keyframes (confetti, particles, fade-in, glow) |
 
