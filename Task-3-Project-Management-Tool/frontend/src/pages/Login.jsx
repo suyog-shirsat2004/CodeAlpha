@@ -28,19 +28,23 @@ const Login = () => {
   };
 
   return (
-    <div className="min-vh-100 d-flex align-items-center justify-content-center" style={{ background: 'linear-gradient(135deg, #eef2ff 0%, #fff 50%, #f5f3ff 100%)' }}>
-      <div className="w-100" style={{ maxWidth: '420px' }}>
+    <div className="min-vh-100 d-flex align-items-center justify-content-center" style={{ background: 'linear-gradient(135deg, #F0F2F5 0%, #EDE9FE 30%, #E6FFFD 70%, #F0F2F5 100%)' }}>
+      <div className="position-absolute top-0 start-0 w-100 h-100 overflow-hidden" style={{ pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', top: '-10%', left: '-10%', width: '40%', height: '40%', background: 'radial-gradient(circle, rgba(108,92,231,0.08) 0%, transparent 70%)' }}></div>
+        <div style={{ position: 'absolute', bottom: '-10%', right: '-10%', width: '50%', height: '50%', background: 'radial-gradient(circle, rgba(0,206,201,0.08) 0%, transparent 70%)' }}></div>
+      </div>
+      <div className="w-100 position-relative" style={{ maxWidth: '420px' }}>
         <div className="text-center mb-4">
-          <div className="d-flex align-items-center justify-content-center gap-2 mb-2">
-            <i className="bi bi-grid-3x3-gap-fill text-primary" style={{ fontSize: '2rem' }}></i>
-            <span className="fw-bold text-primary" style={{ fontSize: '1.75rem' }}>ProjectFlow</span>
+          <div className="d-inline-flex align-items-center justify-content-center gap-2 mb-2">
+            <i className="bi bi-grid-3x3-gap-fill" style={{ fontSize: '2rem', color: 'var(--primary)' }}></i>
+            <span className="fw-bold gradient-text" style={{ fontSize: '1.75rem' }}>ProjectFlow</span>
           </div>
-          <p className="text-muted small">Sign in to manage your projects</p>
+          <p className="text-secondary small fw-medium">Sign in to manage your projects</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="card p-4">
+        <form onSubmit={handleSubmit} className="card p-4 slide-up" style={{ border: '1px solid var(--border-color)' }}>
           <div className="mb-3">
-            <label className="form-label small fw-medium text-secondary">Email</label>
+            <label className="form-label">Email</label>
             <input
               type="email"
               value={email}
@@ -52,7 +56,7 @@ const Login = () => {
           </div>
 
           <div className="mb-3">
-            <label className="form-label small fw-medium text-secondary">Password</label>
+            <label className="form-label">Password</label>
             <input
               type="password"
               value={password}
@@ -69,7 +73,7 @@ const Login = () => {
 
           <p className="text-center small text-muted mt-3 mb-0">
             Don't have an account?{' '}
-            <Link to="/register" className="text-primary text-decoration-none fw-medium">
+            <Link to="/register" className="text-primary text-decoration-none fw-semibold">
               Create one
             </Link>
           </p>

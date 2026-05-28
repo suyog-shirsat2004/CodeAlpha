@@ -20,13 +20,14 @@ const ProjectCard = ({ project, onDelete, onToggleStatus }) => {
     <div className="card p-3 h-100 fade-in">
       <div className="d-flex align-items-start justify-content-between mb-3">
         <div
-          className="d-flex align-items-center justify-content-center rounded text-white fw-bold"
+          className="d-flex align-items-center justify-content-center text-white fw-bold"
           style={{
             width: '3rem',
             height: '3rem',
             background: gradient,
             fontSize: '1.1rem',
-            borderRadius: '.75rem !important',
+            borderRadius: '.85rem',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
           }}
         >
           {project.projectName?.charAt(0).toUpperCase()}
@@ -54,22 +55,22 @@ const ProjectCard = ({ project, onDelete, onToggleStatus }) => {
       </div>
 
       <Link to={`/project/${project._id}`} className="text-decoration-none">
-        <h6 className="fw-semibold text-dark mb-1">{project.projectName}</h6>
+        <h6 className="fw-semibold mb-1" style={{ color: 'var(--text-primary)' }}>{project.projectName}</h6>
       </Link>
 
       {project.description && (
-        <p className="small text-muted mb-3" style={{ lineClamp: 2, WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
+        <p className="small text-secondary mb-3" style={{ lineClamp: 2, WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
           {project.description}
         </p>
       )}
 
-      <div className="d-flex align-items-center justify-content-between mt-auto pt-3 border-top">
+      <div className="d-flex align-items-center justify-content-between mt-auto pt-3" style={{ borderTop: '1px solid var(--border-color)' }}>
         <div className="avatar-group">
           {project.members?.slice(0, 3).map((member) => (
             <div
               key={member._id}
               className="avatar-sm rounded-circle d-flex align-items-center justify-content-center"
-              style={{ backgroundColor: '#d1d5db', color: '#4b5563', fontWeight: 700, fontSize: '.6rem' }}
+              style={{ background: 'linear-gradient(135deg, #A78BFA, #6C5CE7)', color: '#fff', fontWeight: 700, fontSize: '.6rem' }}
               title={member.name}
             >
               {member.name?.charAt(0).toUpperCase()}
@@ -78,7 +79,7 @@ const ProjectCard = ({ project, onDelete, onToggleStatus }) => {
           {memberCount > 3 && (
             <div
               className="avatar-sm rounded-circle d-flex align-items-center justify-content-center"
-              style={{ backgroundColor: '#e5e7eb', color: '#6b7280', fontSize: '.6rem', fontWeight: 500 }}
+              style={{ backgroundColor: 'var(--border-color)', color: 'var(--text-muted)', fontSize: '.6rem', fontWeight: 600 }}
             >
               +{memberCount - 3}
             </div>

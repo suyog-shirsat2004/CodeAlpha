@@ -133,16 +133,16 @@ const ProjectBoard = () => {
 
   return (
     <div className="d-flex flex-column" style={{ height: 'calc(100vh - 56px)' }}>
-      <div className="bg-white border-bottom px-4 py-3">
+      <div className="project-header px-4 py-3">
         <div className="d-flex align-items-center justify-content-between" style={{ maxWidth: '1280px', margin: '0 auto' }}>
           <div className="d-flex align-items-center gap-3">
-            <Link to="/" className="btn-ghost p-2 rounded text-muted">
+            <Link to="/" className="btn-ghost p-2 rounded">
               <i className="bi bi-arrow-left fs-5"></i>
             </Link>
             <div>
-              <h1 className="h5 fw-bold text-dark mb-0">{project?.projectName}</h1>
+              <h1 className="h5 fw-bold mb-0" style={{ color: 'var(--text-primary)' }}>{project?.projectName}</h1>
               {project?.description && (
-                <small className="text-muted">{project.description}</small>
+                <small className="text-secondary">{project.description}</small>
               )}
             </div>
           </div>
@@ -152,8 +152,8 @@ const ProjectBoard = () => {
               {project?.members?.slice(0, 4).map((member) => (
                 <div
                   key={member._id}
-                  className="avatar-sm rounded-circle d-flex align-items-center justify-content-center"
-                  style={{ backgroundColor: '#d1d5db', color: '#4b5563', fontWeight: 700, fontSize: '.65rem' }}
+                  className="avatar-sm rounded-circle d-flex align-items-center justify-content-center text-white"
+                  style={{ background: 'linear-gradient(135deg, #A78BFA, #6C5CE7)', fontWeight: 700, fontSize: '.65rem' }}
                   title={member.name}
                 >
                   {member.name?.charAt(0).toUpperCase()}
@@ -181,8 +181,8 @@ const ProjectBoard = () => {
               >
                 <div className="d-flex align-items-center justify-content-between mb-3">
                   <div className="d-flex align-items-center gap-2">
-                    <h6 className="fw-semibold text-dark mb-0 small">{column.title}</h6>
-                    <span className="badge bg-white text-muted border">{columnTasks.length}</span>
+                    <h6 className="fw-semibold mb-0 small" style={{ color: 'var(--text-primary)' }}>{column.title}</h6>
+                    <span className="badge" style={{ background: 'var(--bg-card)', color: 'var(--text-muted)', border: '1px solid var(--border-color)' }}>{columnTasks.length}</span>
                   </div>
                   <button
                     onClick={() => {
@@ -198,7 +198,7 @@ const ProjectBoard = () => {
                 <div className="flex-grow-1 overflow-auto d-flex flex-column gap-2" style={{ minHeight: '100px' }}>
                   {columnTasks.length === 0 && (
                     <div className="text-center py-4">
-                      <small className="text-muted">No tasks</small>
+                      <small style={{ color: 'var(--text-muted)' }}>No tasks</small>
                     </div>
                   )}
                   {columnTasks.map((task) => (

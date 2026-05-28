@@ -81,8 +81,8 @@ const Dashboard = () => {
     <div className="container-fluid px-4 py-4" style={{ maxWidth: '1280px' }}>
       <div className="d-flex align-items-center justify-content-between mb-4">
         <div>
-          <h1 className="h3 fw-bold text-dark">Dashboard</h1>
-          <p className="text-muted small mb-0">Manage your projects and track progress</p>
+          <h1 className="h3 fw-bold gradient-text">Dashboard</h1>
+          <p className="text-secondary small mb-0">Manage your projects and track progress</p>
         </div>
         <button onClick={() => setShowCreate(true)} className="btn btn-primary d-flex align-items-center gap-2">
           <i className="bi bi-plus-lg"></i>
@@ -92,32 +92,32 @@ const Dashboard = () => {
 
       <div className="row g-3 mb-4">
         <div className="col-sm-4">
-          <div className="card text-center p-4">
-            <div className="h2 fw-bold text-primary mb-1">{stats.total}</div>
-            <div className="small text-muted">Total Projects</div>
+          <div className="stat-card stat-card-primary">
+            <div className="stat-number gradient-text">{stats.total}</div>
+            <div className="stat-label">Total Projects</div>
           </div>
         </div>
         <div className="col-sm-4">
-          <div className="card text-center p-4">
-            <div className="h2 fw-bold text-success mb-1">{stats.active}</div>
-            <div className="small text-muted">Active</div>
+          <div className="stat-card stat-card-success">
+            <div className="stat-number" style={{ color: '#10B981' }}>{stats.active}</div>
+            <div className="stat-label">Active</div>
           </div>
         </div>
         <div className="col-sm-4">
-          <div className="card text-center p-4">
-            <div className="h2 fw-bold text-info mb-1">{stats.completed}</div>
-            <div className="small text-muted">Completed</div>
+          <div className="stat-card stat-card-info">
+            <div className="stat-number" style={{ color: '#3B82F6' }}>{stats.completed}</div>
+            <div className="stat-label">Completed</div>
           </div>
         </div>
       </div>
 
       {projects.length === 0 ? (
-        <div className="text-center py-5 fade-in">
-          <div className="d-inline-flex align-items-center justify-content-center rounded-circle bg-light p-4 mb-3">
-            <i className="bi bi-folder-plus text-muted" style={{ fontSize: '2rem' }}></i>
+        <div className="empty-state fade-in">
+          <div className="empty-state-icon">
+            <i className="bi bi-folder-plus"></i>
           </div>
-          <h5 className="fw-semibold text-dark mb-1">No projects yet</h5>
-          <p className="text-muted small mb-3">Create your first project to get started</p>
+          <h5 className="fw-semibold text-primary mb-1">No projects yet</h5>
+          <p className="text-secondary small mb-3">Create your first project to get started</p>
           <button onClick={() => setShowCreate(true)} className="btn btn-primary">
             Create Project
           </button>

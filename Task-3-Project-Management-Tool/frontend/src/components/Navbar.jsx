@@ -16,10 +16,10 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     : 'U';
 
   return (
-    <nav className="navbar navbar-expand bg-white border-bottom shadow-sm px-3">
+    <nav className="navbar navbar-expand navbar-custom px-3">
       <div className="container-fluid">
-        <Link to="/" className="navbar-brand d-flex align-items-center gap-2 fw-bold text-primary">
-          <i className="bi bi-grid-3x3-gap-fill fs-4"></i>
+        <Link to="/" className="navbar-brand-custom">
+          <i className="bi bi-grid-3x3-gap-fill fs-4" style={{ WebkitTextFillColor: 'var(--primary)' }}></i>
           ProjectFlow
         </Link>
 

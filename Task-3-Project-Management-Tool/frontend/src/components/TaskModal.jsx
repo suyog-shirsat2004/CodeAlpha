@@ -162,7 +162,7 @@ const TaskModal = ({ task, isOpen, onClose, onUpdate, onDelete, projectMembers }
 
             <hr />
 
-            <h6 className="fw-semibold text-dark mb-3">Comments ({comments.length})</h6>
+              <h6 className="fw-semibold mb-3" style={{ color: 'var(--text-primary)' }}>Comments ({comments.length})</h6>
 
             <div className="d-flex flex-column gap-3 mb-3" style={{ maxHeight: '240px', overflowY: 'auto' }}>
               {comments.length === 0 && (
@@ -178,10 +178,10 @@ const TaskModal = ({ task, isOpen, onClose, onUpdate, onDelete, projectMembers }
                   </div>
                   <div className="flex-grow-1 min-w-0">
                     <div className="d-flex align-items-center gap-2">
-                      <span className="small fw-semibold text-dark">{comment.user?.name}</span>
+                      <span className="small fw-semibold" style={{ color: 'var(--text-primary)' }}>{comment.user?.name}</span>
                       <span className="small text-muted">{format(new Date(comment.createdAt), 'MMM d, h:mm a')}</span>
                     </div>
-                    <p className="small text-secondary mt-1 mb-0">{comment.message}</p>
+                    <p className="small mt-1 mb-0" style={{ color: 'var(--text-secondary)' }}>{comment.message}</p>
                   </div>
                 </div>
               ))}

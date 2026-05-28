@@ -1,11 +1,11 @@
 import React from 'react';
 import { format, isPast, isToday } from 'date-fns';
 
-const priorityColors = {
-  low: 'badge bg-secondary bg-opacity-10 text-secondary',
-  medium: 'badge bg-primary bg-opacity-10 text-primary',
-  high: 'badge bg-warning bg-opacity-10 text-warning',
-  urgent: 'badge bg-danger bg-opacity-10 text-danger',
+const priorityStyles = {
+  low: { background: 'linear-gradient(135deg, #9CA3AF, #6B7280)', color: '#fff' },
+  medium: { background: 'linear-gradient(135deg, #6C5CE7, #5A4BD1)', color: '#fff' },
+  high: { background: 'linear-gradient(135deg, #F59E0B, #D97706)', color: '#fff' },
+  urgent: { background: 'linear-gradient(135deg, #EF4444, #DC2626)', color: '#fff' },
 };
 
 const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
@@ -22,7 +22,7 @@ const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
       className="task-card"
     >
       <div className="d-flex align-items-start justify-content-between mb-2">
-        <span className={priorityColors[task.priority] || priorityColors.medium}>
+        <span className="badge" style={priorityStyles[task.priority] || priorityStyles.medium}>
           {task.priority}
         </span>
         {task.assignedTo && (
@@ -36,10 +36,10 @@ const TaskCard = ({ task, onDragStart, onClick, onDragEnd }) => {
         )}
       </div>
 
-      <h6 className="small fw-medium text-dark mb-1">{task.title}</h6>
+      <h6 className="small fw-medium mb-1" style={{ color: 'var(--text-primary)' }}>{task.title}</h6>
 
       {task.description && (
-        <p className="small text-muted mb-2" style={{ lineClamp: 2, WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
+        <p className="small text-secondary mb-2" style={{ lineClamp: 2, WebkitLineClamp: 2, overflow: 'hidden', display: '-webkit-box', WebkitBoxOrient: 'vertical' }}>
           {task.description}
         </p>
       )}
