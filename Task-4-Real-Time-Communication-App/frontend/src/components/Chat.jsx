@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { HiOutlinePaperAirplane } from 'react-icons/hi';
 
-const Chat = ({ socket, roomCode, userName }) => {
+const Chat = ({ socket, roomCode, user }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
@@ -26,8 +26,8 @@ const Chat = ({ socket, roomCode, userName }) => {
   const sendMessage = (e) => {
     e.preventDefault();
     if (!input.trim()) return;
-    socket.emit('chat:message', { roomCode, message: input.trim(), user: { _id: userName, name: userName } });
-    setMessages((prev) => [...prev, { text: input.trim(), user: { name: userName, _id: userName }, timestamp: new Date().toISOString() }]);
+    socket.emit('chat:message', { roomCode, message: input.trim(), user: { _id: user._id, name: user.name } });
+    setMessages((prev) => [...prev, { text: input.trim(), user: { name: user.name, _id: user._id }, timestamp: new Date().toISOString() }]);
     setInput('');
   };
 
@@ -41,9 +41,9 @@ const Chat = ({ socket, roomCode, userName }) => {
           <p className="text-gray-500 text-sm text-center py-8">No messages yet</p>
         )}
         {messages.map((msg, i) => (
-          <div key={i} className={`flex ${msg.user.name === userName ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[80%] rounded-lg px-3 py-2 ${msg.user.name === userName ? 'bg-indigo-600' : 'bg-gray-700'}`}>
-              {msg.user.name !== userName && (
+          <div key={i} className={`flex ${msg.user._id === user._id ? 'justify-end' : 'justify-start'}`}>
+            <div className={`max-w-[80%] rounded-lg px-3 py-2 ${msg.user._id === user._id ? 'bg-indigo-600' : 'bg-gray-700'}`}>
+              {msg.user._id !== user._id && (
                 <p className="text-xs font-medium text-indigo-300 mb-0.5">{msg.user.name}</p>
               )}
               <p className="text-sm text-white">{msg.text}</p>

@@ -154,20 +154,22 @@ const Room = () => {
     try {
       if (screenSharing) {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        const oldStream = localStreamRef.current;
         setLocalStream(stream);
         localStreamRef.current = stream;
         Object.values(peersRef.current).forEach((peer) => {
-          peer.replaceTrack(localStream?.getVideoTracks()[0], stream.getVideoTracks()[0], localStream);
+          peer.replaceTrack(oldStream?.getVideoTracks()[0], stream.getVideoTracks()[0], stream);
         });
         setScreenSharing(false);
         getSocket()?.emit('screen-share', { roomCode, userId: user._id, streamActive: false });
       } else {
         const displayStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
         displayStream.getVideoTracks()[0].onended = () => toggleScreenShare();
+        const oldStream = localStreamRef.current;
         setLocalStream(displayStream);
         localStreamRef.current = displayStream;
         Object.values(peersRef.current).forEach((peer) => {
-          peer.replaceTrack(localStream?.getVideoTracks()[0], displayStream.getVideoTracks()[0], localStream);
+          peer.replaceTrack(oldStream?.getVideoTracks()[0], displayStream.getVideoTracks()[0], displayStream);
         });
         setScreenSharing(true);
         getSocket()?.emit('screen-share', { roomCode, userId: user._id, streamActive: true });
@@ -229,7 +231,7 @@ const Room = () => {
           )}
           {activeTab === 'chat' && (
             <div className="flex-1">
-              <Chat socket={socket} roomCode={roomCode} userName={user?.name} />
+              <Chat socket={socket} roomCode={roomCode} user={user} />
             </div>
           )}
         </div>

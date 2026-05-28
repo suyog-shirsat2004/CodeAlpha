@@ -12,8 +12,11 @@ const Dashboard = () => {
 
   const handleJoin = (e) => {
     e.preventDefault();
-    if (!roomCode.trim()) { toast.error('Enter a room code'); return; }
-    navigate(`/room/${roomCode.trim()}`);
+    const code = roomCode.trim();
+    if (!code) { toast.error('Enter a room code'); return; }
+    if (code.length < 3) { toast.error('Room code must be at least 3 characters'); return; }
+    if (!/^[A-Z0-9]+$/.test(code)) { toast.error('Room code must be alphanumeric'); return; }
+    navigate(`/room/${code}`);
   };
 
   const handleCreate = () => {
