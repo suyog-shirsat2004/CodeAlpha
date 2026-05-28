@@ -9,7 +9,7 @@ A full-stack video conferencing and collaboration tool with WebRTC, Socket.io, r
 | Layer | Technology |
 |-------|------------|
 | **Frontend** | React 18, Tailwind CSS, simple-peer, Socket.io-client |
-| **Backend** | Node.js, Express, Socket.io, MongoDB, Mongoose |
+| **Backend** | Node.js, Express, Socket.io, SQLite (sql.js) |
 | **Auth** | JWT (jsonwebtoken + bcryptjs) |
 | **Media** | WebRTC via simple-peer, Screen Capture API |
 | **Whiteboard** | HTML5 Canvas with Socket.io sync |
@@ -30,14 +30,8 @@ A full-stack video conferencing and collaboration tool with WebRTC, Socket.io, r
 
 ### Prerequisites
 - Node.js v16+
-- MongoDB running locally
 
-### Terminal 1: Start MongoDB
-```cmd
-net start MongoDB
-```
-
-### Terminal 2: Start Backend
+### Start Backend
 ```bash
 cd backend
 npm install
@@ -45,7 +39,7 @@ npm run dev
 ```
 Server starts on `http://localhost:5000`
 
-### Terminal 3: Start Frontend
+### Start Frontend
 ```bash
 cd frontend
 npm install
