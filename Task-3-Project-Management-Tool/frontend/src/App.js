@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
@@ -8,11 +8,16 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ProjectBoard from './pages/ProjectBoard';
+import { seedUsers } from './services/seed';
 
 const AppContent = () => {
   const [darkMode, setDarkMode] = useState(
     document.documentElement.getAttribute('data-bs-theme') === 'dark'
   );
+
+  useEffect(() => {
+    seedUsers();
+  }, []);
 
   const toggleDarkMode = () => {
     const next = !darkMode;
