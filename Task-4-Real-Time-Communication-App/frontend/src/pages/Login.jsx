@@ -20,7 +20,11 @@ const Login = () => {
       toast.success('Welcome back!');
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Login failed');
+      if (!err.response) {
+        toast.error('Backend not reachable — run the backend locally for full features');
+      } else {
+        toast.error(err.response?.data?.message || 'Login failed');
+      }
     }
     setLoading(false);
   };

@@ -24,7 +24,11 @@ const Register = () => {
       toast.success('Account created!');
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed');
+      if (!err.response) {
+        toast.error('Backend not reachable — run the backend locally for full features');
+      } else {
+        toast.error(err.response?.data?.message || 'Registration failed');
+      }
     }
     setLoading(false);
   };
