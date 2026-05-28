@@ -1,8 +1,8 @@
-# Project Management Tool
+# ProjectFlow — Project Management Tool
 
 A full-stack **Kanban-style Project Management Tool** built with **Express, React, SQLite, and Node.js**.
 
-**Live demo:** [suyog-shirsat2004.github.io/CodeAlpha/Task-3/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-3/) *(frontend UI — run backend locally for full features)*
+**Live demo:** [suyog-shirsat2004.github.io/CodeAlpha/Task-3/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-3/) *(runs entirely in-browser with mock API — no backend needed)*
 
 > **Task 3** — Collaborative tool similar to Trello/Asana with drag-and-drop boards, team collaboration, task assignments, and commenting.
 
@@ -17,8 +17,8 @@ A full-stack **Kanban-style Project Management Tool** built with **Express, Reac
 
 ### 📊 Dashboard
 - Overview of all your projects
-- Project statistics (total tasks, completed, overdue)
-- Create / delete projects
+- Project statistics (total, active, completed)
+- Create / delete projects with color picker
 - Dark / Light mode toggle
 
 ### 🎯 Kanban Board
@@ -31,7 +31,7 @@ A full-stack **Kanban-style Project Management Tool** built with **Express, Reac
 - Assign tasks to team members
 - Priority levels (Low, Medium, High, Urgent)
 - Due dates with visual overdue indicators
-- Detailed description & subtasks
+- Detailed description
 
 ### 💬 Comments
 - Add comments to any task
@@ -40,7 +40,7 @@ A full-stack **Kanban-style Project Management Tool** built with **Express, Reac
 ### 👥 Team Collaboration
 - Add / remove team members from projects
 - Search users by name or email
-- View project members
+- View project members with avatar initials
 
 ---
 
@@ -49,13 +49,15 @@ A full-stack **Kanban-style Project Management Tool** built with **Express, Reac
 ```
 Task-3-Project-Management-Tool/
 │
-├── frontend/              # React App (Tailwind CSS)
+├── frontend/              # React App (Bootstrap 5)
 │   ├── src/
-│   │   ├── components/    # Navbar, TaskCard, TaskModal, etc.
+│   │   ├── components/    # Navbar, TaskCard, TaskModal, AddMemberModal
 │   │   ├── context/       # AuthContext
+│   │   ├── services/      # API client + full mock API + seed data
 │   │   ├── pages/         # Login, Register, Dashboard, ProjectBoard
 │   │   └── ...
 │   ├── public/
+│   ├── build/             # Production build (deployed to GitHub Pages)
 │   └── package.json
 │
 ├── backend/               # Express API Server
@@ -77,6 +79,18 @@ Task-3-Project-Management-Tool/
 ### Prerequisites
 - **Node.js** (v16 or higher)
 - **npm** (comes with Node.js)
+
+---
+
+### Demo Mode (No Backend Required)
+
+The app auto-detects when running on GitHub Pages / Vercel / Netlify and uses a **full mock API** backed by `localStorage`. Demo users are seeded on first visit:
+
+| User  | Email           | Password |
+|-------|-----------------|----------|
+| kiran | kiran@demo.com  | 123456   |
+| rahul | rahul@demo.com  | 123456   |
+| sonu  | sonu@demo.com   | 123456   |
 
 ---
 
@@ -102,13 +116,15 @@ npm start
 
 Open `http://localhost:3000` in your browser.
 
+> **Note:** On `localhost` the app connects to the real backend. To force mock mode, set `REACT_APP_USE_MOCK=true`.
+
 ---
 
 ### Step 3: Using the App
 
-1. **Register** a new account
+1. **Register** a new account (or use demo users in mock mode)
 2. **Create a Project** from the dashboard
-3. **Add Team Members** — register another user (incognito), then search and add them inside a project
+3. **Add Team Members** — search for other users and add them inside a project
 4. **Create Tasks** using the **+** button on any Kanban column
 5. **Drag & Drop** tasks between columns to update status
 6. **Click a task** to edit details, assign it, set a due date, or add comments
@@ -131,6 +147,13 @@ PORT=5000
 JWT_SECRET=your_jwt_secret_key_change_in_production
 ```
 
+### Environment Variables (`frontend/.env`)
+
+```
+REACT_APP_USE_MOCK=true          # Force mock API mode
+REACT_APP_API_URL=http://localhost:5000/api  # Custom backend URL
+```
+
 ---
 
 ## 🔌 API Endpoints
@@ -141,6 +164,8 @@ JWT_SECRET=your_jwt_secret_key_change_in_production
 | POST | `/api/auth/register` | Register a new user |
 | POST | `/api/auth/login` | Login & get JWT token |
 | GET | `/api/auth/me` | Get current user (protected) |
+| PUT | `/api/auth/profile` | Update user profile |
+| GET | `/api/auth/search?q=` | Search users by name or email |
 
 ### Projects
 | Method | Endpoint | Description |
@@ -149,24 +174,25 @@ JWT_SECRET=your_jwt_secret_key_change_in_production
 | POST | `/api/projects` | Create a project |
 | GET | `/api/projects/:id` | Get single project |
 | PUT | `/api/projects/:id` | Update a project |
-| DELETE | `/api/projects/:id` | Delete a project |
+| DELETE | `/api/projects/:id` | Delete a project (cascading) |
 | POST | `/api/projects/:id/members` | Add a member |
 | DELETE | `/api/projects/:id/members/:userId` | Remove a member |
-| GET | `/api/projects/search-users` | Search users by name/email |
 
 ### Tasks
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/projects/:projectId/tasks` | Get all tasks for a project |
-| POST | `/api/projects/:projectId/tasks` | Create a task |
+| GET | `/api/tasks/project/:projectId` | Get all tasks for a project |
+| POST | `/api/tasks/project/:projectId` | Create a task |
+| GET | `/api/tasks/:id` | Get single task |
 | PUT | `/api/tasks/:id` | Update a task |
 | DELETE | `/api/tasks/:id` | Delete a task |
+| PUT | `/api/tasks/reorder` | Batch reorder tasks |
 
 ### Comments
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/tasks/:taskId/comments` | Get comments for a task |
-| POST | `/api/tasks/:taskId/comments` | Add a comment |
+| GET | `/api/comments/task/:taskId` | Get comments for a task |
+| POST | `/api/comments/task/:taskId` | Add a comment |
 | DELETE | `/api/comments/:id` | Delete a comment |
 
 ---
@@ -175,9 +201,10 @@ JWT_SECRET=your_jwt_secret_key_change_in_production
 
 | Layer | Technology |
 |-------|------------|
-| **Frontend** | React 18, React Router v6, Tailwind CSS, Axios, react-hot-toast, react-icons, date-fns |
+| **Frontend** | React 18, React Router v6, Bootstrap 5, Axios, react-hot-toast, date-fns |
 | **Backend** | Node.js, Express.js, JWT (jsonwebtoken), bcryptjs, better-sqlite3 |
 | **Database** | SQLite (file-based, zero config) |
+| **Mock API** | Full localStorage-based mock (auto-detects GitHub Pages) |
 | **Auth** | JWT (JSON Web Tokens) |
 | **Drag & Drop** | HTML5 Drag and Drop API |
 
