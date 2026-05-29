@@ -38,6 +38,10 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  const isBackendOffline = (err) => {
+    return !err.response || typeof err.response?.data === 'string';
+  };
+
   const login = async (email, password) => {
     try {
       const { data } = await authAPI.login({ email, password });
@@ -46,7 +50,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(userData));
       return userData;
     } catch (err) {
-      if (!err.response) {
+      if (isBackendOffline(err)) {
         const stored = localStorage.getItem('demo_users');
         const users = stored ? JSON.parse(stored) : [];
         const user = users.find(u => u.email === email && u.password === password);
@@ -69,7 +73,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(userData));
       return userData;
     } catch (err) {
-      if (!err.response) {
+      if (isBackendOffline(err)) {
         const stored = localStorage.getItem('demo_users');
         const users = stored ? JSON.parse(stored) : [];
         users.push({ name, email, password });
