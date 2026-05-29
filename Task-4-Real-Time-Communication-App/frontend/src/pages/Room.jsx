@@ -33,6 +33,7 @@ const Room = () => {
   const [videoMuted, setVideoMuted] = useState(false);
   const [screenSharing, setScreenSharing] = useState(false);
   const [participants, setParticipants] = useState([]);
+  const [backendOffline, setBackendOffline] = useState(false);
   const peersRef = useRef({});
   const localStreamRef = useRef(null);
 
@@ -73,6 +74,16 @@ const Room = () => {
   useEffect(() => {
     const init = async () => {
       const socket = connectSocket();
+
+      socket.on('connect_error', () => {
+        setBackendOffline(true);
+        toast.error('Backend server unreachable — full features require the backend running locally');
+      });
+
+      socket.on('connect', () => {
+        setBackendOffline(false);
+      });
+
       const stream = await getUserMedia();
       if (!stream) return;
 
@@ -203,6 +214,9 @@ const Room = () => {
           </button>
         </div>
         <div className="flex items-center gap-4">
+          {backendOffline && (
+            <span className="text-sm text-yellow-400">⚠ Backend offline</span>
+          )}
           {participants.length > 0 && (
             <span className="text-sm text-gray-400">{participants.length + 1} participant{(participants.length + 1) > 1 ? 's' : ''}</span>
           )}

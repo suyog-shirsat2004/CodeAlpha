@@ -24,9 +24,11 @@ export const AuthProvider = ({ children }) => {
             const updated = { ...parsed, ...res.data };
             setUser(updated);
             localStorage.setItem('user', JSON.stringify(updated));
-          }).catch(() => {
-            localStorage.removeItem('user');
-            setUser(null);
+          }).catch((err) => {
+            if (err.response && err.response.status >= 400 && err.response.status < 500) {
+              localStorage.removeItem('user');
+              setUser(null);
+            }
           });
         }
       } catch {
@@ -37,19 +39,48 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const { data } = await authAPI.login({ email, password });
-    const userData = { ...data };
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-    return userData;
+    try {
+      const { data } = await authAPI.login({ email, password });
+      const userData = { ...data };
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      return userData;
+    } catch (err) {
+      if (!err.response) {
+        const stored = localStorage.getItem('demo_users');
+        const users = stored ? JSON.parse(stored) : [];
+        const user = users.find(u => u.email === email && u.password === password);
+        if (user) {
+          const mockUser = { name: user.name, email: user.email, token: 'demo_' + Date.now() };
+          setUser(mockUser);
+          localStorage.setItem('user', JSON.stringify(mockUser));
+          return mockUser;
+        }
+      }
+      throw err;
+    }
   };
 
   const register = async (name, email, password) => {
-    const { data } = await authAPI.register({ name, email, password });
-    const userData = { ...data };
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
-    return userData;
+    try {
+      const { data } = await authAPI.register({ name, email, password });
+      const userData = { ...data };
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      return userData;
+    } catch (err) {
+      if (!err.response) {
+        const stored = localStorage.getItem('demo_users');
+        const users = stored ? JSON.parse(stored) : [];
+        users.push({ name, email, password });
+        localStorage.setItem('demo_users', JSON.stringify(users));
+        const mockUser = { name, email, token: 'demo_' + Date.now() };
+        setUser(mockUser);
+        localStorage.setItem('user', JSON.stringify(mockUser));
+        return mockUser;
+      }
+      throw err;
+    }
   };
 
   const logout = () => {
