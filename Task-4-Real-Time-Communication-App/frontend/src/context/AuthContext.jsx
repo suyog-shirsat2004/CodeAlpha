@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
         const users = stored ? JSON.parse(stored) : [];
         const user = users.find(u => u.email === email && u.password === password);
         if (user) {
-          const mockUser = { name: user.name, email: user.email, token: 'demo_' + Date.now() };
+          const mockUser = { _id: user._id || 'demo_' + Date.now(), name: user.name, email: user.email, token: 'demo_' + Date.now() };
           setUser(mockUser);
           localStorage.setItem('user', JSON.stringify(mockUser));
           return mockUser;
@@ -76,9 +76,10 @@ export const AuthProvider = ({ children }) => {
       if (isBackendOffline(err)) {
         const stored = localStorage.getItem('demo_users');
         const users = stored ? JSON.parse(stored) : [];
-        users.push({ name, email, password });
+        const demoId = 'demo_' + Date.now();
+        users.push({ _id: demoId, name, email, password });
         localStorage.setItem('demo_users', JSON.stringify(users));
-        const mockUser = { name, email, token: 'demo_' + Date.now() };
+        const mockUser = { _id: demoId, name, email, token: 'demo_' + Date.now() };
         setUser(mockUser);
         localStorage.setItem('user', JSON.stringify(mockUser));
         return mockUser;

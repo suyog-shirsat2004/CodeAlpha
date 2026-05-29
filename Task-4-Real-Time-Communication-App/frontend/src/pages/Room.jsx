@@ -49,7 +49,7 @@ const Room = () => {
     }
   }, []);
 
-  const createPeer = useCallback((targetSocketId, initiator, stream) => {
+  const createPeer = useCallback((targetSocketId, initiator, stream, peerName) => {
     const peer = new SimplePeer({ initiator, stream, trickle: false });
 
     peer.on('signal', (signalData) => {
@@ -60,7 +60,7 @@ const Room = () => {
       setPeers((prev) => {
         const exists = prev.find((p) => p.userId === targetSocketId);
         if (exists) return prev.map((p) => p.userId === targetSocketId ? { ...p, stream: remoteStream } : p);
-        return [...prev, { userId: targetSocketId, name: '', stream: remoteStream }];
+        return [...prev, { userId: targetSocketId, name: peerName || '', stream: remoteStream }];
       });
     });
 
@@ -93,7 +93,7 @@ const Room = () => {
       socket.on('user-joined-room', ({ socketId, userId, name }) => {
         setParticipants((prev) => [...prev.filter((p) => p.userId !== userId), { userId, name }]);
         if (userId !== user._id && stream) {
-          const peer = createPeer(socketId, true, stream);
+          const peer = createPeer(socketId, true, stream, name);
           peersRef.current[userId] = peer;
         }
       });
@@ -111,9 +111,9 @@ const Room = () => {
         setPeers((prev) => prev.filter((p) => p.userId !== userId));
       });
 
-      socket.on('signal', ({ from, signal }) => {
+      socket.on('signal', ({ from, signal, name: peerName }) => {
         if (!peersRef.current[from]) {
-          const peer = createPeer(from, false, stream);
+          const peer = createPeer(from, false, stream, peerName);
           peersRef.current[from] = peer;
         }
         peersRef.current[from].signal(signal);
