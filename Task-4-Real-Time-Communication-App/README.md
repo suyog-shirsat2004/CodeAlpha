@@ -2,7 +2,7 @@
 
 A full-stack video conferencing and collaboration tool with WebRTC, Socket.io, real-time whiteboard, encrypted file sharing, and chat.
 
-**Live demo:** [suyog-shirsat2004.github.io/CodeAlpha/Task-4/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-4/) *(frontend UI — run backend locally for full features)*
+**Live demo: ** [suyog-shirsat2004.github.io/CodeAlpha/Task-4/](https://suyog-shirsat2004.github.io/CodeAlpha/Task-4/) *(frontend UI — run backend locally for full features)*
 
 ## Tech Stack
 
